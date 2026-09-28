@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-model href="https://wofsauge.github.io/isaac-xml-validator/xsd/metadata.xsd" ?>
+<metadata>
+  <name>PVP Arena</name>
+  <directory>Co-opPVP</directory>
+  <description>本地双人 PVP 竞技场（开发中）</description>
+  <version>1.0</version>
+  <visibility />
+</metadata>
