@@ -7,7 +7,7 @@ import { createCharacterPolicy } from "./core/characterPolicy";
 import { checkPlayerVersusPlayer } from "./core/damage";
 import { vanillaHeartsBackend } from "./core/health";
 import { createRoundTracker, evaluateRound } from "./core/result";
-import { PvpPhase, createInitialState, reduce } from "./core/state";
+import { PvpPhase, createInitialState, reduce, shouldAbortRound } from "./core/state";
 import type { PvpState } from "./core/state";
 import { ALLOWED_PLAYER_TYPES, FALLBACK_PLAYER_TYPE } from "./data/characters";
 import { CONFIG } from "./data/config";
@@ -49,9 +49,15 @@ function postUpdate(): void {
 
   const players = getPlayers();
 
-  if (state.phase !== PvpPhase.RESULT && players.length !== 2) {
+  if (frame % CONFIG.heartbeatFrames === 0) {
+    Isaac.DebugString(
+      `[PVP] 心跳 阶段=${state.phase} 玩家数=${players.length} 房间=${Game().GetLevel().GetCurrentRoomIndex()}`,
+    );
+  }
+
+  if (shouldAbortRound(state.phase, players.length)) {
     state = reduce(state, { kind: "players-lost" });
-    logPhaseIfChanged("玩家数不足");
+    logPhaseIfChanged("对局中玩家数不足");
     return;
   }
 
@@ -60,15 +66,10 @@ function postUpdate(): void {
   }
   const arena = arenaGridIndex;
 
-  if (frame % CONFIG.heartbeatFrames === 0) {
-    Isaac.DebugString(
-      `[PVP] 心跳 阶段=${state.phase} 玩家数=${players.length} 房间=${Game().GetLevel().GetCurrentRoomIndex()} 竞技场=${arena}`,
-    );
-  }
-
   const p1 = players[0];
   const p2 = players[1];
   if (p1 === undefined || p2 === undefined) {
+    // ARMING 阶段等待 2P 加入，属于正常情况。
     return;
   }
   const pair: readonly [EntityPlayer, EntityPlayer] = [p1, p2];

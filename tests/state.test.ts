@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { PvpPhase, createInitialState, reduce } from "../src/core/state";
+import {
+  PvpPhase,
+  createInitialState,
+  reduce,
+  shouldAbortRound,
+} from "../src/core/state";
 
 describe("对局状态机", () => {
   it("初始为 IDLE", () => {
@@ -53,5 +58,35 @@ describe("对局状态机", () => {
   it("IDLE 收到 toggle-on 之外的任何事件都保持 IDLE", () => {
     const state = reduce(createInitialState(), { kind: "countdown-finished" });
     expect(state.phase).toBe(PvpPhase.IDLE);
+  });
+});
+
+describe("shouldAbortRound", () => {
+  it("ARMING 阶段只有一名玩家时不应中止（这正是等待 2P 加入的状态）", () => {
+    expect(shouldAbortRound(PvpPhase.ARMING, 1)).toBe(false);
+  });
+
+  it("ARMING 阶段零名玩家时不应中止", () => {
+    expect(shouldAbortRound(PvpPhase.ARMING, 0)).toBe(false);
+  });
+
+  it("COUNTDOWN 阶段不足两名玩家应中止", () => {
+    expect(shouldAbortRound(PvpPhase.COUNTDOWN, 1)).toBe(true);
+  });
+
+  it("FIGHT 阶段不足两名玩家应中止", () => {
+    expect(shouldAbortRound(PvpPhase.FIGHT, 1)).toBe(true);
+  });
+
+  it("FIGHT 阶段两名玩家不应中止", () => {
+    expect(shouldAbortRound(PvpPhase.FIGHT, 2)).toBe(false);
+  });
+
+  it("RESULT 阶段不应中止", () => {
+    expect(shouldAbortRound(PvpPhase.RESULT, 1)).toBe(false);
+  });
+
+  it("IDLE 阶段不应中止", () => {
+    expect(shouldAbortRound(PvpPhase.IDLE, 0)).toBe(false);
   });
 });

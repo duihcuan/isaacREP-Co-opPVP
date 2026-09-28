@@ -26,6 +26,19 @@ export function createInitialState(): PvpState {
   return { phase: PvpPhase.IDLE, lastResult: undefined };
 }
 
+/**
+ * 判断当前是否应当因为玩家数不足而中止对局。
+ *
+ * ARMING 是「等待 2P 加入」的状态，此时只有一名玩家是正常的，绝不能中止；
+ * RESULT 阶段玩家死亡后会变成幽灵但仍然在场，同样不该中止。
+ */
+export function shouldAbortRound(phase: PvpPhase, playerCount: number): boolean {
+  if (phase !== PvpPhase.COUNTDOWN && phase !== PvpPhase.FIGHT) {
+    return false;
+  }
+  return playerCount !== 2;
+}
+
 export function reduce(state: PvpState, event: PvpEvent): PvpState {
   if (event.kind === "players-lost" || event.kind === "toggle-off") {
     return createInitialState();
