@@ -17,6 +17,7 @@
     "nuke": "isaacscript nuke",
     "publish": "isaacscript publish",
     "start": "isaacscript monitor",
+    "test": "vitest run",
     "update": "isaacscript update"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "isaacscript-lint": "8.1.0",
     "tsx": "4.23.15",
     "typescript": "6.0.2",
-    "typescript-to-lua": "1.37.1"
+    "typescript-to-lua": "1.37.1",
+    "vitest": "^5.0.2"
   }
 }
