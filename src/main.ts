@@ -1,19 +1,14 @@
-import { ModCallback } from "isaac-typescript-definitions";
+import { upgradeMod } from "isaacscript-common";
+
 import { name } from "../package.json";
+import { initProbe } from "./probe/probe";
 
 // This function is run when your mod first initializes.
 export function main(): void {
-  // Instantiate a new mod object, which grants the ability to add callback functions that
-  // correspond to in-game events.
-  const mod = RegisterMod(name, 1);
+  const mod = upgradeMod(RegisterMod(name, 1));
 
-  // Register a callback function that corresponds to when a new player is initialized.
-  mod.AddCallback(ModCallback.POST_PLAYER_INIT, postPlayerInit);
+  // M0 阶段：只挂载可行性探针，验证完五个未知项后由任务 9 替换为正式对局逻辑。
+  initProbe(mod);
 
-  // Print a message to the "log.txt" file.
   Isaac.DebugString(`${name} initialized.`);
-}
-
-function postPlayerInit() {
-  Isaac.DebugString("Callback fired: POST_PLAYER_INIT");
 }
