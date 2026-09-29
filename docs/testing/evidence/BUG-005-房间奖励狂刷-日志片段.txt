@@ -1,0 +1,59 @@
+BUG-005 证据：竞技场内掉落物以帧率狂刷
+=======================================
+
+来源日志：C:\Users\14980\Documents\My Games\Binding of Isaac Repentance+\log.txt
+采集时间：2026-09-29（会话 S2）
+被测构建：f461a5e（lockArena 内含每帧 Room:SetClear(false)）
+修复构建：3577b07
+
+一、掉落物初始化计数
+
+对局期间（第一次「倒计时结束」之后的日志区间）Entity Pickup Initialized 出现 442 次；
+整份日志共 506 次。也就是说 87% 的掉落物都产生在对局期间，而竞技场里没有任何敌人。
+
+二、按心跳切分的速率（心跳间隔 = 90 帧 = 3 秒）
+
+心跳#1 之间 Pickup 初始化: 73
+心跳#2 之间 Pickup 初始化: 59
+心跳#3 之间 Pickup 初始化: 73
+心跳#4 之间 Pickup 初始化: 75
+心跳#5 之间 Pickup 初始化: 79
+最后一段: 61
+
+平均约 70 个 / 3 秒 ≈ 23 个/秒，与游戏逻辑帧率（30 次/秒）同一量级，
+符合「每帧触发一次生成流程」的特征，而不是任何定时器行为。
+
+三、刷出物的种类（type.variant.subtype 出现次数前几名）
+
+117 x 5.30.1    钥匙
+ 91 x 5.20.1    硬币
+ 77 x 5.40.1    炸弹
+ 34 x 5.10.2    魂心
+ 28 x 5.10.1    红心
+ 27 x 5.50.1
+ 17 x 5.40.2
+  7 x 5.350.78  饰品
+  7 x 5.70.x    药丸
+  5 x 5.300.x   卡牌
+
+全部是随机掉落物，没有任何 5.100.x（那是道具底座上的道具）。
+这解释了「刷的是掉落物而非底座道具」的观感：模组当时根本没有道具底座功能，
+刷出来的是原版房间清空奖励。
+
+四、根因（官方 Lua API 文档原文）
+
+MC_PRE_SPAWN_CLEAN_AWARD：
+"This function is triggered in every room that can be cleared, including boss and angel
+rooms, and even when it normally would not spawn a reward."
+（该函数在每个可清空的房间都会触发，包括 Boss 房与天使房，即使正常情况下不会给奖励。）
+
+lockArena 每帧执行 Room:SetClear(false)，把房间打回「未清空」状态；
+游戏下一帧重新判定房间已清空，于是再次触发奖励流程，又被 SetClear(false) 打回，
+形成每帧一次的循环。
+
+五、修复
+
+1. 从 lockArena 中移除 Room:SetClear(false)。门实体被删除后房间转换的触发物已不存在，
+   不需要再干预清空状态，锁房依然有效。
+2. 新增防线：在 MC_PRE_SPAWN_CLEAR_AWARD 中，只要对局处于非 IDLE 阶段就返回 true
+   屏蔽房间奖励，确保竞技场永远不产出通关奖励。
