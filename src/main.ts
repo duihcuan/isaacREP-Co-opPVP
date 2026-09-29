@@ -36,6 +36,7 @@ let lastDefeatedP2 = false;
 let roundFrame = 0;
 let lethalP1 = false;
 let lethalP2 = false;
+let resultFrame = 0;
 
 // This function is run when your mod first initializes.
 export function main(): void {
@@ -141,6 +142,7 @@ function postUpdate(): void {
       tracker = evaluated.tracker;
       if (evaluated.result !== undefined) {
         state = reduce(state, { kind: "round-finished", result: evaluated.result });
+        resultFrame = frame;
         clearSpawnedItems();
         showResult(evaluated.result);
         logPhaseIfChanged(`对局结束 ${evaluated.result}`);
@@ -149,6 +151,9 @@ function postUpdate(): void {
     }
     case PvpPhase.RESULT: {
       lockArena();
+      if (frame - resultFrame >= CONFIG.resultRestartDelayFrames) {
+        startNextRound(pair);
+      }
       break;
     }
     default: {
@@ -193,6 +198,18 @@ function markLethal(player: EntityPlayer): void {
     return;
   }
   lethalP2 = true;
+}
+
+/** 结算画面结束后重置对局状态，自动开始下一局。 */
+function startNextRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
+  vanillaHeartsBackend.restoreAll(pair);
+  resetItemSpawner();
+  tracker = createRoundTracker();
+  roundFrame = 0;
+  lethalP1 = false;
+  lethalP2 = false;
+  state = reduce(state, { kind: "restart" });
+  logPhaseIfChanged("自动开始下一局");
 }
 
 /**

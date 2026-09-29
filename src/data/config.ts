@@ -28,4 +28,7 @@ export const CONFIG = {
 
   /** 单次刷新最多抽取几次道具池。 */
   itemPickMaxAttempts: 20,
+
+  /** 结算画面停留多久后自动开始下一局（帧）。 */
+  resultRestartDelayFrames: 150,
 } as const;
