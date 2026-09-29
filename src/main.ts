@@ -4,9 +4,14 @@ import { getPlayers, upgradeMod } from "isaacscript-common";
 import { name } from "../package.json";
 import { lockArena, placePlayersAtSpawnPoints, pullBackIfNeeded } from "./core/arena";
 import { createCharacterPolicy } from "./core/characterPolicy";
-import { checkPlayerVersusPlayer } from "./core/damage";
+import { checkPlayerVersusPlayer, resetCreepDamageCooldowns } from "./core/damage";
 import { vanillaHeartsBackend } from "./core/health";
-import { clearSpawnedItems, resetItemSpawner, updateItemSpawner } from "./core/items";
+import {
+  clearSpawnedItems,
+  resetItemSpawner,
+  revokeGrantedItems,
+  updateItemSpawner,
+} from "./core/items";
 import { createRoundTracker, evaluateRound } from "./core/result";
 import {
   PvpPhase,
@@ -34,8 +39,6 @@ let lastHitPointsP2 = -1;
 let lastDefeatedP1 = false;
 let lastDefeatedP2 = false;
 let roundFrame = 0;
-let lethalP1 = false;
-let lethalP2 = false;
 let resultFrame = 0;
 
 // This function is run when your mod first initializes.
@@ -45,7 +48,6 @@ export function main(): void {
   mod.AddCallback(ModCallback.POST_RENDER, postRender);
   // 官方文档里叫 MC_PRE_SPAWN_CLEAN_AWARD，TypeScript 枚举名是 PRE_SPAWN_CLEAR_AWARD。
   mod.AddCallback(ModCallback.PRE_SPAWN_CLEAR_AWARD, preSpawnCleanAward);
-  mod.AddCallback(ModCallback.ENTITY_TAKE_DMG, entityTakeDmg);
 
   Isaac.DebugString(`${name} initialized.`);
 }
@@ -106,8 +108,6 @@ function postUpdate(): void {
         }
       }
       roundFrame = 0;
-      lethalP1 = false;
-      lethalP2 = false;
       resetItemSpawner();
       state = reduce(state, { kind: "players-ready" });
       logPhaseIfChanged("双方就位");
@@ -130,14 +130,14 @@ function postUpdate(): void {
       lockArena();
       pullBackIfNeeded(arena, frame);
       updateItemSpawner(roundFrame);
-      if (checkPlayerVersusPlayer(pair, vanillaHeartsBackend)) {
+      if (checkPlayerVersusPlayer(pair, frame, vanillaHeartsBackend)) {
         Isaac.DebugString("[PVP] 命中");
       }
       const evaluated = evaluateRound(
         tracker,
         frame,
-        lethalP1 || vanillaHeartsBackend.isDefeated(p1),
-        lethalP2 || vanillaHeartsBackend.isDefeated(p2),
+        vanillaHeartsBackend.isDefeated(p1),
+        vanillaHeartsBackend.isDefeated(p2),
       );
       tracker = evaluated.tracker;
       if (evaluated.result !== undefined) {
@@ -168,46 +168,20 @@ function postRender(): void {
   }
 }
 
-/**
- * 拦截致命伤害，避免失败方变成幽灵宝宝。
- *
- * 引擎在多人游戏中会把死亡的玩家变成小幽灵，而对局一旦停在 RESULT 阶段，
- * 幽灵仍能飞行与射击，玩家会感觉「没结束」。因此这里取消这次致命伤害，
- * 改为把它记录成出局标记，交给结算流程判定胜负，双方血量都停在最后一点。
- */
-function entityTakeDmg(entity: Entity, amount: number): boolean | undefined {
-  if (state.phase !== PvpPhase.FIGHT) {
-    return undefined;
-  }
-  const player = entity.ToPlayer();
-  if (player === undefined) {
-    return undefined;
-  }
-  const hitPoints = player.GetHearts() + player.GetSoulHearts();
-  if (hitPoints - amount > 0) {
-    return undefined;
-  }
-  markLethal(player);
-  return false;
-}
-
-function markLethal(player: EntityPlayer): void {
-  const p1 = Isaac.GetPlayer(0);
-  if (p1 !== undefined && player.Index === p1.Index) {
-    lethalP1 = true;
-    return;
-  }
-  lethalP2 = true;
-}
-
 /** 结算画面结束后重置对局状态，自动开始下一局。 */
 function startNextRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
+  // 上一局被击杀的一方此时是幽灵宝宝，先复活再回满血。
+  for (const player of pair) {
+    if (player.IsCoopGhost()) {
+      player.Revive();
+    }
+  }
   vanillaHeartsBackend.restoreAll(pair);
-  resetItemSpawner();
+  revokeGrantedItems(pair);
+      resetItemSpawner();
+      resetCreepDamageCooldowns();
   tracker = createRoundTracker();
   roundFrame = 0;
-  lethalP1 = false;
-  lethalP2 = false;
   state = reduce(state, { kind: "restart" });
   logPhaseIfChanged("自动开始下一局");
 }

@@ -1,5 +1,5 @@
-import { EntityType, ItemPoolType, ItemType, PickupVariant } from "isaac-typescript-definitions";
-import { getPlayers } from "isaacscript-common";
+import { ItemPoolType, ItemType } from "isaac-typescript-definitions";
+import { getPlayers, spawnCollectible } from "isaacscript-common";
 
 import { getBlacklistedCollectibles } from "../data/blacklist";
 import { CONFIG } from "../data/config";
@@ -10,10 +10,12 @@ const MIN_DISTANCE_FROM_PLAYER = 80;
 
 let lastSpawnFrame = -1;
 let spawnedItems: Entity[] = [];
+let grantedCollectibles: number[] = [];
 
 export function resetItemSpawner(): void {
   lastSpawnFrame = -1;
-  clearSpawnedItems();
+  spawnedItems = [];
+  grantedCollectibles = [];
 }
 
 export function clearSpawnedItems(): void {
@@ -25,9 +27,25 @@ export function clearSpawnedItems(): void {
   spawnedItems = [];
 }
 
+/**
+ * 收回本局由竞技场发放给双方的道具，避免上一局的收获带进下一局。
+ *
+ * 只移除本局刷新过的道具，不碰角色自带的初始道具。
+ */
+export function revokeGrantedItems(players: readonly EntityPlayer[]): void {
+  for (const player of players) {
+    for (const collectible of grantedCollectibles) {
+      if (player.HasCollectible(collectible)) {
+        player.RemoveCollectible(collectible);
+      }
+    }
+  }
+  grantedCollectibles = [];
+}
+
 /** 按节奏在房间里刷新一个随机被动道具底座，先到先得。 */
 export function updateItemSpawner(roundFrame: number): void {
-  spawnedItems = spawnedItems.filter((entity) => entity.Exists());
+  pruneSpawnedItems();
 
   const shouldSpawn = shouldSpawnItem(
     roundFrame,
@@ -47,19 +65,36 @@ export function updateItemSpawner(roundFrame: number): void {
   }
 
   const position = pickPosition();
-  const entity = Isaac.Spawn(
-    EntityType.PICKUP,
-    PickupVariant.COLLECTIBLE,
-    collectible,
-    position,
-    Vector(0, 0),
-    undefined,
-  );
+  const entity = spawnCollectible(collectible, position, undefined);
   spawnedItems.push(entity);
+  grantedCollectibles.push(collectible);
   lastSpawnFrame = roundFrame;
   Isaac.DebugString(
     `[PVP] 刷新道具 id=${collectible} 位置=${Math.floor(position.X)},${Math.floor(position.Y)}`,
   );
+}
+
+/**
+ * 清理已经失效或已被拿走的底座。
+ *
+ * 底座被拿走后 SubType 会归零，但实体有时仍然存在，
+ * 如果不清掉会一直占着「场上道具数」的名额，导致后面不再刷新。
+ */
+function pruneSpawnedItems(): void {
+  spawnedItems = spawnedItems.filter((entity) => {
+    if (!entity.Exists()) {
+      return false;
+    }
+    const pickup = entity.ToPickup();
+    if (pickup === undefined) {
+      return false;
+    }
+    if (pickup.SubType <= 0) {
+      entity.Remove();
+      return false;
+    }
+    return true;
+  });
 }
 
 function pickCollectible(): number {

@@ -17,7 +17,7 @@ export function renderCountdown(framesLeft: number): void {
  */
 export function showResult(result: RoundResult): void {
   const text = result === "P1_WIN" ? "玩家 1 获胜" : result === "P2_WIN" ? "玩家 2 获胜" : "平局";
-  Game().GetHUD().ShowItemText(text, "5 秒后开始下一局");
+  Game().GetHUD().ShowItemText(text, "3 秒后开始下一局");
 }
 
 function renderCentered(text: string, y: number): void {

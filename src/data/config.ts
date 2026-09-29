@@ -29,6 +29,15 @@ export const CONFIG = {
   /** 单次刷新最多抽取几次道具池。 */
   itemPickMaxAttempts: 20,
 
-  /** 结算画面停留多久后自动开始下一局（帧）。 */
-  resultRestartDelayFrames: 150,
+  /** 结算画面停留多久后自动开始下一局（帧，90 帧 = 3 秒）。 */
+  resultRestartDelayFrames: 90,
+
+  /** 单次水迹伤害（半颗心）。 */
+  creepDamagePerTick: 1,
+
+  /** 水迹伤害的冷却帧数。 */
+  creepDamageIntervalFrames: 30,
+
+  /** 水迹的判定半径。 */
+  creepHitRadius: 24,
 } as const;
