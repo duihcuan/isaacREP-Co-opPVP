@@ -39,6 +39,11 @@ export function shouldAbortRound(phase: PvpPhase, playerCount: number): boolean 
   return playerCount !== 2;
 }
 
+/** 对局是否处于激活状态（非 IDLE）。用于判断是否需要接管房间奖励等原版行为。 */
+export function isRoundActive(phase: PvpPhase): boolean {
+  return phase !== PvpPhase.IDLE;
+}
+
 export function reduce(state: PvpState, event: PvpEvent): PvpState {
   if (event.kind === "players-lost" || event.kind === "toggle-off") {
     return createInitialState();

@@ -7,7 +7,13 @@ import { createCharacterPolicy } from "./core/characterPolicy";
 import { checkPlayerVersusPlayer } from "./core/damage";
 import { vanillaHeartsBackend } from "./core/health";
 import { createRoundTracker, evaluateRound } from "./core/result";
-import { PvpPhase, createInitialState, reduce, shouldAbortRound } from "./core/state";
+import {
+  PvpPhase,
+  createInitialState,
+  isRoundActive,
+  reduce,
+  shouldAbortRound,
+} from "./core/state";
 import type { PvpState } from "./core/state";
 import { ALLOWED_PLAYER_TYPES, FALLBACK_PLAYER_TYPE } from "./data/characters";
 import { CONFIG } from "./data/config";
@@ -32,6 +38,8 @@ export function main(): void {
   mod.AddCallback(ModCallback.POST_GAME_STARTED, postGameStarted);
   mod.AddCallback(ModCallback.POST_UPDATE, postUpdate);
   mod.AddCallback(ModCallback.POST_RENDER, postRender);
+  // 官方文档里叫 MC_PRE_SPAWN_CLEAN_AWARD，TypeScript 枚举名是 PRE_SPAWN_CLEAR_AWARD。
+  mod.AddCallback(ModCallback.PRE_SPAWN_CLEAR_AWARD, preSpawnCleanAward);
 
   Isaac.DebugString(`${name} initialized.`);
 }
@@ -137,6 +145,19 @@ function postRender(): void {
   } else if (state.phase === PvpPhase.RESULT && state.lastResult !== undefined) {
     renderResult(state.lastResult);
   }
+}
+
+/**
+ * 对局期间屏蔽房间清空奖励。
+ *
+ * 竞技场本来就不该产出通关奖励，而且这条回调是掉落物狂刷问题的第二道防线：
+ * 即使将来又有别的原因让房间被反复判定为「刚清空」，也不会再刷出东西。
+ */
+function preSpawnCleanAward(): boolean | undefined {
+  if (!isRoundActive(state.phase)) {
+    return undefined;
+  }
+  return true;
 }
 
 function logPhaseIfChanged(reason: string): void {

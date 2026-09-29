@@ -9,7 +9,17 @@ const DOOR_SLOT_MAX = 7;
 
 let lastPullBackFrame = -CONFIG.pullBackCooldownFrames;
 
-/** 每帧强制锁死竞技场：移除所有门，并让房间保持「未清空」。 */
+/**
+ * 每帧强制锁死竞技场：移除所有门。
+ *
+ * 注意：这里**不能**每帧调用 `room.SetClear(false)`。
+ * 实测证据：每 3 秒刷出 59 到 79 个掉落物（约等于 30 帧/秒的帧率），
+ * 原因是官方文档明确写着 `MC_PRE_SPAWN_CLEAN_AWARD`「在每个可清空的房间都会触发，
+ * 即使正常情况下不会给奖励」。每帧把房间打回未清空，游戏就会每帧重新判定清空
+ * 并执行一次奖励流程，于是掉落物以帧率狂刷。
+ *
+ * 门被移除后房间转换的触发物已经不存在，本函数不需要再干预清空状态。
+ */
 export function lockArena(): void {
   const room = Game().GetRoom();
   for (let slot = DOOR_SLOT_MIN; slot <= DOOR_SLOT_MAX; slot++) {
@@ -22,7 +32,6 @@ export function lockArena(): void {
       Isaac.DebugString(`[PVP] 移除门 slot=${slot}`);
     }
   }
-  room.SetClear(false);
 }
 
 /** 把两名玩家放到房间中心两侧的出生点。 */

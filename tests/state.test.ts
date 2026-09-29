@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   PvpPhase,
   createInitialState,
+  isRoundActive,
   reduce,
   shouldAbortRound,
 } from "../src/core/state";
@@ -88,5 +89,27 @@ describe("shouldAbortRound", () => {
 
   it("IDLE 阶段不应中止", () => {
     expect(shouldAbortRound(PvpPhase.IDLE, 0)).toBe(false);
+  });
+});
+
+describe("isRoundActive", () => {
+  it("IDLE 时对局未激活", () => {
+    expect(isRoundActive(PvpPhase.IDLE)).toBe(false);
+  });
+
+  it("ARMING 时对局已激活（需要抑制房间奖励）", () => {
+    expect(isRoundActive(PvpPhase.ARMING)).toBe(true);
+  });
+
+  it("COUNTDOWN 时对局已激活", () => {
+    expect(isRoundActive(PvpPhase.COUNTDOWN)).toBe(true);
+  });
+
+  it("FIGHT 时对局已激活", () => {
+    expect(isRoundActive(PvpPhase.FIGHT)).toBe(true);
+  });
+
+  it("RESULT 时对局已激活", () => {
+    expect(isRoundActive(PvpPhase.RESULT)).toBe(true);
   });
 });
