@@ -146,7 +146,7 @@ function postUpdate(): void {
       if (countdownFramesLeft % 30 === 0) {
         restoreGhostPlayers(pair);
       }
-      revokeGrantedItems(pair);
+      revokeGrantedItems(pair, frame);
       lockArena();
       pullBackIfNeeded(arena, frame);
       placePlayersAtSpawnPoints(pair);
@@ -163,6 +163,8 @@ function postUpdate(): void {
       lockArena();
       pullBackIfNeeded(arena, frame);
       updateItemSpawner(roundFrame);
+      // 上一局的道具若还没收干净，继续在战斗期间补收（只针对上一局的清单，不影响本局新拾取）。
+      revokeGrantedItems(pair, frame);
       if (checkPlayerVersusPlayer(pair, frame, vanillaHeartsBackend)) {
         Isaac.DebugString("[PVP] 命中");
       }
@@ -184,7 +186,7 @@ function postUpdate(): void {
       break;
     }
     case PvpPhase.RESULT: {
-      revokeGrantedItems(pair);
+      revokeGrantedItems(pair, frame);
       lockArena();
       if (frame - resultFrame >= CONFIG.resultRestartDelayFrames) {
         startNextRound(pair);

@@ -9,8 +9,11 @@ export function shouldSpawnItem(
   frame: number,
   lastSpawnFrame: number,
   itemsOnField: number,
+  spawnsThisRound: number,
   firstDelayFrames: number,
-  intervalFrames: number,
+  fastIntervalFrames: number,
+  normalIntervalFrames: number,
+  fastSpawnCount: number,
   maxItemsOnField: number,
 ): boolean {
   if (itemsOnField >= maxItemsOnField) {
@@ -19,5 +22,7 @@ export function shouldSpawnItem(
   if (lastSpawnFrame < 0) {
     return frame >= firstDelayFrames;
   }
+  const intervalFrames =
+    spawnsThisRound < fastSpawnCount ? fastIntervalFrames : normalIntervalFrames;
   return frame - lastSpawnFrame >= intervalFrames;
 }

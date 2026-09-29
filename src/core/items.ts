@@ -1,5 +1,5 @@
-import { ItemPoolType, ItemType } from "isaac-typescript-definitions";
-import { getPlayers, spawnCollectible } from "isaacscript-common";
+import { EntityType, ItemPoolType, ItemType, PickupVariant } from "isaac-typescript-definitions";
+import { getPlayers, getRandomInt, spawnCollectible } from "isaacscript-common";
 
 import { getBlacklistedCollectibles } from "../data/blacklist";
 import { CONFIG } from "../data/config";
@@ -11,6 +11,8 @@ const MIN_DISTANCE_FROM_PLAYER = 80;
 
 let lastSpawnFrame = -1;
 let spawnedItems: Entity[] = [];
+/** 本局已刷新过几次（用于判定是否仍处于"开局快刷"阶段）。 */
+let spawnsThisRound = 0;
 /** 本局由竞技场发放出去的道具。 */
 let grantedCollectibles: number[] = [];
 /** 上一局发放、尚未成功收回的道具。 */
@@ -19,6 +21,7 @@ let pendingRevoke: number[] = [];
 export function resetItemSpawner(): void {
   lastSpawnFrame = -1;
   spawnedItems = [];
+  spawnsThisRound = 0;
   grantedCollectibles = [];
 }
 
@@ -50,15 +53,14 @@ export function markGrantedItemsForRevoke(): void {
  * 而且引擎在该玩家复活时会把道具一起带回来。只有当所有玩家都不是幽灵、
  * 且身上确实不再持有这些道具时，才能把清单清空。
  */
-export function revokeGrantedItems(players: readonly EntityPlayer[]): void {
+export function revokeGrantedItems(players: readonly EntityPlayer[], frame: number): void {
   if (pendingRevoke.length === 0) {
     return;
   }
 
+  // 幽灵玩家同样必须尝试：失败方死亡时正处于幽灵状态，
+  // 而道具恰恰挂在他们身上（引擎还会在复活时把这些道具带回来）。
   for (const player of players) {
-    if (player.IsCoopGhost()) {
-      continue;
-    }
     for (const collectible of pendingRevoke) {
       if (player.HasCollectible(collectible)) {
         player.RemoveCollectible(collectible);
@@ -79,6 +81,14 @@ export function revokeGrantedItems(players: readonly EntityPlayer[]): void {
   pendingRevoke = [...itemsStillHeld(pendingRevoke, stillHeld)];
   if (pendingRevoke.length === 0 && !anyGhost) {
     Isaac.DebugString("[PVP] 上一局道具已全部收回");
+    return;
+  }
+
+  if (frame % 30 === 0) {
+    const detail = players
+      .map((player, index) => `P${index + 1}:[${pendingRevoke.filter((id) => player.HasCollectible(id)).join(",")}]`)
+      .join(" ");
+    Isaac.DebugString(`[PVP] 道具收回中 待收回=${pendingRevoke.length} 仍持有 ${detail}`);
   }
 }
 
@@ -90,11 +100,21 @@ export function updateItemSpawner(roundFrame: number): void {
     roundFrame,
     lastSpawnFrame,
     spawnedItems.length,
+    spawnsThisRound,
     CONFIG.itemSpawnFirstDelayFrames,
+    CONFIG.itemSpawnFastIntervalFrames,
     CONFIG.itemSpawnIntervalFrames,
+    CONFIG.fastSpawnCount,
     CONFIG.maxItemsOnField,
   );
   if (!shouldSpawn) {
+    return;
+  }
+
+  const position = pickPosition();
+
+  if (getRandomInt(1, 100, undefined) <= Math.floor(CONFIG.chestChance * 100)) {
+    spawnChest(position, roundFrame);
     return;
   }
 
@@ -103,13 +123,41 @@ export function updateItemSpawner(roundFrame: number): void {
     return;
   }
 
-  const position = pickPosition();
   const entity = spawnCollectible(collectible, position, undefined);
   spawnedItems.push(entity);
   grantedCollectibles.push(collectible);
+  spawnsThisRound += 1;
   lastSpawnFrame = roundFrame;
   Isaac.DebugString(
     `[PVP] 刷新道具 id=${collectible} 位置=${Math.floor(position.X)},${Math.floor(position.Y)}`,
+  );
+}
+
+/** 箱子变体（各种箱子都包含），用于"补充物资"。 */
+const CHEST_VARIANTS: readonly PickupVariant[] = [
+  PickupVariant.CHEST,
+  PickupVariant.BOMB_CHEST,
+  PickupVariant.SPIKED_CHEST,
+  PickupVariant.ETERNAL_CHEST,
+  PickupVariant.MIMIC_CHEST,
+  PickupVariant.OLD_CHEST,
+  PickupVariant.WOODEN_CHEST,
+  PickupVariant.MEGA_CHEST,
+  PickupVariant.HAUNTED_CHEST,
+  PickupVariant.LOCKED_CHEST,
+  PickupVariant.BIG_CHEST,
+  PickupVariant.RED_CHEST,
+];
+
+function spawnChest(position: Vector, roundFrame: number): void {
+  const index = getRandomInt(0, CHEST_VARIANTS.length - 1, undefined);
+  const variant = CHEST_VARIANTS[index] ?? PickupVariant.CHEST;
+  const entity = Isaac.Spawn(EntityType.PICKUP, variant, 0, position, Vector(0, 0), undefined);
+  spawnedItems.push(entity);
+  spawnsThisRound += 1;
+  lastSpawnFrame = roundFrame;
+  Isaac.DebugString(
+    `[PVP] 刷新箱子 variant=${variant} 位置=${Math.floor(position.X)},${Math.floor(position.Y)}`,
   );
 }
 
