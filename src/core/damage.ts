@@ -39,7 +39,13 @@ export function checkPlayerVersusPlayer(
       if (!circlesOverlap(toCircle(entity), toCircle(target))) {
         continue;
       }
+      const attackerNumber = attacker.Index === players[0].Index ? 1 : 2;
+      const targetNumber = target.Index === players[0].Index ? 1 : 2;
+      const targetHitPointsBefore = target.GetHearts() + target.GetSoulHearts();
       health.applyDamage(target, CONFIG.damagePerHalfHeartHit, EntityRef(attacker));
+      Isaac.DebugString(
+        `[PVP] 命中 P${attackerNumber}→P${targetNumber} 伤害=${CONFIG.damagePerHalfHeartHit}(半心) 目标伤害前=${targetHitPointsBefore} 攻击实体类型=${entity.Type}`,
+      );
       entity.Remove();
       hit = true;
       break;

@@ -54,8 +54,15 @@ export function pullBackIfNeeded(arenaGridIndex: number, frame: number): boolean
   if (frame - lastPullBackFrame < CONFIG.pullBackCooldownFrames) {
     return false;
   }
+  const currentRoom = Game().GetLevel().GetCurrentRoomIndex();
+  const p1 = Isaac.GetPlayer(0);
+  const p2 = Isaac.GetPlayer(1);
+  const p1Position = p1 === undefined ? "无" : `(${Math.floor(p1.Position.X)},${Math.floor(p1.Position.Y)})`;
+  const p2Position = p2 === undefined ? "无" : `(${Math.floor(p2.Position.X)},${Math.floor(p2.Position.Y)})`;
   lastPullBackFrame = frame;
   teleport(arenaGridIndex);
-  Isaac.DebugString(`[PVP] 检测到离场，已拉回竞技场 房间=${arenaGridIndex}`);
+  Isaac.DebugString(
+    `[PVP] 检测到离场：当前房间=${currentRoom} 竞技场=${arenaGridIndex} P1位置=${p1Position} P2位置=${p2Position} 已请求拉回`,
+  );
   return true;
 }

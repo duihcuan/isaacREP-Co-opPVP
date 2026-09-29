@@ -22,6 +22,10 @@ let frame = 0;
 let countdownFramesLeft = CONFIG.countdownFrames;
 let arenaGridIndex: number | undefined;
 let lastLoggedPhase: PvpPhase | undefined;
+let lastHitPointsP1 = -1;
+let lastHitPointsP2 = -1;
+let lastDefeatedP1 = false;
+let lastDefeatedP2 = false;
 
 // This function is run when your mod first initializes.
 export function main(): void {
@@ -37,6 +41,10 @@ function postGameStarted(): void {
   tracker = createRoundTracker();
   countdownFramesLeft = CONFIG.countdownFrames;
   arenaGridIndex = Game().GetLevel().GetCurrentRoomIndex();
+  lastHitPointsP1 = -1;
+  lastHitPointsP2 = -1;
+  lastDefeatedP1 = false;
+  lastDefeatedP2 = false;
   logPhaseIfChanged("开局");
 }
 
@@ -73,6 +81,7 @@ function postUpdate(): void {
     return;
   }
   const pair: readonly [EntityPlayer, EntityPlayer] = [p1, p2];
+  logPlayerChanges(pair);
 
   switch (state.phase) {
     case PvpPhase.ARMING: {
@@ -138,4 +147,36 @@ function logPhaseIfChanged(reason: string): void {
   Isaac.DebugString(
     `[PVP] ${reason} → 阶段=${state.phase} 房间=${Game().GetLevel().GetCurrentRoomIndex()}`,
   );
+}
+
+/**
+ * 记录血量与出局状态的变化。
+ *
+ * 这一层是"测试仪器"：没有它，日志只能说明"判定命中了"，
+ * 无法说明伤害是否真的生效、玩家是否真的出局。
+ */
+function logPlayerChanges(pair: readonly [EntityPlayer, EntityPlayer]): void {
+  const [p1, p2] = pair;
+
+  const hitPointsP1 = p1.GetHearts() + p1.GetSoulHearts();
+  if (hitPointsP1 !== lastHitPointsP1) {
+    Isaac.DebugString(`[PVP] 血量变化 P1: ${lastHitPointsP1} → ${hitPointsP1}`);
+    lastHitPointsP1 = hitPointsP1;
+  }
+  const hitPointsP2 = p2.GetHearts() + p2.GetSoulHearts();
+  if (hitPointsP2 !== lastHitPointsP2) {
+    Isaac.DebugString(`[PVP] 血量变化 P2: ${lastHitPointsP2} → ${hitPointsP2}`);
+    lastHitPointsP2 = hitPointsP2;
+  }
+
+  const defeatedP1 = vanillaHeartsBackend.isDefeated(p1);
+  if (defeatedP1 !== lastDefeatedP1) {
+    Isaac.DebugString(`[PVP] 出局状态变化 P1: ${lastDefeatedP1} → ${defeatedP1}`);
+    lastDefeatedP1 = defeatedP1;
+  }
+  const defeatedP2 = vanillaHeartsBackend.isDefeated(p2);
+  if (defeatedP2 !== lastDefeatedP2) {
+    Isaac.DebugString(`[PVP] 出局状态变化 P2: ${lastDefeatedP2} → ${defeatedP2}`);
+    lastDefeatedP2 = defeatedP2;
+  }
 }

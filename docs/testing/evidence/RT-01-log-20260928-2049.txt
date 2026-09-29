@@ -1,0 +1,1832 @@
+[INFO] - OpenGL version 4.6.0 NVIDIA 592.82
+[INFO] - GLSL version 4.60 NVIDIA
+[INFO] - Framebuffer ID: 1
+[INFO] - Renderbuffer ID: 1 size 1024x1024
+[INFO] - OpenAL DLL loaded from: E:\SteamLibrary\steamapps\common\The Binding of Isaac Rebirth\OpenAL32.dll
+[INFO] - OpenAL AL_VENDOR : OpenAL Community
+[INFO] - OpenAL AL_RENDERER : OpenAL Soft
+[INFO] - OpenAL AL_VERSION : 1.1 ALSOFT 1.24.3
+[INFO] - OpenAL ALC_EXTENSIONS : ALC_ENUMERATE_ALL_EXT ALC_ENUMERATION_EXT ALC_EXT_CAPTURE ALC_EXT_debug ALC_EXT_DEDICATED ALC_EXT_direct_context ALC_EXT_disconnect ALC_EXT_EFX ALC_EXT_thread_local_context ALC_SOFT_device_clock ALC_SOFT_HRTF ALC_SOFT_loopback ALC_SOFT_loopback_bformat ALC_SOFT_output_limiter ALC_SOFT_output_mode ALC_SOFT_pause_device ALC_SOFT_reopen_device ALC_SOFT_system_events
+[INFO] - Using XInput 1.4 
+[INFO] - Initializing theoraplayer with theora support.
+[INFO] - Initializing Theoraplayer Video Playback Library (2.0)
+  - libtheora version: Xiph.Org libtheora 1.2.0alpha 20100924 (Ptalarbvorm)
+  - libvorbis version: Xiph.Org libVorbis 1.3.4
+------------------------------------
+[INFO] - Changing number of worker threads to: 1
+[INFO] - Command Line: 
+[INFO] - 	E:\SteamLibrary\steamapps\common\The Binding of Isaac Rebirth\isaac-ng.exe
+[INFO] - Game Version: J460 
+[INFO] - Successfully reserved 1073741824 bytes of memory for Lua
+[INFO] - Running Lua Script: resources/scripts/enums.lua
+[INFO] - Lua mem usage: 756 KB and 844 bytes
+[INFO] - Running Lua Script: resources/scripts/main.lua
+[INFO] - Lua mem usage: 817 KB and 693 bytes
+[INFO] - Binding of Isaac: Repentance+ v1.9.7.17.J460
+[INFO] - load archives: 6020 milliseconds
+[INFO] - ***************************************
+[INFO] - *     Shader Initialization Start     *
+[INFO] - ***************************************
+[INFO] - Initialize ColorOffset Shader
+[INFO] - Initialize ColorOffset Attribute Shader
+[INFO] - Initialize Color Offset Dogma Shader
+[INFO] - Initialize Color Offset Gold Shader
+[INFO] - Initialize Color Offset Champion Shader
+[INFO] - Initialize Pixelation Shader
+[INFO] - Initialize Bloom Shader
+[INFO] - Initialize Colormod Shader
+[INFO] - Initialize Color Correction Shader
+[INFO] - Initialize HQ4X Shader
+[INFO] - Initialize OldTV Shader
+[INFO] - Initialize Shockwave Shader
+[INFO] - Initialize Hallucination Shader
+[INFO] - Initialize Background Shader
+[INFO] - Initialize Water Overlay Shader
+[INFO] - Initialize Dizzy Shader
+[INFO] - Initialize Heat Wave Shader
+[INFO] - Initialize Mirror Shader
+[INFO] - Initialize Water Surface Shader
+[INFO] - Initialize Water Surface V2 Shader
+[INFO] - ***************************************
+[INFO] - *      Shader Initialization End      *
+[INFO] - ***************************************
+[INFO] - Display Hz: 144, Target: 60.. disabling vsync for this session.
+[INFO] - Viewport: 960x540
+[INFO] - Framebuffer Width: 960 
+ Render Width: 960 
+ Window Width: 960 
+ Multiplier: 2.250010 
+ DP per point: 1.000000 
+ Point Scale: 2.000000 
+[INFO] - Viewport: 1924x1104
+[INFO] - Framebuffer Width: 1924 
+ Render Width: 962 
+ Window Width: 1924 
+ Multiplier: 4.604177 
+ DP per point: 1.000000 
+ Point Scale: 2.000000 
+[INFO] - begin list mods
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/! fired's_angels_and_statues_3441805671/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/animated items_2570913695/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/better character menu_835236871/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/big_dog_brimstone_3756709057/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/bocchi the tinted rock repentance_2958123291/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/bossintroreplace_3789108481/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/cateye_3725347798/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/cn_rep+_3568677664/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/co-oppvp/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/control_restart_plus_2503863951/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/donation machine at the end_2623442608/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/enhanced boss bars_2635267643/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/external item descriptions_836319872/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/goodtrip_1630477831/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/guaranteed start_1264802784/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/instant fires and poops_2833146105/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/mod config menu_3701683951/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/musicpicker_1933285222/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/penetration up_2817618967/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/planetarium chance_2489006943/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/potato for scale_846294439/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/range_fix_for_bones_and_sword_3033566163/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/stats-plus_2729900570/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/timemachinefixed_3169946719/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/trophy shelf rep+_3426939184/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/unique spirit swords xtrike's take_2523451131/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/unique_birthrights_2690434875/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/visible challenges unlocks colored [chinese]_3386034409/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/watch_out_explosion!_2891124808/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/watch_out_laser!_2887926286/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/way more options!_2487645803/content/
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/zenless zone zero soundtrack_3502586778/content/
+[INFO] - HQ4X size: 962x552
+[INFO] - Running Lua Script: E:\SteamLibrary\steamapps\common\The Binding of Isaac Rebirth/mods/co-oppvp/main.lua
+[INFO] - Lua Debug: co-op-pvp initialized.
+[INFO] - Lua mem usage: 7143 KB and 395 bytes
+[INFO] - Viewport: 1924x1104
+[INFO] - Framebuffer Width: 1924 
+ Render Width: 962 
+ Window Width: 1924 
+ Multiplier: 4.604177 
+ DP per point: 1.000000 
+ Point Scale: 2.000000 
+[INFO] - playing cutscene 1 (Intro).
+[INFO] - Renderbuffer ID: 1 size 2048x2048
+[INFO] - HQ4X size: 1924x1105
+[INFO] - Cutscene: correct anm2 timing: f21 -> f31
+[INFO] - Viewport: 1924x1104
+[INFO] - Framebuffer Width: 1924 
+ Render Width: 962 
+ Window Width: 1924 
+ Multiplier: 4.604177 
+ DP per point: 1.000000 
+ Point Scale: 2.000000 
+[INFO] - HQ4X size: 962x552
+[INFO] - Menu Manager preCrossfade
+[INFO] - Menu Manager Init
+[INFO] - Menu Title Init
+[INFO] - Menu Save Init
+[INFO] - Menu_Save Pre Prompt init
+[INFO] - Menu_Save loading slot drawings
+[INFO] - Loading PersistentData 1 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Reading chunk 1
+[INFO] - Reading Achievements
+[INFO] - Done Reading Achievements
+[INFO] - Reading chunk 2
+[INFO] - Reading Counters
+[INFO] - Done Reading Counters
+[INFO] - Reading chunk 3
+[INFO] - Reading Level Counters
+[INFO] - Done Reading Level Counters
+[INFO] - Reading chunk 4
+[INFO] - Reading Collectibles
+[INFO] - Done Reading Collectibles
+[INFO] - Reading chunk 5
+[INFO] - Reading Mini Bosses
+[INFO] - Done Reading Mini Bosses
+[INFO] - Reading chunk 6
+[INFO] - Reading Bosses
+[INFO] - Done Reading Bosses
+[INFO] - Reading chunk 7
+[INFO] - Reading Challenge Counters
+[INFO] - Done Reading Challenge Counters
+[INFO] - Reading chunk 8
+[INFO] - Reading Cutscene Counters
+[INFO] - Done Reading Cutscene Counters
+[INFO] - Reading chunk 9
+[INFO] - Reading GameSettings
+[INFO] - Done Reading GameSettings
+[INFO] - Reading chunk 10
+[INFO] - Reading Special Seed Counters
+[INFO] - Done Reading Special Seed Counters
+[INFO] - Reading chunk 11
+[INFO] - Reading Bestiary Counters
+[INFO] - Done Reading Bestiary Counters
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Loading GameState 1 from SteamCloud!
+[INFO] - GameState Version Loaded: 169
+[INFO] - Loading PersistentData 1 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Reading chunk 1
+[INFO] - Reading Achievements
+[INFO] - Done Reading Achievements
+[INFO] - Reading chunk 2
+[INFO] - Reading Counters
+[INFO] - Done Reading Counters
+[INFO] - Reading chunk 3
+[INFO] - Reading Level Counters
+[INFO] - Done Reading Level Counters
+[INFO] - Reading chunk 4
+[INFO] - Reading Collectibles
+[INFO] - Done Reading Collectibles
+[INFO] - Reading chunk 5
+[INFO] - Reading Mini Bosses
+[INFO] - Done Reading Mini Bosses
+[INFO] - Reading chunk 6
+[INFO] - Reading Bosses
+[INFO] - Done Reading Bosses
+[INFO] - Reading chunk 7
+[INFO] - Reading Challenge Counters
+[INFO] - Done Reading Challenge Counters
+[INFO] - Reading chunk 8
+[INFO] - Reading Cutscene Counters
+[INFO] - Done Reading Cutscene Counters
+[INFO] - Reading chunk 9
+[INFO] - Reading GameSettings
+[INFO] - Done Reading GameSettings
+[INFO] - Reading chunk 10
+[INFO] - Reading Special Seed Counters
+[INFO] - Done Reading Special Seed Counters
+[INFO] - Reading chunk 11
+[INFO] - Reading Bestiary Counters
+[INFO] - Done Reading Bestiary Counters
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Loading GameState 1 from SteamCloud!
+[INFO] - GameState Version Loaded: 169
+[INFO] - Loading PersistentData 2 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open rep+persistentgamedata2.dat.
+[INFO] - Trying to import AB+ Steam save.
+[INFO] - SteamCloud could not find or open Repentance save file rep_persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open AB+ save file abp_persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open AB save file ab_persistentgamedata2.dat.
+[INFO] - Starting with a clean save state.
+[INFO] - Cannot load GameState if PersistentData is missing!
+[INFO] - Loading PersistentData 2 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open rep+persistentgamedata2.dat.
+[INFO] - Trying to import AB+ Steam save.
+[INFO] - SteamCloud could not find or open Repentance save file rep_persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open AB+ save file abp_persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open AB save file ab_persistentgamedata2.dat.
+[INFO] - Starting with a clean save state.
+[INFO] - Cannot load GameState if PersistentData is missing!
+[INFO] - Loading PersistentData 3 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open rep+persistentgamedata3.dat.
+[INFO] - Trying to import AB+ Steam save.
+[INFO] - SteamCloud could not find or open Repentance save file rep_persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open AB+ save file abp_persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open AB save file ab_persistentgamedata3.dat.
+[INFO] - Starting with a clean save state.
+[INFO] - Cannot load GameState if PersistentData is missing!
+[INFO] - Loading PersistentData 3 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open rep+persistentgamedata3.dat.
+[INFO] - Trying to import AB+ Steam save.
+[INFO] - SteamCloud could not find or open Repentance save file rep_persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open AB+ save file abp_persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open AB save file ab_persistentgamedata3.dat.
+[INFO] - Starting with a clean save state.
+[INFO] - Cannot load GameState if PersistentData is missing!
+[INFO] - Menu Game Init
+[INFO] - Menu Daily Init
+[INFO] - Menu Character Init
+[INFO] - Menu SpecialSeed Init
+[INFO] - Menu Challenge Init
+[INFO] - Menu Collection Init
+[INFO] - Menu Stats Init
+[INFO] - Menu Mods Init
+[INFO] - Menu Options Init
+[INFO] - Menu Controller Init
+[INFO] - Menu Key Config Init
+[INFO] - Menu Cutscene Init
+[INFO] - Menu Bestiary Init
+[INFO] - Menu Custom Challenge Init
+[INFO] - Menu Online Lobby Init
+[INFO] - Menu Friend Lobbies Init
+[INFO] - Menu Multiplayer Init
+[INFO] - Menu Options Online Init
+[INFO] - Menu Create Lobby Init
+[INFO] - Menu Online Awards Init
+[INFO] - Loading PersistentData 1 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Reading chunk 1
+[INFO] - Reading Achievements
+[INFO] - Done Reading Achievements
+[INFO] - Reading chunk 2
+[INFO] - Reading Counters
+[INFO] - Done Reading Counters
+[INFO] - Reading chunk 3
+[INFO] - Reading Level Counters
+[INFO] - Done Reading Level Counters
+[INFO] - Reading chunk 4
+[INFO] - Reading Collectibles
+[INFO] - Done Reading Collectibles
+[INFO] - Reading chunk 5
+[INFO] - Reading Mini Bosses
+[INFO] - Done Reading Mini Bosses
+[INFO] - Reading chunk 6
+[INFO] - Reading Bosses
+[INFO] - Done Reading Bosses
+[INFO] - Reading chunk 7
+[INFO] - Reading Challenge Counters
+[INFO] - Done Reading Challenge Counters
+[INFO] - Reading chunk 8
+[INFO] - Reading Cutscene Counters
+[INFO] - Done Reading Cutscene Counters
+[INFO] - Reading chunk 9
+[INFO] - Reading GameSettings
+[INFO] - Done Reading GameSettings
+[INFO] - Reading chunk 10
+[INFO] - Reading Special Seed Counters
+[INFO] - Done Reading Special Seed Counters
+[INFO] - Reading chunk 11
+[INFO] - Reading Bestiary Counters
+[INFO] - Done Reading Bestiary Counters
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Loading GameState 1 from SteamCloud!
+[INFO] - GameState Version Loaded: 169
+[INFO] - DInput checking if device supports XInput  (v = 10462, p = 4607) 
+[INFO] - Device is compatible with XInput 
+[INFO] - Using XInput to initalize new device 
+[INFO] - Gamepad Connected:
+[INFO] -   Description: XInput Controller 1
+[INFO] -   Vendor ID: 10462
+[INFO] -   Product ID: 4607
+[INFO] -   Number of axes: 6
+[INFO] -   Number of buttons: 15
+[INFO] - Gamepad identified as 'Steam Virtual Gamepad', VendorId = 10462, ProductId = 4607, Family = Xbox
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Setting PersistentGameData ReadOnly to False
+[INFO] - RNG Start Seed: 7QPS XRT0 (3832837699) [New, 1]
+[INFO] - Preload sound 0.
+[INFO] - [Frame: 0] Initialized player with Variant 0 and Subtype 0
+[INFO] - Entity_Player::SetControllerId() Setting controller ID to 1, (Prev: -1) 
+[INFO] - Assigning Player Color (0) to Controller(1) 
+[INFO] - Assinging player entity 0 (ControlerIndex = 1) to HUD slot 0 
+[INFO] - [RoomConfig] load stage 0:  (mode 0)
+[INFO] - allocate 1357 rooms.
+[INFO] - [ModManager] load stage 0:  (mode 0)
+[INFO] - Level::Init m_Stage 1, m_StageType 0 Seed 1297459177
+[INFO] - Curse of the Lost!
+[INFO] - delete 0 generated rooms.
+[INFO] - [RoomConfig] load stage 1: 地下室 (mode 0)
+[INFO] - allocate 1220 rooms.
+[INFO] - [ModManager] load stage 1: 地下室 (mode 0)
+[INFO] - generate...
+[INFO] - place_room: shape 8
+[INFO] - place_room: shape 10
+[INFO] - place_room: shape 3
+[INFO] - 15 rooms in 11 loops
+[INFO] - placing rooms...
+[INFO] - [RoomConfig] load stage 13: ??? (mode 0)
+[INFO] - allocate 32 rooms.
+[INFO] - [ModManager] load stage 13: ??? (mode 0)
+[INFO] - Map Generated in 1 Loops
+[INFO] - CURRENT ROOM INDEX 84 870210f0
+[INFO] - Room 1.2(Start Room)
+[INFO] - SpawnRNG seed: 853370295
+[INFO] - Spawn Entity with Type(6), Variant(19), Pos(240.00,160.00)
+[INFO] - Lua mem usage: 6997 KB and 27 bytes
+[INFO] - Adding collectible 105 (The D6) to player 0 (以撒) from pool treasure
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Lua Debug: [PVP] 开局 → 阶段=ARMING 房间=84
+[INFO] - music stopped playing
+[INFO] - DInput checking if device supports XInput  (v = 10462, p = 4607) 
+[INFO] - Device is compatible with XInput 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=ARMING 玩家数=1 房间=84
+[INFO] - DInput checking if device supports XInput  (v = 10462, p = 4607) 
+[INFO] - Device is compatible with XInput 
+[INFO] - DInput checking if device supports XInput  (v = 10462, p = 4607) 
+[INFO] - Device is compatible with XInput 
+[INFO] - DInput checking if device supports XInput  (v = 10462, p = 4607) 
+[INFO] - Device is compatible with XInput 
+[INFO] - Using XInput to initalize new device 
+[INFO] - Gamepad Connected:
+[INFO] -   Description: XInput Controller 2
+[INFO] -   Vendor ID: 10462
+[INFO] -   Product ID: 4607
+[INFO] -   Number of axes: 6
+[INFO] -   Number of buttons: 15
+[INFO] - Gamepad identified as 'Steam Virtual Gamepad', VendorId = 10462, ProductId = 4607, Family = Xbox
+[INFO] - Lua Debug: [PVP] 心跳 阶段=ARMING 玩家数=1 房间=84
+[INFO] - Lua Debug: [PVP] 心跳 阶段=ARMING 玩家数=1 房间=84
+[INFO] - [Frame: 0] Spawning Co-Op Player (ePlayerType = 0) 
+[INFO] - [Frame: 0] Initialized player with Variant 0 and Subtype 0
+[INFO] - Entity_Player::SetControllerId() Setting controller ID to 1, (Prev: -1) 
+[INFO] - Entity_Player::SetControllerId() Setting controller ID to 2, (Prev: 1) 
+[INFO] - Reassigning Player Color (0) Prev(1) New(2) 
+[INFO] - Assinging player entity 0 (ControlerIndex = 1) to HUD slot 0 
+[INFO] - Assinging player entity 1 (ControlerIndex = 2) to HUD slot 1 
+[INFO] - Adding collectible 105 (The D6) to player 1 (以撒) from pool treasure
+[INFO] - Lua Debug: [PVP] 双方就位 → 阶段=COUNTDOWN 房间=84
+[INFO] - Lua Debug: [PVP] 移除门 slot=1
+[INFO] - [warn] no animation named Closed
+[INFO] - [warn] no animation named Closed
+[INFO] - Lua Debug: [PVP] 移除门 slot=2
+[INFO] - Lua Debug: [PVP] 移除门 slot=3
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: e8ee706f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 6977bab1 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 9de3a8d8 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 0b263f72 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: a2fbc6bb 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 65ce87f0 
+[INFO] - Entity Pickup Initialized as: 5.30.4  Seed: e66fae9c 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: fb578961 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 74d470b6 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 62be4e5a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 5eb6a2e0 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 376ff2d0 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e0657793 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: a0b3439c 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: c2b3bae0 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 07b8cf21 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 0d21b745 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=COUNTDOWN 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 1908ece0 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3c206f29 
+[INFO] - Entity Pickup Initialized as: 5.30.4  Seed: abbd22a8 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a6175382 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 08d2ea2c 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 054745bd 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: a2bd56fe 
+[INFO] - Entity Pickup Initialized as: 5.54.1  Seed: 3f92663b 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: af061e6c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 02891ed3 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9d4bb50e 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ef44e2e4 
+[INFO] - Entity Pickup Initialized as: 5.10.5  Seed: c06c4c4a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 818114cf 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0facb8d5 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: d8a8797e 
+[INFO] - Entity Pickup Initialized as: 5.20.3  Seed: 40408ea7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 47fa36fe 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 29b6570a 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: ec34b3ce 
+[INFO] - Entity Pickup Initialized as: 5.300.20  Seed: 16408423 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: d16e660f 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 8c876b4d 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: af4635d6 
+[INFO] - Entity Pickup Initialized as: 5.40.5  Seed: 0e892dbe 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 03db1c01 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: c2f12573 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 95144339 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ae2d820c 
+[INFO] - Queued Path music/Diptera Layer.ogg
+[INFO] - Queued Path music/Diptera Sonata(Basement).ogg
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ac0a8b99 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 37a20854 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 581efd12 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 325eeab5 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 73e51d40 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 072a5c45 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3e4ab8fc 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: c482a6b3 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: a0ad93b4 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 031c1af0 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2dd632f5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 0fb268a9 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 450d69c0 
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: 98f79e86 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 08cb616c 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 709f74ad 
+[INFO] - Lua Debug: [PVP] 倒计时结束 → 阶段=FIGHT 房间=84
+[INFO] - Entity Pickup Initialized as: 5.350.9  Seed: 5956b310 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 96eecf83 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 66f86315 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 05f465f0 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 9cd05aca 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 0a05e2b8 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 39e12bed 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ff0ba001 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: db89b9fd 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 38dadc4c 
+[INFO] - Entity Pickup Initialized as: 5.350.137  Seed: 901ffd57 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a61ef478 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: c1700ee8 
+[INFO] - Entity Pickup Initialized as: 5.10.10  Seed: f7e547b2 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: d61c4cc7 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 043d5f57 
+[INFO] - Entity Pickup Initialized as: 5.70.9  Seed: 7190e26f 
+[INFO] - Entity Pickup Initialized as: 5.350.126  Seed: 982ccd19 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: d8acaca1 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 86a4a686 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3e12edc1 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 4b5f3d97 
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: b294072b 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 68977716 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 124c9b67 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0d439f65 
+[INFO] - Entity Pickup Initialized as: 5.20.3  Seed: 7099f77c 
+[INFO] - Entity Pickup Initialized as: 5.70.9  Seed: d2d6ffea 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: c85067e0 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: c2c7f0a4 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 76a94fbe 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: d9f0e76c 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4e4ec39c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2cc0a69d 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 074c74d5 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9c8e754b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 6d635367 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 121d8851 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 937e9c23 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: a6ceaf8d 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 86931896 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 79f97b47 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: f734ead4 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 45d82434 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 17d2f335 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 567a3dea 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2af12ddf 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 285b3443 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 6373c994 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0e270b43 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 15edd83e 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 5b922a4e 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5bad9f60 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: f8bdeee7 
+[INFO] - Entity Pickup Initialized as: 5.300.20  Seed: 38eab0c5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 60bb9f7b 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a16ce231 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 4c9f110e 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 69195fc7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 65c93745 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e2050b69 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 866978a6 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: c61bd78a 
+[INFO] - Entity Pickup Initialized as: 5.10.12  Seed: 3ca4d603 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 99ad3687 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 897faa11 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ad5772d8 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: e9f75f36 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5fd8387e 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 6d0a80b9 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3659cead 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 3191bb9e 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 4c2cf69d 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: f62119ba 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 84c2f7a7 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: b6e11138 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 85745d34 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 2cb19bbf 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 02d898b8 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5c987bff 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 189a05fc 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 705e89f3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: bcc90bbe 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: a39b0799 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 499f709d 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 897e24b2 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: e4140a9a 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 42796cab 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: bee2e8a4 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: f1f7b984 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 99825057 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 40b6c91d 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 6150b944 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 5d680ae4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 306fd943 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: 7be21043 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a5165157 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 34866e73 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 997bc5b1 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 541941ef 
+[INFO] - Entity Pickup Initialized as: 5.300.15  Seed: e1a997d9 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f6e5f9f0 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: bb361770 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: fb050a30 
+[INFO] - Entity Pickup Initialized as: 5.350.27  Seed: f60852fe 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 1512d2de 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 962a019d 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 85a30665 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 8fb1e637 
+[INFO] - Entity Pickup Initialized as: 5.350.101  Seed: b13651ff 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: ed68275e 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 15e7d703 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 5b6aff0a 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 5d3b5029 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: ec03f5bf 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ded26e6a 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 4a1733a2 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 42067ff0 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 78a17585 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f15c6b5f 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: b93e90d6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b9b880af 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a27982aa 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 5e697005 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 5a25d191 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2b037ec2 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 93a7e727 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 4eb8cad7 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 022be009 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: a7c8ee23 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: d9a2ba22 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: d31f51a9 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 8a928c13 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2599eb7b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 042dd415 
+[INFO] - Entity Pickup Initialized as: 5.300.4  Seed: 8bc29ebd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 623e3070 
+[INFO] - Entity Pickup Initialized as: 5.350.14  Seed: 15a9d942 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 263c715f 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: 1bd070ba 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 9d77649a 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: ee5ff112 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 8f96f7aa 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 958a1ad1 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 7c338a13 
+[INFO] - item queue flush
+[INFO] - Adding trinket 126 (Rotten Penny) to player 0 (以撒)
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 93166864 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 81b3e1d0 
+[INFO] - Entity Pickup Initialized as: 5.52.1  Seed: 56803f4e 
+[INFO] - Entity Pickup Initialized as: 5.350.114  Seed: 4b9319f8 
+[INFO] - Entity Pickup Initialized as: 5.40.5  Seed: 78947310 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9f0ea8f9 
+[INFO] - Entity Pickup Initialized as: 5.70.13  Seed: 2c3113fa 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: cfe610cc 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 9140308b 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: 700294e3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 9fa3f7b9 
+[INFO] - Entity Pickup Initialized as: 5.350.79  Seed: e6fc8855 
+[INFO] - Lua Debug: [PVP] 命中
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: cc74a525 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: a1ba0a20 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: 4ebb0fd8 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 99814b38 
+[INFO] - Entity Pickup Initialized as: 5.300.9  Seed: ef8cf4f6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 47bb021f 
+[INFO] - Entity Pickup Initialized as: 5.300.5  Seed: 681d2bdd 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 4d49148e 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 11e38591 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5c437d52 
+[INFO] - Lua Debug: [PVP] 命中
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: 404bc6ab 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 776a71ed 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 6339624f 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ed1403e0 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 24fc4762 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: bb4eec9c 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 5f26e850 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: fbf2d581 
+[INFO] - Lua Debug: [PVP] 命中
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5431257e 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 3f28581d 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 996c8886 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9976c624 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 2256a707 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7c129ac2 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: c4e47123 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 9d2c49d2 
+[INFO] - Entity Pickup Initialized as: 5.350.93  Seed: 071f3867 
+[INFO] - Entity Pickup Initialized as: 5.350.11  Seed: efc9cac9 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 74e7b3f1 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 8a48babd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 46bc3e2e 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 353a65d1 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2372c562 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: e66a19ac 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: fd93efdc 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: be6db675 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 77e81b16 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: d6152ecd 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 5cc49d4a 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5a8c2c2b 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 84aa78d6 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5c6e1172 
+[INFO] - Entity Pickup Initialized as: 5.300.9  Seed: 8a150886 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 63683dc1 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 97836b93 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 4d5b0486 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 6dc178f0 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 06d441be 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: fffb2feb 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 31a1a048 
+[INFO] - Entity Pickup Initialized as: 5.20.3  Seed: 6cf4ecd0 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: fea51a09 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 519f7a3d 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 51301250 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: f53bf240 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 292a32d1 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: f9c4a012 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 9d8f4c97 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 8f2d3d5f 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: c9ac7ce3 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 2de40645 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: 242ebed7 
+[INFO] - Entity Pickup Initialized as: 5.300.22  Seed: 65e75bae 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: da19bb71 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 8335c405 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 265c87f8 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 334d9de8 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e46f343d 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 405bfaf4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: e9e74da1 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 68a05493 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 9b36616e 
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: 7c38a418 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 40daab69 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: ce99dc3f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: bef32800 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 606214d5 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7183bb9f 
+[INFO] - Entity Pickup Initialized as: 5.70.8  Seed: c37a6318 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: c8310346 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 96b6230f 
+[INFO] - Entity Pickup Initialized as: 5.20.3  Seed: 2068c9e1 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 6901bc31 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: d82f4ae6 
+[INFO] - Entity Pickup Initialized as: 5.300.20  Seed: 13d8c6b7 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 4e6fde08 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: 59ca0579 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 43fcd8cf 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 6de4f617 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: 2896a917 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a2a0d61c 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 3ee84af9 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1f9f46ca 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 3377a74c 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 42c221ab 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: c2b9810d 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 7ee0e2e8 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 01bc350a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b79f5aff 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 53366497 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 72649161 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e69845d8 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3f804674 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 546e783a 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 3a722830 
+[INFO] - Entity Pickup Initialized as: 5.10.12  Seed: a72664fb 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a91db767 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: e97ecd42 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 534dc07a 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 0a11efd2 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 7f9dfba7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5d9c15ff 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f5e55914 
+[INFO] - Lua Debug: [PVP] 命中
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: 9074807f 
+[INFO] - Entity Pickup Initialized as: 5.10.10  Seed: a3013bec 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: b3616cc4 
+[INFO] - Entity Pickup Initialized as: 5.350.71  Seed: 73fb9153 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: ccfaa28f 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: fcef94e2 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9d2b6923 
+[INFO] - Entity Pickup Initialized as: 5.350.126  Seed: 97706415 
+[INFO] - Entity Pickup Initialized as: 5.70.10  Seed: 7c360824 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 6a6422e3 
+[INFO] - Entity Pickup Initialized as: 5.70.8  Seed: 210f1ce6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 5c06386c 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 646ac8ec 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: fe376a22 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: f828a043 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 352a285a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 348ca0f2 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 60ba0e75 
+[INFO] - Entity Pickup Initialized as: 5.300.22  Seed: 6a3d16ce 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3f5df269 
+[INFO] - Entity Pickup Initialized as: 5.20.5  Seed: 1241afec 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 80fd2f03 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 69e6eaf1 
+[INFO] - Entity Pickup Initialized as: 5.300.18  Seed: 97fdc81d 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 3819541f 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 370a497e 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ab0bf817 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1744901e 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 827be9cf 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 36874f3b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 0fb7bca7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 936dd7db 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: ebd04bd6 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 2a31d944 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 98589b82 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 6ff8e74f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3a507582 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 30e0d81f 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 0595d885 
+[INFO] - item queue flush
+[INFO] - Adding trinket 11 (Ring Worm) to player 0 (以撒)
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: ae3d49e5 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 81fac1fc 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a0353fb8 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9fe2426d 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 723d3fd3 
+[INFO] - Entity Pickup Initialized as: 5.300.5  Seed: 481fe842 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: cc075322 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 0fa06c34 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 90d3f85f 
+[INFO] - Entity Pickup Initialized as: 5.350.151  Seed: 9823edda 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 419e675f 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 8039b108 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 97c01b16 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: f5aab70d 
+[INFO] - Entity Pickup Initialized as: 5.300.20  Seed: a37fa62a 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 83cc908a 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: c969a7a5 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 61687d82 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0fbc136f 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: 29be18c5 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 8eaeffe2 
+[INFO] - Entity Pickup Initialized as: 5.300.14  Seed: 88e83c77 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: a5b28907 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 90a952ff 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 8fc6fefc 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 4daad56e 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: aa29cf14 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: f022034c 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 78fb8e8c 
+[INFO] - Entity Pickup Initialized as: 5.52.1  Seed: 849b5d6f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4a808d76 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7ba63192 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: c4ff7f38 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: be5ad1f9 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: d0096248 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 9dcfb862 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ffaffda5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: f682ae20 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 6f5c6b3e 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 8415a8fc 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 58c4db00 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 55186a69 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2c4188a3 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 62cde2bd 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 15064049 
+[INFO] - Entity Pickup Initialized as: 5.350.12  Seed: 02a09852 
+[INFO] - Entity Pickup Initialized as: 5.300.1  Seed: aa1f9832 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 68f07919 
+[INFO] - Entity Pickup Initialized as: 5.70.8  Seed: 33b427ca 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bbaf3e46 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ae304f71 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: c9ea3fe2 
+[INFO] - Entity Pickup Initialized as: 5.10.5  Seed: 1a8e846f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: bfb184e7 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: ac836d81 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: cbc046b0 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 2594412a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: bf8a9daa 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1db8d206 
+[INFO] - Lua Debug: [PVP] 命中
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: d91cef88 
+[INFO] - Entity Pickup Initialized as: 5.10.12  Seed: 2dd81bce 
+[INFO] - Entity Pickup Initialized as: 5.70.10  Seed: 9732930d 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: dc51693e 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 78f30900 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: a9e0b429 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 63915e6a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 68337a96 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 39927502 
+[INFO] - Entity Pickup Initialized as: 5.300.22  Seed: 05896c5c 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: a666886a 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: c6f85653 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e5b106a6 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: c21a3653 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 23d92295 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 35892789 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: e5ce581f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 415a0502 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 58e74713 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 9d4832ab 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 72234c57 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7d840f0d 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 50519c51 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: baeb6279 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ebb8f61d 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: cf83f418 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4885aed2 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3094ddbb 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a047bcfa 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 741d2399 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 463e1dec 
+[INFO] - Entity Pickup Initialized as: 5.350.11  Seed: d6ebfa74 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 7cc84d2e 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 3717827a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 957279ab 
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: 12c98b76 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: fe4e0595 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 69b98eec 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: bfe717ef 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bd05c293 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 32acaead 
+[INFO] - Entity Pickup Initialized as: 5.300.26  Seed: 7212ec1d 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 28b6c17b 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: b8260e08 
+[INFO] - Entity Pickup Initialized as: 5.10.6  Seed: 92442523 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 89015a70 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: dd4e946c 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: 03caf213 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1c44ba80 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0a64f09b 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 1321a920 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 44d3c11f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a8ac25d0 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 40c16ed4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bc80d406 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 450f5cfc 
+[INFO] - Entity Pickup Initialized as: 5.350.41  Seed: 1719349c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 169d90f0 
+[INFO] - Entity Pickup Initialized as: 5.350.20  Seed: 97ddcfe3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 085ae639 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 1cfc8b37 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 0334709d 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ba5d54bc 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: bd2d8e8d 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 64130ab6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 87341d5c 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 67a7d0dc 
+[INFO] - Entity Pickup Initialized as: 5.350.144  Seed: 110582e9 
+[INFO] - item queue flush
+[INFO] - Adding trinket 79 (Endless Nameless) to player 0 (以撒)
+[INFO] - Entity Pickup Initialized as: 5.40.5  Seed: e1026e63 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 40a6f21d 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7624af17 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 52f3e5a1 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: de979b0e 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bc4923d7 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 0e37b553 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 9cc517c7 
+[INFO] - Entity Pickup Initialized as: 5.350.79  Seed: 4c2b19bc 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9e5e81e4 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 8774842a 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: e83fc574 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 219c66c9 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 53ccacf8 
+[INFO] - Entity Pickup Initialized as: 5.54.1  Seed: 50a10a35 
+[INFO] - item queue flush
+[INFO] - Adding trinket 27 (Whip Worm) to player 1 (以撒)
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 604427ae 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9908336e 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 781c96ab 
+[INFO] - Entity Pickup Initialized as: 5.300.20  Seed: 6461b8cd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0952e55b 
+[INFO] - Entity Pickup Initialized as: 5.300.3  Seed: d6decbc5 
+[INFO] - Entity Pickup Initialized as: 5.70.7  Seed: a13c2c68 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: da6269b6 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3522d16d 
+[INFO] - Entity Pickup Initialized as: 5.350.115  Seed: 96dd9903 
+[INFO] - Entity Pickup Initialized as: 5.70.4  Seed: 54e959b1 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: de543df6 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 495dabc6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 59b0c1a5 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 50fed5a9 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: dfd2f806 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 61583cf4 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4121abf5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2f42023c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: eb9a5ad9 
+[INFO] - Entity Pickup Initialized as: 5.300.22  Seed: 2631f73e 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 39240f48 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 6acede0b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: c001a87d 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 28a5d891 
+[INFO] - item queue flush
+[INFO] - Adding trinket 114 (Locust of Pestilence) to player 0 (以撒)
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 63a712ef 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 01d5d61b 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.350.114  Seed: fc04c83b 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a7fe5ffa 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 8ef2fa89 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2d84ce04 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: a94bce38 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 9fbf30af 
+[INFO] - Entity Pickup Initialized as: 5.350.64  Seed: dabd7702 
+[INFO] - Entity Pickup Initialized as: 5.300.20  Seed: 3f1f3bae 
+[INFO] - Entity Pickup Initialized as: 5.70.10  Seed: 6c7ff100 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 0cf8a070 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: e09f75ec 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 3aefd061 
+[INFO] - Entity Pickup Initialized as: 5.350.15  Seed: da762847 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: b4a27e98 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4307c512 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4fb0aad4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 28cb8f1c 
+[INFO] - Entity Pickup Initialized as: 5.70.13  Seed: f6b4c397 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7e473648 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 676f46a1 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: db8554d6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 7e04e562 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 4b870f5e 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: a14fc12a 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 7f8c8c46 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 6c738062 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1abf6873 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 6b1736e5 
+[INFO] - Entity Pickup Initialized as: 5.360.1  Seed: 8d699d7c 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: f11d5bab 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 2d67d21c 
+[INFO] - item queue flush
+[INFO] - Adding trinket 14 (Callus) to player 0 (以撒)
+[INFO] - Entity Pickup Initialized as: 5.360.1  Seed: 85793771 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: c3ca0022 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 823c3483 
+[INFO] - Entity Pickup Initialized as: 5.70.10  Seed: b2932af4 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 1117846e 
+[INFO] - Entity Pickup Initialized as: 5.350.78  Seed: 4375b738 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5a7c1810 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 568bd5bf 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 82a73b3a 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 613f0985 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 12d1a9db 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e9ca7361 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f242f9f8 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b721eb80 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 74edcec5 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 4ad68004 
+[INFO] - Entity Pickup Initialized as: 5.70.11  Seed: 72ec6272 
+[INFO] - Entity Pickup Initialized as: 5.10.11  Seed: 479aaa9f 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: c8cb95d4 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 7e0db80b 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 03c103a6 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5a374bf6 
+[INFO] - Entity Pickup Initialized as: 5.350.14  Seed: ba6479a0 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 7e926aae 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f491e40a 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 19bc1931 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 92fb5321 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 0afaa2b6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 859fee59 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bcf3f2dd 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 2bf7be63 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: c32d6e28 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: b22514ff 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 92541269 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b6f6c5c3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 30605904 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: f3b61dc3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7b8440f7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: ae9309ea 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 04690c0b 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 46182a65 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 065d0850 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 45d93538 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: fa53e162 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 6f767865 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 144c335b 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: bfabad33 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: f0908708 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 195da49b 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: fcd41d61 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 8c4e42f1 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 87459475 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: dfc5f7fe 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 64b5bb51 
+[INFO] - Entity Pickup Initialized as: 5.350.33  Seed: a947a2f5 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 77e3fc51 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 229074fd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a9dd05d8 
+[INFO] - item queue flush
+[INFO] - Adding trinket 71 (Bob's Bladder) to player 0 (以撒)
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: f68e5d47 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 984c9592 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 8bb2ad87 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 36738977 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 00eaa26d 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: b17f8085 
+[INFO] - Entity Pickup Initialized as: 5.300.22  Seed: 92f4af93 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 212279d0 
+[INFO] - Entity Pickup Initialized as: 5.300.4  Seed: ba5241cd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: ab0ef9fe 
+[INFO] - [Frame 1099] Starting room transition (type 3) 
+[INFO] - Room 14.1(Devil (Shop) (copy))
+[INFO] - SpawnRNG seed: 3342239842
+[INFO] - Spawn Entity with Type(33), Variant(0), Pos(120.00,200.00)
+[INFO] - Spawn Entity with Type(33), Variant(0), Pos(200.00,200.00)
+[INFO] - Spawn Entity with Type(33), Variant(0), Pos(440.00,200.00)
+[INFO] - Spawn Entity with Type(33), Variant(0), Pos(520.00,200.00)
+[INFO] - Entity Pickup Initialized as: 5.100.123  Seed: a013bff9 
+[INFO] - Spawn Entity with Type(5), Variant(150), Pos(280.00,320.00)
+[INFO] - Entity Pickup Initialized as: 5.100.122  Seed: 126bad69 
+[INFO] - Spawn Entity with Type(5), Variant(150), Pos(360.00,320.00)
+[INFO] - Lua mem usage: 6996 KB and 983 bytes
+[INFO] - Lua Debug: [PVP] 移除门 slot=2
+[INFO] - [Frame 1100] Starting room transition (type 3) 
+[INFO] - Lua Debug: [PVP] 检测到离场，已拉回竞技场 房间=84
+[INFO] - Room 1.2(Start Room)
+[INFO] - SpawnRNG seed: 853370295
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 9de3a8d8 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: a2fbc6bb 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 65ce87f0 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 74d470b6 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 62be4e5a 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e0657793 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: c2b3bae0 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 07b8cf21 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 1908ece0 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a6175382 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 054745bd 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 02891ed3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0facb8d5 
+[INFO] - Entity Pickup Initialized as: 5.20.3  Seed: 40408ea7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 47fa36fe 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: d16e660f 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 03db1c01 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: c2f12573 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ae2d820c 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 581efd12 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 325eeab5 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 73e51d40 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 072a5c45 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3e4ab8fc 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: a0ad93b4 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 031c1af0 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2dd632f5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 0fb268a9 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 450d69c0 
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: 98f79e86 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 08cb616c 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 709f74ad 
+[INFO] - Entity Pickup Initialized as: 5.350.9  Seed: 5956b310 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 9cd05aca 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ff0ba001 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: db89b9fd 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 38dadc4c 
+[INFO] - Entity Pickup Initialized as: 5.350.137  Seed: 901ffd57 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: c1700ee8 
+[INFO] - Entity Pickup Initialized as: 5.10.10  Seed: f7e547b2 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 043d5f57 
+[INFO] - Entity Pickup Initialized as: 5.70.9  Seed: 7190e26f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 86a4a686 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 4b5f3d97 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0d439f65 
+[INFO] - Entity Pickup Initialized as: 5.20.3  Seed: 7099f77c 
+[INFO] - Entity Pickup Initialized as: 5.70.9  Seed: d2d6ffea 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4e4ec39c 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9c8e754b 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 121d8851 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 79f97b47 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: f734ead4 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 6373c994 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0e270b43 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 5b922a4e 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 65c93745 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: c61bd78a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 897faa11 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 6d0a80b9 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 4c2cf69d 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: f62119ba 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 84c2f7a7 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: b6e11138 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5c987bff 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: a39b0799 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 42796cab 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: f1f7b984 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 99825057 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 6150b944 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a5165157 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 34866e73 
+[INFO] - Entity Pickup Initialized as: 5.300.15  Seed: e1a997d9 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f6e5f9f0 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 1512d2de 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 962a019d 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 85a30665 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 8fb1e637 
+[INFO] - Entity Pickup Initialized as: 5.350.101  Seed: b13651ff 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 15e7d703 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: ec03f5bf 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ded26e6a 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 4a1733a2 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 78a17585 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b9b880af 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a27982aa 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 5a25d191 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: d31f51a9 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 8a928c13 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 042dd415 
+[INFO] - Entity Pickup Initialized as: 5.300.4  Seed: 8bc29ebd 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 263c715f 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: 1bd070ba 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 7c338a13 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9f0ea8f9 
+[INFO] - Entity Pickup Initialized as: 5.70.13  Seed: 2c3113fa 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: cfe610cc 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 9140308b 
+[INFO] - Entity Pickup Initialized as: 5.300.9  Seed: ef8cf4f6 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 11e38591 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 9d2c49d2 
+[INFO] - Entity Pickup Initialized as: 5.350.93  Seed: 071f3867 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 8a48babd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 46bc3e2e 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 353a65d1 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: be6db675 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 77e81b16 
+[INFO] - Entity Pickup Initialized as: 5.300.9  Seed: 8a150886 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 97836b93 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 4d5b0486 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 06d441be 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: fffb2feb 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 31a1a048 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 519f7a3d 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 9d8f4c97 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: c9ac7ce3 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: 242ebed7 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: da19bb71 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 8335c405 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e46f343d 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 405bfaf4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: e9e74da1 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 40daab69 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7183bb9f 
+[INFO] - Entity Pickup Initialized as: 5.70.8  Seed: c37a6318 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: d82f4ae6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 4e6fde08 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: 59ca0579 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 43fcd8cf 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 6de4f617 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: 2896a917 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 3ee84af9 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 42c221ab 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b79f5aff 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 53366497 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3f804674 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 3a722830 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a91db767 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 534dc07a 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 0a11efd2 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 7f9dfba7 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: 9074807f 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: b3616cc4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9d2b6923 
+[INFO] - Entity Pickup Initialized as: 5.350.126  Seed: 97706415 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 646ac8ec 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 352a285a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 60ba0e75 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3f5df269 
+[INFO] - Entity Pickup Initialized as: 5.20.5  Seed: 1241afec 
+[INFO] - Entity Pickup Initialized as: 5.300.18  Seed: 97fdc81d 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 370a497e 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ab0bf817 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1744901e 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: ebd04bd6 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 2a31d944 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 6ff8e74f 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 30e0d81f 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 0595d885 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: ae3d49e5 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 723d3fd3 
+[INFO] - Entity Pickup Initialized as: 5.300.5  Seed: 481fe842 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 0fa06c34 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 90d3f85f 
+[INFO] - Entity Pickup Initialized as: 5.350.151  Seed: 9823edda 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 8039b108 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: f5aab70d 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: c969a7a5 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 61687d82 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0fbc136f 
+[INFO] - Entity Pickup Initialized as: 5.300.14  Seed: 88e83c77 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: a5b28907 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 90a952ff 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 4daad56e 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: aa29cf14 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4a808d76 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: d0096248 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: f682ae20 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 58c4db00 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 62cde2bd 
+[INFO] - Entity Pickup Initialized as: 5.350.12  Seed: 02a09852 
+[INFO] - Entity Pickup Initialized as: 5.300.1  Seed: aa1f9832 
+[INFO] - Entity Pickup Initialized as: 5.70.8  Seed: 33b427ca 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bbaf3e46 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ae304f71 
+[INFO] - Entity Pickup Initialized as: 5.10.5  Seed: 1a8e846f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: cbc046b0 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 2594412a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: bf8a9daa 
+[INFO] - Entity Pickup Initialized as: 5.70.10  Seed: 9732930d 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: dc51693e 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: a9e0b429 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 63915e6a 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 68337a96 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 39927502 
+[INFO] - Entity Pickup Initialized as: 5.300.22  Seed: 05896c5c 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: a666886a 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e5b106a6 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: c21a3653 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 23d92295 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 35892789 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: e5ce581f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 415a0502 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 9d4832ab 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7d840f0d 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: baeb6279 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4885aed2 
+[INFO] - Entity Pickup Initialized as: 5.350.11  Seed: d6ebfa74 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 957279ab 
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: 12c98b76 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: fe4e0595 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 69b98eec 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: bfe717ef 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bd05c293 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 32acaead 
+[INFO] - Entity Pickup Initialized as: 5.300.26  Seed: 7212ec1d 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 28b6c17b 
+[INFO] - Entity Pickup Initialized as: 5.10.6  Seed: 92442523 
+[INFO] - Entity Pickup Initialized as: 5.20.2  Seed: 03caf213 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1c44ba80 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0a64f09b 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 1321a920 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 44d3c11f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a8ac25d0 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 40c16ed4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bc80d406 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 450f5cfc 
+[INFO] - Entity Pickup Initialized as: 5.350.41  Seed: 1719349c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 169d90f0 
+[INFO] - Entity Pickup Initialized as: 5.350.20  Seed: 97ddcfe3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 085ae639 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 1cfc8b37 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 0334709d 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: ba5d54bc 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 87341d5c 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 67a7d0dc 
+[INFO] - Entity Pickup Initialized as: 5.350.144  Seed: 110582e9 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 40a6f21d 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7624af17 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 52f3e5a1 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: de979b0e 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bc4923d7 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 0e37b553 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 9cc517c7 
+[INFO] - Entity Pickup Initialized as: 5.350.79  Seed: 4c2b19bc 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9e5e81e4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: e83fc574 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 219c66c9 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 53ccacf8 
+[INFO] - Entity Pickup Initialized as: 5.54.1  Seed: 50a10a35 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 9908336e 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 781c96ab 
+[INFO] - Entity Pickup Initialized as: 5.300.20  Seed: 6461b8cd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0952e55b 
+[INFO] - Entity Pickup Initialized as: 5.300.3  Seed: d6decbc5 
+[INFO] - Entity Pickup Initialized as: 5.70.7  Seed: a13c2c68 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: da6269b6 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 3522d16d 
+[INFO] - Entity Pickup Initialized as: 5.350.115  Seed: 96dd9903 
+[INFO] - Entity Pickup Initialized as: 5.70.4  Seed: 54e959b1 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: de543df6 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 495dabc6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 59b0c1a5 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 50fed5a9 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: dfd2f806 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 61583cf4 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4121abf5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2f42023c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 39240f48 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 28a5d891 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 01d5d61b 
+[INFO] - Entity Pickup Initialized as: 5.350.114  Seed: fc04c83b 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a7fe5ffa 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 8ef2fa89 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2d84ce04 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 9fbf30af 
+[INFO] - Entity Pickup Initialized as: 5.350.64  Seed: dabd7702 
+[INFO] - Entity Pickup Initialized as: 5.300.20  Seed: 3f1f3bae 
+[INFO] - Entity Pickup Initialized as: 5.70.10  Seed: 6c7ff100 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 0cf8a070 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: e09f75ec 
+[INFO] - Entity Pickup Initialized as: 5.350.15  Seed: da762847 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4307c512 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4fb0aad4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 28cb8f1c 
+[INFO] - Entity Pickup Initialized as: 5.70.13  Seed: f6b4c397 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7e473648 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 676f46a1 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 4b870f5e 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: a14fc12a 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 6c738062 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1abf6873 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 6b1736e5 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: f11d5bab 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 2d67d21c 
+[INFO] - Entity Pickup Initialized as: 5.360.1  Seed: 85793771 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: c3ca0022 
+[INFO] - Entity Pickup Initialized as: 5.70.10  Seed: b2932af4 
+[INFO] - Entity Pickup Initialized as: 5.350.78  Seed: 4375b738 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5a7c1810 
+[INFO] - Entity Pickup Initialized as: 5.69.1  Seed: 568bd5bf 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 82a73b3a 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 12d1a9db 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e9ca7361 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f242f9f8 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b721eb80 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 74edcec5 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 4ad68004 
+[INFO] - Entity Pickup Initialized as: 5.70.11  Seed: 72ec6272 
+[INFO] - Entity Pickup Initialized as: 5.10.11  Seed: 479aaa9f 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: c8cb95d4 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 7e0db80b 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 03c103a6 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5a374bf6 
+[INFO] - Entity Pickup Initialized as: 5.350.14  Seed: ba6479a0 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 7e926aae 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f491e40a 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 19bc1931 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 92fb5321 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 0afaa2b6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 859fee59 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: bcf3f2dd 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 2bf7be63 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: c32d6e28 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: b22514ff 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 92541269 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b6f6c5c3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 30605904 
+[INFO] - Entity Pickup Initialized as: 5.10.3  Seed: f3b61dc3 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7b8440f7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: ae9309ea 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 04690c0b 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 46182a65 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 065d0850 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 45d93538 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: fa53e162 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 6f767865 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 144c335b 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: bfabad33 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: f0908708 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 195da49b 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: fcd41d61 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 8c4e42f1 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 87459475 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: dfc5f7fe 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 64b5bb51 
+[INFO] - Entity Pickup Initialized as: 5.350.33  Seed: a947a2f5 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 77e3fc51 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 229074fd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a9dd05d8 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: f68e5d47 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 984c9592 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 8bb2ad87 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 36738977 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 00eaa26d 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: b17f8085 
+[INFO] - Entity Pickup Initialized as: 5.300.22  Seed: 92f4af93 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 212279d0 
+[INFO] - Entity Pickup Initialized as: 5.300.4  Seed: ba5241cd 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: ab0ef9fe 
+[INFO] - Lua mem usage: 6996 KB and 983 bytes
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: b3fba2a7 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 68195a4a 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 198911ab 
+[INFO] - Lua Debug: [PVP] 移除门 slot=1
+[INFO] - [warn] no animation named Closed
+[INFO] - [warn] no animation named Closed
+[INFO] - Lua Debug: [PVP] 移除门 slot=2
+[INFO] - Lua Debug: [PVP] 移除门 slot=3
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 86b351d9 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 1daaffc6 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: f66ace69 
+[INFO] - Entity Pickup Initialized as: 5.70.10  Seed: bf39d6a8 
+[INFO] - Entity Pickup Initialized as: 5.300.1  Seed: 1e68920f 
+[INFO] - Total entity spawn time: 143 ms
+[INFO] - Total ANM2 loading time: 130 ms
+[INFO] - AnmCache memory usage: 3080964 bytes in 164 entries.
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: f8538090 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: be28cd0b 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 21267493 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: d560b825 
+[INFO] - Entity Pickup Initialized as: 5.300.1  Seed: 3647f81e 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ec604fa1 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 4dd55930 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 3d540c21 
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: caff5a5c 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: c606c32a 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e3f77651 
+[INFO] - Entity Pickup Initialized as: 5.70.6  Seed: 8ce40693 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 16abb854 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: f3fbf820 
+[INFO] - Entity Pickup Initialized as: 5.70.12  Seed: a5d905b5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 9c864f2b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 7753f7d4 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 83fc2e53 
+[INFO] - Entity Pickup Initialized as: 5.70.11  Seed: a2e7deb9 
+[INFO] - Entity Pickup Initialized as: 5.300.1  Seed: ffab959c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: dc60f37d 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 8b5fe198 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: a4ff0aef 
+[INFO] - Entity Pickup Initialized as: 5.70.11  Seed: 5c1e5e07 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 9e07feda 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 58f50542 
+[INFO] - Entity Pickup Initialized as: 5.350.69  Seed: da2da9dc 
+[INFO] - Entity Pickup Initialized as: 5.70.1  Seed: 1410c1a6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: b83172ec 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 3ec7bc29 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 1f1364f3 
+[INFO] - Entity Pickup Initialized as: 5.90.2  Seed: 5f4a86ec 
+[INFO] - Entity Pickup Initialized as: 5.60.1  Seed: fe334fe3 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 28f15c0b 
+[INFO] - Entity Pickup Initialized as: 5.350.96  Seed: 03b76975 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: fc85f1ad 
+[INFO] - Entity Pickup Initialized as: 5.350.125  Seed: 12411867 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2706e4c9 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 221727a8 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: d5534677 
+[INFO] - Entity Pickup Initialized as: 5.90.2  Seed: 13580268 
+[INFO] - Entity Pickup Initialized as: 5.300.33  Seed: af5da6b4 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 60bb492f 
+[INFO] - Entity Pickup Initialized as: 5.300.3  Seed: ad6e3795 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1263f657 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: a91bb995 
+[INFO] - Entity Pickup Initialized as: 5.70.12  Seed: ee5434e7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: cc693d66 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 6face254 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: c2ba610c 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4af3bf83 
+[INFO] - Entity Pickup Initialized as: 5.350.27  Seed: 413b09ed 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 67d4fd24 
+[INFO] - Lua Debug: [PVP] 心跳 阶段=FIGHT 玩家数=2 房间=84
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 1637ea7f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 867f7b4b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 61cf40e4 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: ba0c668a 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: c72c51e1 
+[INFO] - Entity Pickup Initialized as: 5.300.8  Seed: 262bedf8 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 8777ff2e 
+[INFO] - Entity Pickup Initialized as: 5.30.2  Seed: 259ec76b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 6004dc1f 
+[INFO] - Entity Pickup Initialized as: 5.300.22  Seed: ebf016bf 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a1d8d708 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: 4a4a8089 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: ea32c84b 
+[INFO] - Entity Pickup Initialized as: 5.350.149  Seed: d0f39368 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: 08d84984 
+[INFO] - Entity Pickup Initialized as: 5.300.23  Seed: 85cd9416 
+[INFO] - Entity Pickup Initialized as: 5.350.34  Seed: 37d3505b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: f35983fa 
+[INFO] - Entity Pickup Initialized as: 5.300.6  Seed: dbe1eed1 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: ee913e82 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7d7ab1f2 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a1e8c832 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: c7f69db4 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: deb02c9c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: e43cafcc 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 10e3de80 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 9e82b769 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5911c267 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 2b7ebae5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2eff2581 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 03a844dc 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2907b49f 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: bb2f7ac6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: fd20dea2 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 91215598 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1e99e3ab 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: e4f3e360 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 96a9bade 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 61da1a06 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 59fa4a6b 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 59c7c94f 
+[INFO] - Entity Pickup Initialized as: 5.350.51  Seed: edcedaed 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: e06561f7 
+[INFO] - Entity Pickup Initialized as: 5.300.26  Seed: 2c9c156d 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 04abefea 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2f7ec552 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 7415b393 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 2eff7ece 
+[INFO] - Entity Pickup Initialized as: 5.350.86  Seed: cd0b75b5 
+[INFO] - Entity Pickup Initialized as: 5.300.24  Seed: 7db8154e 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 2c46af02 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 5c320d97 
+[INFO] - item queue flush
+[INFO] - Adding trinket 15 (Lucky Rock) to player 1 (以撒)
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 6a236574 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 3271876a 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 8bac9ef5 
+[INFO] - Entity Pickup Initialized as: 5.70.13  Seed: 6d69e334 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2b86751c 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: a930dc09 
+[INFO] - Entity Pickup Initialized as: 5.350.15  Seed: b817828c 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: c291cd5b 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: a43d23ed 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 56f333d8 
+[INFO] - Entity Pickup Initialized as: 5.20.5  Seed: 98d445a6 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 1b9103d4 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: cb68e915 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 43407ee9 
+[INFO] - Entity Pickup Initialized as: 5.70.5  Seed: d33fef7c 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 7c7a650b 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a8026b74 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 5232aed3 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 6dcfff69 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: b52e952f 
+[INFO] - Entity Pickup Initialized as: 5.350.135  Seed: 6eb37700 
+[INFO] - Entity Pickup Initialized as: 5.40.2  Seed: 1b12e048 
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: c9ed2af2 
+[INFO] - Entity Pickup Initialized as: 5.10.1  Seed: 0857e7ad 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: d2ec3277 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: d9f633ec 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: f2df3211 
+[INFO] - Entity Pickup Initialized as: 5.40.3  Seed: 41861b6f 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: a7e6d6e2 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 980b3876 
+[INFO] - Queued Path music/Diptera Layer.ogg
+[INFO] - Queued Path music/Diptera Sonata(Basement).ogg
+[INFO] - Entity Pickup Initialized as: 5.10.2  Seed: ae8d37f7 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 2bb10806 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 80a2a677 
+[INFO] - Entity Pickup Initialized as: 5.300.23  Seed: 766d2598 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: b75d0774 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 0ce70237 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: d95cdbf5 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: 534dc29e 
+[INFO] - Entity Pickup Initialized as: 5.20.1  Seed: e5b199d7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 405cbbe7 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 6724b07f 
+[INFO] - Entity Pickup Initialized as: 5.40.1  Seed: 357eb506 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 4b9bb520 
+[INFO] - Entity Pickup Initialized as: 5.30.1  Seed: 94910723 
+[INFO] - Entity Pickup Initialized as: 5.50.1  Seed: 67d03e08 
+[INFO] - Total entity spawn time: 169 ms
+[INFO] - Total ANM2 loading time: 133 ms
+[INFO] - AnmCache memory usage: 3130832 bytes in 169 entries.
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - item queue flush
+[INFO] - Adding trinket 9 (Pulse Worm) to player 1 (以撒)
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Setting PersistentGameData ReadOnly to False
+[INFO] - CPU time spent on enemy queries: 0.00 seconds.
+[INFO] - Clearing player color assignments 
+[INFO] - Clearing player color assignment for color 0 
+[INFO] - Clearing player color assignment for color 1 
+[INFO] - Clearing player color assignment for color 2 
+[INFO] - Clearing player color assignment for color 3 
+[INFO] - Menu Manager preCrossfade
+[INFO] - Menu Manager Init
+[INFO] - Menu Title Init
+[INFO] - Menu Save Init
+[INFO] - Menu_Save Pre Prompt init
+[INFO] - Menu_Save loading slot drawings
+[INFO] - Loading PersistentData 1 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Reading chunk 1
+[INFO] - Reading Achievements
+[INFO] - Done Reading Achievements
+[INFO] - Reading chunk 2
+[INFO] - Reading Counters
+[INFO] - Done Reading Counters
+[INFO] - Reading chunk 3
+[INFO] - Reading Level Counters
+[INFO] - Done Reading Level Counters
+[INFO] - Reading chunk 4
+[INFO] - Reading Collectibles
+[INFO] - Done Reading Collectibles
+[INFO] - Reading chunk 5
+[INFO] - Reading Mini Bosses
+[INFO] - Done Reading Mini Bosses
+[INFO] - Reading chunk 6
+[INFO] - Reading Bosses
+[INFO] - Done Reading Bosses
+[INFO] - Reading chunk 7
+[INFO] - Reading Challenge Counters
+[INFO] - Done Reading Challenge Counters
+[INFO] - Reading chunk 8
+[INFO] - Reading Cutscene Counters
+[INFO] - Done Reading Cutscene Counters
+[INFO] - Reading chunk 9
+[INFO] - Reading GameSettings
+[INFO] - Done Reading GameSettings
+[INFO] - Reading chunk 10
+[INFO] - Reading Special Seed Counters
+[INFO] - Done Reading Special Seed Counters
+[INFO] - Reading chunk 11
+[INFO] - Reading Bestiary Counters
+[INFO] - Done Reading Bestiary Counters
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Loading GameState 1 from SteamCloud!
+[INFO] - GameState Version Loaded: 169
+[INFO] - Loading PersistentData 1 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Reading chunk 1
+[INFO] - Reading Achievements
+[INFO] - Done Reading Achievements
+[INFO] - Reading chunk 2
+[INFO] - Reading Counters
+[INFO] - Done Reading Counters
+[INFO] - Reading chunk 3
+[INFO] - Reading Level Counters
+[INFO] - Done Reading Level Counters
+[INFO] - Reading chunk 4
+[INFO] - Reading Collectibles
+[INFO] - Done Reading Collectibles
+[INFO] - Reading chunk 5
+[INFO] - Reading Mini Bosses
+[INFO] - Done Reading Mini Bosses
+[INFO] - Reading chunk 6
+[INFO] - Reading Bosses
+[INFO] - Done Reading Bosses
+[INFO] - Reading chunk 7
+[INFO] - Reading Challenge Counters
+[INFO] - Done Reading Challenge Counters
+[INFO] - Reading chunk 8
+[INFO] - Reading Cutscene Counters
+[INFO] - Done Reading Cutscene Counters
+[INFO] - Reading chunk 9
+[INFO] - Reading GameSettings
+[INFO] - Done Reading GameSettings
+[INFO] - Reading chunk 10
+[INFO] - Reading Special Seed Counters
+[INFO] - Done Reading Special Seed Counters
+[INFO] - Reading chunk 11
+[INFO] - Reading Bestiary Counters
+[INFO] - Done Reading Bestiary Counters
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Loading GameState 1 from SteamCloud!
+[INFO] - GameState Version Loaded: 169
+[INFO] - Loading PersistentData 2 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open rep+persistentgamedata2.dat.
+[INFO] - Trying to import AB+ Steam save.
+[INFO] - SteamCloud could not find or open Repentance save file rep_persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open AB+ save file abp_persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open AB save file ab_persistentgamedata2.dat.
+[INFO] - Starting with a clean save state.
+[INFO] - Cannot load GameState if PersistentData is missing!
+[INFO] - Loading PersistentData 2 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open rep+persistentgamedata2.dat.
+[INFO] - Trying to import AB+ Steam save.
+[INFO] - SteamCloud could not find or open Repentance save file rep_persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open AB+ save file abp_persistentgamedata2.dat.
+[INFO] - SteamCloud could not find or open AB save file ab_persistentgamedata2.dat.
+[INFO] - Starting with a clean save state.
+[INFO] - Cannot load GameState if PersistentData is missing!
+[INFO] - Loading PersistentData 3 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open rep+persistentgamedata3.dat.
+[INFO] - Trying to import AB+ Steam save.
+[INFO] - SteamCloud could not find or open Repentance save file rep_persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open AB+ save file abp_persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open AB save file ab_persistentgamedata3.dat.
+[INFO] - Starting with a clean save state.
+[INFO] - Cannot load GameState if PersistentData is missing!
+[INFO] - Loading PersistentData 3 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open rep+persistentgamedata3.dat.
+[INFO] - Trying to import AB+ Steam save.
+[INFO] - SteamCloud could not find or open Repentance save file rep_persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open AB+ save file abp_persistentgamedata3.dat.
+[INFO] - SteamCloud could not find or open AB save file ab_persistentgamedata3.dat.
+[INFO] - Starting with a clean save state.
+[INFO] - Cannot load GameState if PersistentData is missing!
+[INFO] - Loading PersistentData 1 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Reading chunk 1
+[INFO] - Reading Achievements
+[INFO] - Done Reading Achievements
+[INFO] - Reading chunk 2
+[INFO] - Reading Counters
+[INFO] - Done Reading Counters
+[INFO] - Reading chunk 3
+[INFO] - Reading Level Counters
+[INFO] - Done Reading Level Counters
+[INFO] - Reading chunk 4
+[INFO] - Reading Collectibles
+[INFO] - Done Reading Collectibles
+[INFO] - Reading chunk 5
+[INFO] - Reading Mini Bosses
+[INFO] - Done Reading Mini Bosses
+[INFO] - Reading chunk 6
+[INFO] - Reading Bosses
+[INFO] - Done Reading Bosses
+[INFO] - Reading chunk 7
+[INFO] - Reading Challenge Counters
+[INFO] - Done Reading Challenge Counters
+[INFO] - Reading chunk 8
+[INFO] - Reading Cutscene Counters
+[INFO] - Done Reading Cutscene Counters
+[INFO] - Reading chunk 9
+[INFO] - Reading GameSettings
+[INFO] - Done Reading GameSettings
+[INFO] - Reading chunk 10
+[INFO] - Reading Special Seed Counters
+[INFO] - Done Reading Special Seed Counters
+[INFO] - Reading chunk 11
+[INFO] - Reading Bestiary Counters
+[INFO] - Done Reading Bestiary Counters
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Loading GameState 1 from SteamCloud!
+[INFO] - GameState Version Loaded: 169
+[INFO] - Menu Game Init
+[INFO] - Menu Daily Init
+[INFO] - Menu Character Init
+[INFO] - Menu SpecialSeed Init
+[INFO] - Menu Challenge Init
+[INFO] - Menu Collection Init
+[INFO] - Menu Stats Init
+[INFO] - Menu Mods Init
+[INFO] - Menu Options Init
+[INFO] - Menu Controller Init
+[INFO] - Menu Key Config Init
+[INFO] - Menu Cutscene Init
+[INFO] - Menu Bestiary Init
+[INFO] - Menu Custom Challenge Init
+[INFO] - Menu Online Lobby Init
+[INFO] - Menu Friend Lobbies Init
+[INFO] - Menu Multiplayer Init
+[INFO] - Menu Options Online Init
+[INFO] - Menu Create Lobby Init
+[INFO] - Menu Online Awards Init
+[INFO] - Loading PersistentData 1 from SteamCloud!
+[INFO] - Loading PersistentGameData from Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Reading chunk 1
+[INFO] - Reading Achievements
+[INFO] - Done Reading Achievements
+[INFO] - Reading chunk 2
+[INFO] - Reading Counters
+[INFO] - Done Reading Counters
+[INFO] - Reading chunk 3
+[INFO] - Reading Level Counters
+[INFO] - Done Reading Level Counters
+[INFO] - Reading chunk 4
+[INFO] - Reading Collectibles
+[INFO] - Done Reading Collectibles
+[INFO] - Reading chunk 5
+[INFO] - Reading Mini Bosses
+[INFO] - Done Reading Mini Bosses
+[INFO] - Reading chunk 6
+[INFO] - Reading Bosses
+[INFO] - Done Reading Bosses
+[INFO] - Reading chunk 7
+[INFO] - Reading Challenge Counters
+[INFO] - Done Reading Challenge Counters
+[INFO] - Reading chunk 8
+[INFO] - Reading Cutscene Counters
+[INFO] - Done Reading Cutscene Counters
+[INFO] - Reading chunk 9
+[INFO] - Reading GameSettings
+[INFO] - Done Reading GameSettings
+[INFO] - Reading chunk 10
+[INFO] - Reading Special Seed Counters
+[INFO] - Done Reading Special Seed Counters
+[INFO] - Reading chunk 11
+[INFO] - Reading Bestiary Counters
+[INFO] - Done Reading Bestiary Counters
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - Loading GameState 1 from SteamCloud!
+[INFO] - GameState Version Loaded: 169
+[INFO] - Isaac is shutting down...
+[INFO] - Saving PersistentGameData to Steam Cloud: rep+persistentgamedata1.dat.
+[INFO] - CPU time spent on enemy queries: 0.00 seconds.
+[INFO] - delete 1357 rooms.
+[INFO] - delete 1220 rooms.
+[INFO] - delete 32 rooms.
+[INFO] - [warn] AnmCache: cannot remove reference to gfx/005.100_collectible.anm2
+[INFO] - Isaac has shut down successfully 
