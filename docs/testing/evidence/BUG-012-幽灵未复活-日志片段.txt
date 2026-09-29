@@ -1,0 +1,37 @@
+BUG-012 证据：对局重开但失败方仍是幽灵宝宝
+==========================================
+
+来源日志：C:\Users\14980\Documents\My Games\Binding of Isaac Repentance+\log.txt
+采集时间：2026-09-29 18:58（构建 c8b5f5c）
+修复构建：7c0ab28（待验证）
+
+一、日志序列
+
+[PVP] P1 变成幽灵 → true
+[PVP] 对局结束 P2_WIN → 阶段=RESULT 房间=84
+[PVP] 自动开始下一局 → 阶段=COUNTDOWN 房间=84
+[PVP] 血量变化 P1: 1 → 4
+[PVP] 血量变化 P2: 1 → 8
+[PVP] 对局结束 P2_WIN → 阶段=RESULT 房间=84
+[PVP] 自动开始下一局 → 阶段=COUNTDOWN 房间=84
+
+二、结论
+
+1. 「自动开始下一局」确实执行了，血量也被 SetFullHearts() 恢复到 4 / 8 半颗心。
+2. 但整段日志里**没有任何「复活」记录**，说明复活的调用没有让
+   player:IsCoopGhost() 变回 false —— 上一轮使用的 EntityPlayer.Revive() 对
+   co-op 幽灵无效。
+3. 更严重的是级联失败：幽灵在下一局仍然算「出局」，
+   于是新一局刚进入 FIGHT 就立刻再次判负（日志第二条「对局结束 P2_WIN」）。
+
+三、修复方向（构建 7c0ab28）
+
+官方文档里 EntityPlayer.Revive() 是一个没有任何说明的桩方法，实测无效，
+因此改为逐级尝试并把每一步的状态写进日志：
+
+  尝试#1  player:Revive()
+  尝试#2  player:ChangePlayerType(当前角色)   —— 让引擎重新初始化该玩家
+  尝试#3  reloadRoom()                        —— 重载房间，促使引擎重新评估玩家状态
+
+倒计时期间每秒重试一次并循环升级，每次尝试前后记录 ghost / dead / hp / soul，
+下一轮实测的日志会直接指出哪一种方式（如果有）能让幽灵恢复。
