@@ -40,4 +40,7 @@ export const CONFIG = {
 
   /** 水迹的判定半径。 */
   creepHitRadius: 24,
+
+  /** 连续多少帧处于幽灵状态才判定出局（容纳复活类道具与角色的复活过程）。 */
+  ghostConfirmFrames: 15,
 } as const;

@@ -5,7 +5,7 @@ import { name } from "../package.json";
 import { lockArena, placePlayersAtSpawnPoints, pullBackIfNeeded } from "./core/arena";
 import { createCharacterPolicy } from "./core/characterPolicy";
 import { checkPlayerVersusPlayer, resetCreepDamageCooldowns } from "./core/damage";
-import { vanillaHeartsBackend } from "./core/health";
+import { resetDefeatTracking, vanillaHeartsBackend } from "./core/health";
 import {
   clearSpawnedItems,
   resetItemSpawner,
@@ -36,8 +36,8 @@ let arenaGridIndex: number | undefined;
 let lastLoggedPhase: PvpPhase | undefined;
 let lastHitPointsP1 = -1;
 let lastHitPointsP2 = -1;
-let lastDefeatedP1 = false;
-let lastDefeatedP2 = false;
+let lastGhostP1 = false;
+let lastGhostP2 = false;
 let roundFrame = 0;
 let resultFrame = 0;
 
@@ -59,8 +59,8 @@ function postGameStarted(): void {
   arenaGridIndex = Game().GetLevel().GetCurrentRoomIndex();
   lastHitPointsP1 = -1;
   lastHitPointsP2 = -1;
-  lastDefeatedP1 = false;
-  lastDefeatedP2 = false;
+  lastGhostP1 = false;
+  lastGhostP2 = false;
   logPhaseIfChanged("开局");
 }
 
@@ -180,6 +180,7 @@ function startNextRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
   revokeGrantedItems(pair);
       resetItemSpawner();
       resetCreepDamageCooldowns();
+      resetDefeatTracking();
   tracker = createRoundTracker();
   roundFrame = 0;
   state = reduce(state, { kind: "restart" });
@@ -229,14 +230,14 @@ function logPlayerChanges(pair: readonly [EntityPlayer, EntityPlayer]): void {
     lastHitPointsP2 = hitPointsP2;
   }
 
-  const defeatedP1 = vanillaHeartsBackend.isDefeated(p1);
-  if (defeatedP1 !== lastDefeatedP1) {
-    Isaac.DebugString(`[PVP] 出局状态变化 P1: ${lastDefeatedP1} → ${defeatedP1}`);
-    lastDefeatedP1 = defeatedP1;
+  const ghostP1 = p1.IsCoopGhost();
+  if (ghostP1 !== lastGhostP1) {
+    Isaac.DebugString(`[PVP] P1 ${ghostP1 ? "变成幽灵" : "复活"} → ${ghostP1}`);
+    lastGhostP1 = ghostP1;
   }
-  const defeatedP2 = vanillaHeartsBackend.isDefeated(p2);
-  if (defeatedP2 !== lastDefeatedP2) {
-    Isaac.DebugString(`[PVP] 出局状态变化 P2: ${lastDefeatedP2} → ${defeatedP2}`);
-    lastDefeatedP2 = defeatedP2;
+  const ghostP2 = p2.IsCoopGhost();
+  if (ghostP2 !== lastGhostP2) {
+    Isaac.DebugString(`[PVP] P2 ${ghostP2 ? "变成幽灵" : "复活"} → ${ghostP2}`);
+    lastGhostP2 = ghostP2;
   }
 }
