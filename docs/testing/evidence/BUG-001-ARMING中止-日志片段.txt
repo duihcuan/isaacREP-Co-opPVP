@@ -1,0 +1,24 @@
+=== 关联缺陷：BUG-001（S2，整个模组失效）===
+=== 记录时间：2026-09-28 15:32 会话 ===
+=== 证据类型：诊断时记录的日志摘录 ===
+
+【重要说明】
+本片段是排查时从 log.txt 中摘录的内容，**原始 log.txt 已被 20:49 的下一次游戏会话覆盖，
+无法再取回原始文件**。这正说明了测试纪律"每次会话结束立即存证"的必要性。
+本摘录为真实内容，非事后编造，但缺少原始文件的前后上下文。
+
+--- 摘录内容 ---
+[INFO] - LOADED MOD e:\steamlibrary\steamapps\common\the binding of isaac rebirth/mods/co-oppvp/content/
+[INFO] - Running Lua Script: E:\...\mods\co-oppvp\main.lua
+[INFO] - Lua Debug: co-op-pvp initialized.
+[INFO] - Lua Debug: [PVP] 开局 → 阶段=ARMING 房间=84
+[INFO] - Lua Debug: [PVP] 玩家数不足 → 阶段=IDLE 房间=84
+
+--- 分析 ---
+1. 模组本身加载成功、回调正常触发（有 initialized 与开局行）。
+2. 开局瞬间只有 1 名玩家，旧代码把"玩家数不足"无差别当作对局中止，
+   于是 ARMING（本应等待 2P 加入的状态）被立刻打断并退回 IDLE。
+3. 重新进入 ARMING 只发生在开局回调里，因此 2P 之后加入时状态机已死，
+   表现为"模组完全没有反应"，与玩家操作无关。
+4. 修复：引入 shouldAbortRound()，仅 COUNTDOWN 与 FIGHT 才因人数不足中止；
+   修复版本 d49a9ee，并补充了 7 条单元测试。
