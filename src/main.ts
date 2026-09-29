@@ -1,5 +1,5 @@
 import { ModCallback } from "isaac-typescript-definitions";
-import { getPlayers, upgradeMod } from "isaacscript-common";
+import { getPlayers, reloadRoom, upgradeMod } from "isaacscript-common";
 
 import { name } from "../package.json";
 import { lockArena, placePlayersAtSpawnPoints, pullBackIfNeeded } from "./core/arena";
@@ -40,6 +40,8 @@ let lastGhostP1 = false;
 let lastGhostP2 = false;
 let roundFrame = 0;
 let resultFrame = 0;
+/** 每位玩家的复活尝试次数，键是玩家 Index，用于逐级升级复活手段。 */
+const reviveAttempts = new Map<int, number>();
 
 // This function is run when your mod first initializes.
 export function main(): void {
@@ -114,6 +116,10 @@ function postUpdate(): void {
       break;
     }
     case PvpPhase.COUNTDOWN: {
+      // 倒计时期间每秒重试一次复活，确保上一局的幽灵宝宝在开打前被救回来。
+      if (countdownFramesLeft % 30 === 0) {
+        restoreGhostPlayers(pair);
+      }
       lockArena();
       pullBackIfNeeded(arena, frame);
       placePlayersAtSpawnPoints(pair);
@@ -170,12 +176,8 @@ function postRender(): void {
 
 /** 结算画面结束后重置对局状态，自动开始下一局。 */
 function startNextRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
+  restoreGhostPlayers(pair);
   // 上一局被击杀的一方此时是幽灵宝宝，先复活再回满血。
-  for (const player of pair) {
-    if (player.IsCoopGhost()) {
-      player.Revive();
-    }
-  }
   vanillaHeartsBackend.restoreAll(pair);
   revokeGrantedItems(pair);
       resetItemSpawner();
@@ -185,6 +187,50 @@ function startNextRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
   roundFrame = 0;
   state = reduce(state, { kind: "restart" });
   logPhaseIfChanged("自动开始下一局");
+}
+
+/**
+ * 把上一局变成幽灵宝宝的玩家救回来。
+ *
+ * 引擎的 `EntityPlayer.Revive()` 在官方文档里没有任何说明，实测对 co-op 幽灵无效，
+ * 因此这里按「Revive → 重设角色类型 → 重载房间」的顺序逐级尝试，
+ * 并把每一次尝试前后的状态写进日志，便于下一轮实测直接定位哪种方式有效。
+ */
+function restoreGhostPlayers(pair: readonly [EntityPlayer, EntityPlayer]): void {
+  for (const player of pair) {
+    if (!player.IsCoopGhost()) {
+      reviveAttempts.set(player.Index, 0);
+      continue;
+    }
+
+    const attempt = reviveAttempts.get(player.Index) ?? 0;
+    const before = describeVitality(player);
+    const output = describeVitality;
+    reviveAttempts.set(player.Index, attempt + 1);
+
+    // 每次只尝试一种方式，下一轮重试时再升级手段，避免同一帧里反复重设玩家状态。
+    const step = attempt % 3;
+    if (step === 0) {
+      player.Revive();
+      Isaac.DebugString(
+        `[PVP] 复活尝试#1 Revive idx=${player.Index} 前=${before} 后=${output(player)}`,
+      );
+    } else if (step === 1) {
+      player.ChangePlayerType(player.GetPlayerType());
+      Isaac.DebugString(
+        `[PVP] 复活尝试#2 ChangePlayerType idx=${player.Index} 前=${before} 后=${output(player)}`,
+      );
+    } else {
+      reloadRoom();
+      Isaac.DebugString(
+        `[PVP] 复活尝试#3 reloadRoom idx=${player.Index} 前=${before} 后=${output(player)}`,
+      );
+    }
+  }
+}
+
+function describeVitality(player: EntityPlayer): string {
+  return `ghost=${player.IsCoopGhost()} dead=${player.IsDead()} hp=${player.GetHearts()} soul=${player.GetSoulHearts()}`;
 }
 
 /**
