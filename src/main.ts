@@ -1,4 +1,9 @@
-import { ModCallback } from "isaac-typescript-definitions";
+import {
+  ButtonAction,
+  InputHook,
+  ModCallback,
+  PickupVariant,
+} from "isaac-typescript-definitions";
 import { getPlayers, reloadRoom, upgradeMod } from "isaacscript-common";
 
 import { name } from "../package.json";
@@ -15,6 +20,13 @@ import {
 } from "./core/items";
 import { createRoundTracker, evaluateRound } from "./core/result";
 import {
+  addResource,
+  getResources,
+  resetResources,
+  trySpendResource,
+} from "./core/resources";
+import type { ResourceKind } from "./core/resources";
+import {
   PvpPhase,
   createInitialState,
   isRoundActive,
@@ -28,6 +40,15 @@ import { renderCountdown, showResult } from "./ui/hud";
 
 const mod = upgradeMod(RegisterMod(name, 1));
 const characterPolicy = createCharacterPolicy(ALLOWED_PLAYER_TYPES);
+
+/** 拾取物变体到资源种类的映射。 */
+const pickupToResource = new Map<int, ResourceKind>();
+pickupToResource.set(PickupVariant.COIN, "coin");
+pickupToResource.set(PickupVariant.KEY, "key");
+pickupToResource.set(PickupVariant.BOMB, "bomb");
+
+/** 拾取去重：同一帧附近对同一个拾取物只记一次。 */
+const lastPickupFrame = new Map<int, number>();
 
 let state: PvpState = createInitialState();
 let tracker = createRoundTracker();
@@ -51,6 +72,9 @@ export function main(): void {
   mod.AddCallback(ModCallback.POST_RENDER, postRender);
   // 官方文档里叫 MC_PRE_SPAWN_CLEAN_AWARD，TypeScript 枚举名是 PRE_SPAWN_CLEAR_AWARD。
   mod.AddCallback(ModCallback.PRE_SPAWN_CLEAR_AWARD, preSpawnCleanAward);
+  mod.AddCallback(ModCallback.PRE_PICKUP_COLLISION, prePickupCollision);
+  mod.AddCallback(ModCallback.POST_BOMB_INIT, postBombInit);
+  mod.AddCallback(ModCallback.INPUT_ACTION, inputAction);
 
   Isaac.DebugString(`${name} initialized.`);
 }
@@ -112,6 +136,7 @@ function postUpdate(): void {
       }
       roundFrame = 0;
       resetItemSpawner();
+      resetResourcesForRound(pair);
       state = reduce(state, { kind: "players-ready" });
       logPhaseIfChanged("双方就位");
       break;
@@ -176,6 +201,9 @@ function postRender(): void {
   if (state.phase === PvpPhase.COUNTDOWN) {
     renderCountdown(countdownFramesLeft);
   }
+  if (state.phase === PvpPhase.FIGHT) {
+    renderResources();
+  }
 }
 
 /** 结算画面结束后重置对局状态，自动开始下一局。 */
@@ -184,6 +212,7 @@ function startNextRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
   // 上一局被击杀的一方此时是幽灵宝宝，先复活再回满血。
   vanillaHeartsBackend.restoreAll(pair);
   resetItemSpawner();
+  resetResourcesForRound(pair);
   resetCreepDamageCooldowns();
   resetDefeatTracking();
   tracker = createRoundTracker();
@@ -234,6 +263,97 @@ function restoreGhostPlayers(pair: readonly [EntityPlayer, EntityPlayer]): void 
 
 function describeVitality(player: EntityPlayer): string {
   return `ghost=${player.IsCoopGhost()} dead=${player.IsDead()} hp=${player.GetHearts()} soul=${player.GetSoulHearts()}`;
+}
+
+/**
+ * 记录是谁捡到了金币 / 钥匙 / 炸弹。
+ *
+ * 引擎的共享计数器照常增加（HUD 与花费入口继续可用），这里只额外记一份到拾取者名下。
+ */
+function prePickupCollision(pickup: EntityPickup, collider: Entity): boolean | undefined {
+  const kind = pickupToResource.get(pickup.Variant);
+  if (kind === undefined) {
+    return undefined;
+  }
+  const player = collider.ToPlayer();
+  if (player === undefined) {
+    return undefined;
+  }
+
+  const lastFrame = lastPickupFrame.get(pickup.Index);
+  if (lastFrame !== undefined && frame - lastFrame <= 2) {
+    return undefined;
+  }
+  lastPickupFrame.set(pickup.Index, frame);
+
+  const total = addResource(player.Index, kind, 1);
+  Isaac.DebugString(`[PVP] 玩家${player.Index + 1} 拾取 ${kind}，现持有 ${total}`);
+  // 返回 undefined 表示不拦截，让引擎照常完成拾取。
+  return undefined;
+}
+
+/** 放置炸弹时从放置者自己的库存里扣除。 */
+function postBombInit(bomb: EntityBomb): void {
+  const spawner = bomb.SpawnerEntity;
+  if (spawner === undefined) {
+    return;
+  }
+  const player = spawner.ToPlayer();
+  if (player === undefined) {
+    return;
+  }
+
+  if (!trySpendResource(player.Index, "bomb", 1)) {
+    // 正常情况下 INPUT_ACTION 已经拦住，这里兜底避免白拿一颗炸弹。
+    bomb.Remove();
+    Isaac.DebugString(`[PVP] 玩家${player.Index + 1} 没有炸弹，已取消这次放置`);
+    return;
+  }
+  const remaining = getResources(player.Index).bomb;
+  Isaac.DebugString(`[PVP] 玩家${player.Index + 1} 放置炸弹，剩余 ${remaining}`);
+}
+
+/** 自己没有炸弹时屏蔽放弹输入。 */
+function inputAction(
+  entity: Entity | undefined,
+  inputHook: InputHook,
+  buttonAction: ButtonAction,
+): boolean | undefined {
+  if (buttonAction !== ButtonAction.BOMB) {
+    return undefined;
+  }
+  if (inputHook !== InputHook.IS_ACTION_PRESSED && inputHook !== InputHook.IS_ACTION_TRIGGERED) {
+    return undefined;
+  }
+  if (entity === undefined) {
+    return undefined;
+  }
+  const player = entity.ToPlayer();
+  if (player === undefined) {
+    return undefined;
+  }
+  if (getResources(player.Index).bomb > 0) {
+    return undefined;
+  }
+  return false;
+}
+
+/** 每局开始清空双方的资源，并让引擎的共享计数器与之保持一致。 */
+function resetResourcesForRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
+  for (const player of pair) {
+    resetResources(player.Index);
+    player.AddCoins(-player.GetNumCoins());
+    player.AddKeys(-player.GetNumKeys());
+    player.AddBombs(-player.GetNumBombs());
+  }
+}
+
+/** 在屏幕下方显示双方各自的资源数量（原版 HUD 显示的是共享总数）。 */
+function renderResources(): void {
+  const p1 = getResources(0);
+  const p2 = getResources(1);
+  Isaac.RenderText(`P1  coin ${p1.coin}  key ${p1.key}  bomb ${p1.bomb}`, 24, 400, 1, 1, 1, 1);
+  Isaac.RenderText(`P2  coin ${p2.coin}  key ${p2.key}  bomb ${p2.bomb}`, 24, 416, 1, 1, 1, 1);
 }
 
 /**
