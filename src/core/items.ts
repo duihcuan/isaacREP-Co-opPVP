@@ -4,13 +4,17 @@ import { getPlayers, spawnCollectible } from "isaacscript-common";
 import { getBlacklistedCollectibles } from "../data/blacklist";
 import { CONFIG } from "../data/config";
 import { shouldSpawnItem } from "./itemSpawn";
+import { itemsStillHeld } from "./revoke";
 
 const POSITION_ATTEMPTS = 20;
 const MIN_DISTANCE_FROM_PLAYER = 80;
 
 let lastSpawnFrame = -1;
 let spawnedItems: Entity[] = [];
+/** 本局由竞技场发放出去的道具。 */
 let grantedCollectibles: number[] = [];
+/** 上一局发放、尚未成功收回的道具。 */
+let pendingRevoke: number[] = [];
 
 export function resetItemSpawner(): void {
   lastSpawnFrame = -1;
@@ -27,20 +31,55 @@ export function clearSpawnedItems(): void {
   spawnedItems = [];
 }
 
+/** 对局结束时把本局发放的道具登记为待收回。 */
+export function markGrantedItemsForRevoke(): void {
+  if (grantedCollectibles.length === 0) {
+    return;
+  }
+  pendingRevoke = [...pendingRevoke, ...grantedCollectibles];
+  grantedCollectibles = [];
+  Isaac.DebugString(
+    `[PVP] 登记待收回道具 ${pendingRevoke.length} 件: ${pendingRevoke.join(",")}`,
+  );
+}
+
 /**
- * 收回本局由竞技场发放给双方的道具，避免上一局的收获带进下一局。
+ * 收回待处理的道具。只回收竞技场发放过的道具，不碰角色自带的初始道具。
  *
- * 只移除本局刷新过的道具，不碰角色自带的初始道具。
+ * 必须每帧重试：结算时失败方往往还是幽灵宝宝，幽灵身上的道具无法可靠移除，
+ * 而且引擎在该玩家复活时会把道具一起带回来。只有当所有玩家都不是幽灵、
+ * 且身上确实不再持有这些道具时，才能把清单清空。
  */
 export function revokeGrantedItems(players: readonly EntityPlayer[]): void {
+  if (pendingRevoke.length === 0) {
+    return;
+  }
+
   for (const player of players) {
-    for (const collectible of grantedCollectibles) {
+    if (player.IsCoopGhost()) {
+      continue;
+    }
+    for (const collectible of pendingRevoke) {
       if (player.HasCollectible(collectible)) {
         player.RemoveCollectible(collectible);
       }
     }
   }
-  grantedCollectibles = [];
+
+  const anyGhost = players.some((player) => player.IsCoopGhost());
+  const stillHeld: number[] = [];
+  for (const player of players) {
+    for (const collectible of pendingRevoke) {
+      if (player.HasCollectible(collectible) && !stillHeld.includes(collectible)) {
+        stillHeld.push(collectible);
+      }
+    }
+  }
+
+  pendingRevoke = [...itemsStillHeld(pendingRevoke, stillHeld)];
+  if (pendingRevoke.length === 0 && !anyGhost) {
+    Isaac.DebugString("[PVP] 上一局道具已全部收回");
+  }
 }
 
 /** 按节奏在房间里刷新一个随机被动道具底座，先到先得。 */

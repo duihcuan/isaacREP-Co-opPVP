@@ -8,6 +8,7 @@ import { checkPlayerVersusPlayer, resetCreepDamageCooldowns } from "./core/damag
 import { resetDefeatTracking, vanillaHeartsBackend } from "./core/health";
 import {
   clearSpawnedItems,
+  markGrantedItemsForRevoke,
   resetItemSpawner,
   revokeGrantedItems,
   updateItemSpawner,
@@ -120,6 +121,7 @@ function postUpdate(): void {
       if (countdownFramesLeft % 30 === 0) {
         restoreGhostPlayers(pair);
       }
+      revokeGrantedItems(pair);
       lockArena();
       pullBackIfNeeded(arena, frame);
       placePlayersAtSpawnPoints(pair);
@@ -149,6 +151,7 @@ function postUpdate(): void {
       if (evaluated.result !== undefined) {
         state = reduce(state, { kind: "round-finished", result: evaluated.result });
         resultFrame = frame;
+        markGrantedItemsForRevoke();
         clearSpawnedItems();
         showResult(evaluated.result);
         logPhaseIfChanged(`对局结束 ${evaluated.result}`);
@@ -156,6 +159,7 @@ function postUpdate(): void {
       break;
     }
     case PvpPhase.RESULT: {
+      revokeGrantedItems(pair);
       lockArena();
       if (frame - resultFrame >= CONFIG.resultRestartDelayFrames) {
         startNextRound(pair);
@@ -179,10 +183,9 @@ function startNextRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
   restoreGhostPlayers(pair);
   // 上一局被击杀的一方此时是幽灵宝宝，先复活再回满血。
   vanillaHeartsBackend.restoreAll(pair);
-  revokeGrantedItems(pair);
-      resetItemSpawner();
-      resetCreepDamageCooldowns();
-      resetDefeatTracking();
+  resetItemSpawner();
+  resetCreepDamageCooldowns();
+  resetDefeatTracking();
   tracker = createRoundTracker();
   roundFrame = 0;
   state = reduce(state, { kind: "restart" });
