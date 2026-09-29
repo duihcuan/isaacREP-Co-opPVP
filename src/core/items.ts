@@ -68,7 +68,17 @@ export function revokeGrantedItems(players: readonly EntityPlayer[], frame: numb
     }
   }
 
+  // 只要有玩家处于幽灵状态，就绝不能判定"已收回"。
+  // 幽灵身上往往根本不报告持有这些道具，而引擎会在复活时把它们恢复回来；
+  // 一旦此时把清单缩小成空，复活后就再也没有机会清理了（这正是道具会永久残留的原因）。
   const anyGhost = players.some((player) => player.IsCoopGhost());
+  if (anyGhost) {
+    if (frame % 30 === 0) {
+      Isaac.DebugString(`[PVP] 道具收回中（等待复活）待收回=${pendingRevoke.length}`);
+    }
+    return;
+  }
+
   const stillHeld: number[] = [];
   for (const player of players) {
     for (const collectible of pendingRevoke) {
@@ -79,7 +89,7 @@ export function revokeGrantedItems(players: readonly EntityPlayer[], frame: numb
   }
 
   pendingRevoke = [...itemsStillHeld(pendingRevoke, stillHeld)];
-  if (pendingRevoke.length === 0 && !anyGhost) {
+  if (pendingRevoke.length === 0) {
     Isaac.DebugString("[PVP] 上一局道具已全部收回");
     return;
   }
