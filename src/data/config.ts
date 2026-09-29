@@ -16,4 +16,16 @@ export const CONFIG = {
 
   /** 诊断心跳的间隔帧数。 */
   heartbeatFrames: 90,
+
+  /** 对局开始后首次刷新道具的延迟（帧）。 */
+  itemSpawnFirstDelayFrames: 300,
+
+  /** 道具刷新间隔（帧）。 */
+  itemSpawnIntervalFrames: 540,
+
+  /** 场上同时存在的道具上限。 */
+  maxItemsOnField: 2,
+
+  /** 单次刷新最多抽取几次道具池。 */
+  itemPickMaxAttempts: 20,
 } as const;
