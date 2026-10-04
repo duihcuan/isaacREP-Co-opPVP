@@ -39,8 +39,12 @@ const lastCreepDamageFrame = new Map<int, number>();
 /** 穿透泪弹已经命中过的玩家，键是泪弹 Index，值是玩家 Index 集合。 */
 const piercingHits = new Map<int, Set<int>>();
 
+/** 每位玩家上次被神性光环扣血的帧号，键是玩家 Index。 */
+const lastAuraDamageFrame = new Map<int, number>();
+
 export function resetCreepDamageCooldowns(): void {
   lastCreepDamageFrame.clear();
+  lastAuraDamageFrame.clear();
 }
 
 export function resetPiercingHits(): void {
@@ -74,6 +78,10 @@ export function checkPlayerVersusPlayer(
     if (owner === undefined) {
       continue;
     }
+
+    // 追踪类：每帧把速度朝对手修正一点（引擎的追踪只认敌人，PVP 里认不到玩家）。
+    steerHomingTear(entity, owner, pairs);
+
     for (const [attacker, target] of pairs) {
       if (owner.Index !== attacker.Index) {
         continue;
@@ -90,15 +98,19 @@ export function checkPlayerVersusPlayer(
       rememberHit(entity, target);
       hit = true;
 
-      if (!isPiercing(entity)) {
+      // 穿透与弹跳都不消耗泪弹：穿透继续飞，弹跳则把速度反射回去。
+      if (isBounce(entity)) {
+        reflectVelocity(entity, target);
+      } else if (!isPiercing(entity)) {
         entity.Remove();
       }
       break;
     }
   }
 
+  const auraHit = checkGodheadAura(pairs, frame, health);
   const creepHit = checkCreepDamage(pairs, frame, health);
-  return hit || creepHit;
+  return hit || auraHit || creepHit;
 }
 
 /**
@@ -129,6 +141,57 @@ function isPiercing(entity: Entity): boolean {
     return false;
   }
   return tear.HasTearFlags(TearFlag.PIERCING);
+}
+
+function isBounce(entity: Entity): boolean {
+  const tear = entity.ToTear();
+  if (tear === undefined) {
+    return false;
+  }
+  return tear.HasTearFlags(TearFlag.BOUNCE);
+}
+
+function isHoming(entity: Entity): boolean {
+  const tear = entity.ToTear();
+  if (tear === undefined) {
+    return false;
+  }
+  return tear.HasTearFlags(TearFlag.HOMING);
+}
+
+/** 把弹跳类泪弹的速度沿"目标到自身"的方向反射，让它离开对手继续飞。 */
+function reflectVelocity(entity: Entity, target: EntityPlayer): void {
+  const dx = entity.Position.X - target.Position.X;
+  const dy = entity.Position.Y - target.Position.Y;
+  const distance = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+  const speed = entity.Velocity.Length();
+  entity.Velocity = Vector((dx / distance) * speed, (dy / distance) * speed);
+}
+
+/** 追踪类泪弹朝对手缓慢修正速度。 */
+function steerHomingTear(
+  entity: Entity,
+  owner: EntityPlayer,
+  pairs: readonly (readonly [EntityPlayer, EntityPlayer])[],
+): void {
+  if (!isHoming(entity)) {
+    return;
+  }
+  for (const [attacker, target] of pairs) {
+    if (owner.Index !== attacker.Index) {
+      continue;
+    }
+    const dx = target.Position.X - entity.Position.X;
+    const dy = target.Position.Y - entity.Position.Y;
+    const distance = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+    const speed = entity.Velocity.Length();
+    const steer = CONFIG.homingSteerStrength;
+    entity.Velocity = Vector(
+      entity.Velocity.X * (1 - steer) + (dx / distance) * speed * steer,
+      entity.Velocity.Y * (1 - steer) + (dy / distance) * speed * steer,
+    );
+    return;
+  }
 }
 
 function hasAlreadyHit(entity: Entity, target: EntityPlayer): boolean {
@@ -188,10 +251,104 @@ function applyTearEffects(
     health.applyDamage(target, CONFIG.jacobsLadderBonusHalfHearts, source);
   }
 
+  // 天堂光柱一类：原版会在命中点落下一道光柱，PVP 里等效为一次追加伤害。
+  if (tear.HasTearFlags(TearFlag.LIGHT_FROM_HEAVEN)) {
+    health.applyDamage(target, CONFIG.lightBeamBonusHalfHearts, source);
+  }
+
   // 击退类：把对手沿受力方向推开。
   if (tear.HasTearFlags(TearFlag.KNOCKBACK)) {
     applyKnockback(target, attacker);
   }
+
+  // 分裂类（寄生虫一类）：命中后朝原方向弹出几颗更小的泪弹。
+  if (tear.HasTearFlags(TearFlag.SPLIT)) {
+    spawnSplitTears(entity, attacker);
+  }
+
+  // 神秘液体一类：命中点留下一摊伤害性水迹（由水迹判定接手，对对手持续扣血）。
+  if (tear.HasTearFlags(TearFlag.MYSTERIOUS_LIQUID_CREEP)) {
+    spawnDamagingCreep(target.Position, attacker);
+  }
+}
+
+/** 命中后弹出的分裂小泪弹，归属仍是攻击者，因此同样能命中对手。 */
+function spawnSplitTears(entity: Entity, attacker: EntityPlayer): void {
+  const velocity = entity.Velocity;
+  const baseAngle = Math.atan2(velocity.Y, velocity.X);
+  for (let index = 0; index < CONFIG.splitChildCount; index++) {
+    const offset = (index - (CONFIG.splitChildCount - 1) / 2) * 0.35;
+    const angle = baseAngle + offset;
+    Isaac.Spawn(
+      EntityType.TEAR,
+      0,
+      0,
+      entity.Position,
+      Vector(
+        Math.cos(angle) * CONFIG.splitChildSpeed,
+        Math.sin(angle) * CONFIG.splitChildSpeed,
+      ),
+      attacker,
+    );
+  }
+}
+
+/** 在指定位置留下一摊伤害性水迹，归属攻击者。 */
+function spawnDamagingCreep(position: Vector, attacker: EntityPlayer): void {
+  Isaac.Spawn(
+    EntityType.EFFECT,
+    EffectVariant.PLAYER_CREEP_GREEN,
+    0,
+    position,
+    Vector(0, 0),
+    attacker,
+  );
+}
+
+/**
+ * 神性光环：带 GLOW 旗标的泪弹周围会持续伤害对手。
+ *
+ * 原版光环只作用于敌人，PVP 里改成按冷却节奏对靠近的对手扣血（与水迹同一套思路）。
+ */
+function checkGodheadAura(
+  pairs: readonly (readonly [EntityPlayer, EntityPlayer])[],
+  frame: number,
+  health: HealthBackend,
+): boolean {
+  let hit = false;
+  for (const entity of Isaac.GetRoomEntities()) {
+    if (entity.Type !== EntityType.TEAR) {
+      continue;
+    }
+    const tear = entity.ToTear();
+    if (tear === undefined || !tear.HasTearFlags(TearFlag.GLOW)) {
+      continue;
+    }
+    const owner = resolveOwner(entity);
+    if (owner === undefined) {
+      continue;
+    }
+    for (const [attacker, target] of pairs) {
+      if (owner.Index !== attacker.Index) {
+        continue;
+      }
+      const distance = entity.Position.Distance(target.Position);
+      if (distance > CONFIG.auraRadius + target.Size) {
+        continue;
+      }
+      const lastDamageFrame = lastAuraDamageFrame.get(target.Index);
+      if (
+        lastDamageFrame !== undefined &&
+        !shouldApplyCreepDamage(frame, lastDamageFrame, CONFIG.auraDamageIntervalFrames)
+      ) {
+        continue;
+      }
+      lastAuraDamageFrame.set(target.Index, frame);
+      health.applyDamage(target, CONFIG.auraDamageHalfHearts, EntityRef(attacker));
+      hit = true;
+    }
+  }
+  return hit;
 }
 
 function addStatus(

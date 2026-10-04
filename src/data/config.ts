@@ -61,4 +61,21 @@ export const CONFIG = {
 
   /** 带击退标记的泪弹命中时推开对手的速度。 */
   tearKnockbackForce: 6,
+
+  /** 分裂类泪弹命中后产生的小泪弹数量与初速。 */
+  splitChildCount: 2,
+  splitChildSpeed: 6,
+
+  /** 追踪类泪弹每帧朝对手修正速度的比例。 */
+  homingSteerStrength: 0.25,
+
+  /** 神性光环的判定半径。 */
+  auraRadius: 42,
+
+  /** 神性光环的扣血冷却与单次伤害（半颗心）。 */
+  auraDamageIntervalFrames: 30,
+  auraDamageHalfHearts: 1,
+
+  /** 天堂光柱类命中时的追加伤害（半颗心）。 */
+  lightBeamBonusHalfHearts: 1,
 } as const;
