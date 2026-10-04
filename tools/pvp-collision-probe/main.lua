@@ -1,14 +1,19 @@
--- PVP 碰撞类可行性探针（一次性实验，不属于正式模组）
+-- PVP 碰撞类可行性探针 v2（一次性实验，不属于正式模组）
 --
--- 目的：验证「把玩家发射的攻击实体改成会与玩家碰撞」之后，引擎是否会自己判定
--- 玩家互相受伤，从而取代现在手写的圆碰撞 + 直接调用伤害接口的旁路。
+-- 目的：验证「把玩家发射的泪弹/投射物/激光的碰撞类改成会与玩家碰撞」之后，
+-- 引擎是否会自己判定玩家互相受伤，从而取代手写圆碰撞 + 直接调伤害的旁路。
+--
+-- v1 用 MC_POST_TEAR_UPDATE 找玩家泪弹，实测一条日志都没产生，
+-- 因此 v2 改为**每帧扫描房间实体**（这条路径在正式模组里已被证明可用），
+-- 同时保留各回调的「首次触发」日志，用来判断回调本身是否有效。
 --
 -- 操作：
---   F9  开关「碰撞类改写」（默认关闭，便于 A/B 对比）
---   F10 在 ALL(4) / PLAYEROBJECTS(2) / PLAYERONLY(1) 之间切换改写目标
---   F11 打印当前状态与统计
+--   F9  开关碰撞类改写
+--   F10 在 ALL(4) / PLAYEROBJECTS(2) / PLAYERONLY(1) 之间切换
+--   F11 打印统计
+--   F12 立即打印房间现场快照
 --
--- 所有输出以 [PROBE-CC] 开头，方便在 log.txt 里搜索。
+-- 全部输出以 [PROBE-CC] 开头。
 
 local LOG_PREFIX = "[PROBE-CC]"
 local mod = RegisterMod("PVP Collision Probe", 1)
@@ -17,12 +22,20 @@ local ECC_PLAYERONLY = 1
 local ECC_PLAYEROBJECTS = 2
 local ECC_ALL = 4
 
+local ATTACK_TYPES = {}
+ATTACK_TYPES[EntityType.ENTITY_TEAR] = true
+ATTACK_TYPES[EntityType.ENTITY_PROJECTILE] = true
+ATTACK_TYPES[EntityType.ENTITY_LASER] = true
+ATTACK_TYPES[EntityType.ENTITY_KNIFE] = true
+
 local enabled = false
 local mode = ECC_ALL
+local frameCounter = 0
+local lastApplied = 0
 local tearHitsOnPlayer = 0
 local playerDamagedByAttack = 0
 local selfDamaged = 0
-local sawPlayerTear = false
+local seenCallback = {}
 
 local function log(message)
   Isaac.DebugString(LOG_PREFIX .. " " .. message)
@@ -37,7 +50,6 @@ local function describe(entity)
   end
   return "Type=" .. tostring(entity.Type)
     .. " Variant=" .. tostring(entity.Variant)
-    .. " SubType=" .. tostring(entity.SubType)
     .. " idx=" .. tostring(entity.Index)
 end
 
@@ -48,7 +60,14 @@ local function describeRef(ref)
   return describe(ref.Entity)
 end
 
--- 判断一个伤害来源是否属于「玩家的攻击」（玩家本人或其发射物）。
+-- 记录某个回调是否真的被触发过（用于判断回调本身有没有效）。
+local function markCallback(name)
+  if not seenCallback[name] then
+    seenCallback[name] = true
+    log("回调首次触发：" .. name)
+  end
+end
+
 local function isFromPlayerAttack(entity)
   if entity == nil then
     return false
@@ -63,54 +82,71 @@ local function isFromPlayerAttack(entity)
   return false
 end
 
--- 把玩家发射的泪弹 / 投射物 / 激光的碰撞类改成「会与玩家碰撞」。
-local function applyCollisionClass(entity)
-  local spawner = entity.SpawnerEntity
-  if spawner == nil or spawner:ToPlayer() == nil then
-    return
+-- 打印房间里的实体清单，用来确认「到底有没有玩家泪弹、它们的生成者是谁」。
+local function dumpRoomSnapshot(tag)
+  local entities = Isaac.GetRoomEntities()
+  log("现场快照(" .. tag .. ") 房间实体数=" .. tostring(#entities))
+  local shown = 0
+  for _, entity in ipairs(entities) do
+    if shown >= 15 then
+      break
+    end
+    local spawner = entity.SpawnerEntity
+    local spawnerText = "nil"
+    if spawner ~= nil then
+      spawnerText = "Type=" .. tostring(spawner.Type)
+      if spawner:ToPlayer() ~= nil then
+        spawnerText = spawnerText .. "(玩家 idx=" .. tostring(spawner.Index) .. ")"
+      end
+    end
+    log("  实体 Type=" .. tostring(entity.Type)
+      .. " Variant=" .. tostring(entity.Variant)
+      .. " SubType=" .. tostring(entity.SubType)
+      .. " 生成者=" .. spawnerText)
+    shown = shown + 1
   end
-  if not sawPlayerTear then
-    sawPlayerTear = true
-    log("已探测到玩家发射的攻击实体（Type=" .. tostring(entity.Type) .. "），改写=" .. tostring(enabled))
-  end
+end
+
+-- 每帧扫描房间实体，把玩家发射的攻击实体改成会与玩家碰撞。
+local function postUpdate()
+  frameCounter = frameCounter + 1
+  markCallback("POST_UPDATE")
+
   if not enabled then
     return
   end
-  entity.EntityCollisionClass = mode
-end
 
-local function postTearUpdate(tear)
-  applyCollisionClass(tear)
-end
-
-local function postProjectileUpdate(projectile)
-  applyCollisionClass(projectile)
-end
-
-local function postLaserUpdate(laser)
-  applyCollisionClass(laser)
-end
-
--- 泪弹撞到玩家：这是现有旁路完全看不到的路径。
-local function preTearCollision(tear, collider, low)
-  if not enabled then
-    return nil
+  local applied = 0
+  for _, entity in ipairs(Isaac.GetRoomEntities()) do
+    if ATTACK_TYPES[entity.Type] then
+      local spawner = entity.SpawnerEntity
+      if spawner ~= nil and spawner:ToPlayer() ~= nil then
+        entity.EntityCollisionClass = mode
+        applied = applied + 1
+      end
+    end
   end
-  if collider == nil then
-    return nil
+  lastApplied = applied
+
+  if frameCounter % 60 == 0 then
+    log("扫描中 本帧改写=" .. tostring(applied) .. " mode=" .. tostring(mode))
   end
-  if collider:ToPlayer() == nil then
-    return nil
-  end
-  tearHitsOnPlayer = tearHitsOnPlayer + 1
-  log("泪弹碰到玩家 发射者=" .. describe(tear.SpawnerEntity)
-    .. " 碰撞对象=" .. describe(collider)
-    .. " low=" .. tostring(low)
-    .. " 泪弹碰撞类=" .. tostring(tear.EntityCollisionClass))
-  return nil
 end
 
--- 玩家受伤：判断「引擎认不认玩家打玩家」以及「会不会打到发射者自己」的关键证据。
+-- 诊断用：这些回调到底会不会触发。
+local function diagTearUpdate(tear)
+  markCallback("POST_TEAR_UPDATE")
+end
+
+local function diagProjectileUpdate(projectile)
+  markCallback("POST_PROJECTILE_UPDATE")
+end
+
+local function diagLaserUpdate(laser)
+  markCallback("POST_LASER_UPDATE")
+end
+
+-- 玩家受伤：判断引擎认不认玩家打玩家、会不会自伤。
 local function entityTakeDmg(entity, amount, flags, source, countdown)
   if entity:ToPlayer() == nil then
     return nil
@@ -140,6 +176,18 @@ local function entityTakeDmg(entity, amount, flags, source, countdown)
   return nil
 end
 
+local function preTearCollision(tear, collider, low)
+  if collider == nil or collider:ToPlayer() == nil then
+    return nil
+  end
+  tearHitsOnPlayer = tearHitsOnPlayer + 1
+  log("泪弹碰到玩家 发射者=" .. describe(tear.SpawnerEntity)
+    .. " 碰撞对象=" .. describe(collider)
+    .. " low=" .. tostring(low)
+    .. " 泪弹碰撞类=" .. tostring(tear.EntityCollisionClass))
+  return nil
+end
+
 local function postRender()
   if Input.IsButtonTriggered(Keyboard.KEY_F9, 0) then
     enabled = not enabled
@@ -160,17 +208,23 @@ local function postRender()
   if Input.IsButtonTriggered(Keyboard.KEY_F11, 0) then
     log("状态 enabled=" .. tostring(enabled)
       .. " mode=" .. tostring(mode)
-      .. " | 泪弹碰玩家=" .. tostring(tearHitsOnPlayer)
+      .. " | 本帧改写=" .. tostring(lastApplied)
+      .. " 泪弹碰玩家=" .. tostring(tearHitsOnPlayer)
       .. " 玩家被攻击受伤=" .. tostring(playerDamagedByAttack)
       .. " 其中自伤=" .. tostring(selfDamaged))
   end
+
+  if Input.IsButtonTriggered(Keyboard.KEY_F12, 0) then
+    dumpRoomSnapshot("手动")
+  end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, postTearUpdate)
-mod:AddCallback(ModCallbacks.MC_POST_PROJECTILE_UPDATE, postProjectileUpdate)
-mod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, postLaserUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE, postUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, diagTearUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PROJECTILE_UPDATE, diagProjectileUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, diagLaserUpdate)
 mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, preTearCollision)
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, entityTakeDmg)
 mod:AddCallback(ModCallbacks.MC_POST_RENDER, postRender)
 
-log("探针已加载：F9 开关改写 / F10 切换目标(4=ALL 2=PLAYEROBJECTS 1=PLAYERONLY) / F11 打印统计")
+log("探针 v2 已加载：F9 开关 / F10 切目标 / F11 统计 / F12 现场快照")
