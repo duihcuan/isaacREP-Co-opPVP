@@ -120,7 +120,6 @@ export function main(): void {
   mod.AddCallback(ModCallback.PRE_SPAWN_CLEAR_AWARD, preSpawnCleanAward);
   mod.AddCallback(ModCallback.PRE_PICKUP_COLLISION, prePickupCollision);
   mod.AddCallback(ModCallback.POST_BOMB_INIT, postBombInit);
-  mod.AddCallback(ModCallback.INPUT_ACTION, inputAction);
 
   // 让引擎整局重开立即可用（否则需要长按 R）。
   mod.enableFastReset();
@@ -165,8 +164,12 @@ function postUpdate(): void {
   }
 
   if (shouldAbortRound(state.phase, players.length)) {
-    state = reduce(state, { kind: "players-lost" });
-    logPhaseIfChanged("对局中玩家数不足");
+    // 回到"等待 2P 加入"而不是停在原地：开关仍开着就重新进入 ARMING，
+    // 避免卡在结算里、等对方再加入时立刻误触发下一局。
+    state = createRunStartState(pvpEnabled);
+    tracker = createRoundTracker();
+    clearSpawnedItems();
+    logPhaseIfChanged("玩家数不足，回到等待加入状态");
     return;
   }
 
@@ -472,7 +475,14 @@ function prePickupCollision(pickup: EntityPickup, collider: Entity): boolean | u
   return undefined;
 }
 
-/** 放置炸弹时从放置者自己的库存里扣除。 */
+/**
+ * 记录炸弹生成。
+ *
+ * 注意：这里**不能**扣库存、更不能移除炸弹。胎儿博士、炸弹袋这类道具
+ * 产生的炸弹来自射击或道具效果，并不消耗炸弹库存；早前版本在这里
+ * "没库存就移除炸弹"，导致胎儿博士完全放不出炸弹。
+ * 真正由放弹键产生的炸弹才该扣库存，那部分等拾取归属修复后再接。
+ */
 function postBombInit(bomb: EntityBomb): void {
   const spawner = bomb.SpawnerEntity;
   if (spawner === undefined) {
@@ -482,40 +492,7 @@ function postBombInit(bomb: EntityBomb): void {
   if (player === undefined) {
     return;
   }
-
-  if (!trySpendResource(player.Index, "bomb", 1)) {
-    // 正常情况下 INPUT_ACTION 已经拦住，这里兜底避免白拿一颗炸弹。
-    bomb.Remove();
-    Isaac.DebugString(`[PVP] 玩家${player.Index + 1} 没有炸弹，已取消这次放置`);
-    return;
-  }
-  const remaining = getResources(player.Index).bomb;
-  Isaac.DebugString(`[PVP] 玩家${player.Index + 1} 放置炸弹，剩余 ${remaining}`);
-}
-
-/** 自己没有炸弹时屏蔽放弹输入。 */
-function inputAction(
-  entity: Entity | undefined,
-  inputHook: InputHook,
-  buttonAction: ButtonAction,
-): boolean | undefined {
-  if (buttonAction !== ButtonAction.BOMB) {
-    return undefined;
-  }
-  if (inputHook !== InputHook.IS_ACTION_PRESSED && inputHook !== InputHook.IS_ACTION_TRIGGERED) {
-    return undefined;
-  }
-  if (entity === undefined) {
-    return undefined;
-  }
-  const player = entity.ToPlayer();
-  if (player === undefined) {
-    return undefined;
-  }
-  if (getResources(player.Index).bomb > 0) {
-    return undefined;
-  }
-  return false;
+  Isaac.DebugString(`[PVP] 玩家${player.Index + 1} 生成炸弹（不扣库存）`);
 }
 
 /** 每局开始清空双方的资源，并让引擎的共享计数器与之保持一致。 */

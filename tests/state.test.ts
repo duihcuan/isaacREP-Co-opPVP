@@ -84,8 +84,12 @@ describe("shouldAbortRound", () => {
     expect(shouldAbortRound(PvpPhase.FIGHT, 2)).toBe(false);
   });
 
-  it("RESULT 阶段不应中止", () => {
-    expect(shouldAbortRound(PvpPhase.RESULT, 1)).toBe(false);
+  it("RESULT 阶段有人离开（人数为 1）应当中止，回到等待加入", () => {
+    expect(shouldAbortRound(PvpPhase.RESULT, 1)).toBe(true);
+  });
+
+  it("RESULT 阶段两人都在（其中一人是幽灵）不应中止", () => {
+    expect(shouldAbortRound(PvpPhase.RESULT, 2)).toBe(false);
   });
 
   it("IDLE 阶段不应中止", () => {

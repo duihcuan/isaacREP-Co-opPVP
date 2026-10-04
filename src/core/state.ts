@@ -42,10 +42,16 @@ export function createRunStartState(pvpEnabled: boolean): PvpState {
  * 判断当前是否应当因为玩家数不足而中止对局。
  *
  * ARMING 是「等待 2P 加入」的状态，此时只有一名玩家是正常的，绝不能中止；
- * RESULT 阶段玩家死亡后会变成幽灵但仍然在场，同样不该中止。
+ * RESULT 阶段玩家死亡后会变成幽灵但仍然在场；
+ * 但如果确实有人离开了对局（人数掉到 1），结算阶段也必须中止并回到等待状态，
+ * 否则会卡在结算里，等那个人再加入时立刻触发「开始下一局」。
  */
 export function shouldAbortRound(phase: PvpPhase, playerCount: number): boolean {
-  if (phase !== PvpPhase.COUNTDOWN && phase !== PvpPhase.FIGHT) {
+  if (
+    phase !== PvpPhase.COUNTDOWN &&
+    phase !== PvpPhase.FIGHT &&
+    phase !== PvpPhase.RESULT
+  ) {
     return false;
   }
   return playerCount !== 2;
