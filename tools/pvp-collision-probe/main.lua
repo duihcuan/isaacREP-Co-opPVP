@@ -22,6 +22,7 @@ local mode = ECC_ALL
 local tearHitsOnPlayer = 0
 local playerDamagedByAttack = 0
 local selfDamaged = 0
+local sawPlayerTear = false
 
 local function log(message)
   Isaac.DebugString(LOG_PREFIX .. " " .. message)
@@ -64,11 +65,15 @@ end
 
 -- 把玩家发射的泪弹 / 投射物 / 激光的碰撞类改成「会与玩家碰撞」。
 local function applyCollisionClass(entity)
-  if not enabled then
-    return
-  end
   local spawner = entity.SpawnerEntity
   if spawner == nil or spawner:ToPlayer() == nil then
+    return
+  end
+  if not sawPlayerTear then
+    sawPlayerTear = true
+    log("已探测到玩家发射的攻击实体（Type=" .. tostring(entity.Type) .. "），改写=" .. tostring(enabled))
+  end
+  if not enabled then
     return
   end
   entity.EntityCollisionClass = mode
@@ -89,6 +94,9 @@ end
 -- 泪弹撞到玩家：这是现有旁路完全看不到的路径。
 local function preTearCollision(tear, collider, low)
   if not enabled then
+    return nil
+  end
+  if collider == nil then
     return nil
   end
   if collider:ToPlayer() == nil then
@@ -158,11 +166,11 @@ local function postRender()
   end
 end
 
-mod:AddCallback(ModCallback.MC_POST_TEAR_UPDATE, postTearUpdate)
-mod:AddCallback(ModCallback.MC_POST_PROJECTILE_UPDATE, postProjectileUpdate)
-mod:AddCallback(ModCallback.MC_POST_LASER_UPDATE, postLaserUpdate)
-mod:AddCallback(ModCallback.MC_PRE_TEAR_COLLISION, preTearCollision)
-mod:AddCallback(ModCallback.MC_ENTITY_TAKE_DMG, entityTakeDmg)
-mod:AddCallback(ModCallback.MC_POST_RENDER, postRender)
+mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, postTearUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PROJECTILE_UPDATE, postProjectileUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, postLaserUpdate)
+mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, preTearCollision)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, entityTakeDmg)
+mod:AddCallback(ModCallbacks.MC_POST_RENDER, postRender)
 
 log("探针已加载：F9 开关改写 / F10 切换目标(4=ALL 2=PLAYEROBJECTS 1=PLAYERONLY) / F11 打印统计")
