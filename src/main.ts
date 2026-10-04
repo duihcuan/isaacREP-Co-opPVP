@@ -40,10 +40,11 @@ import {
   reduce,
   shouldAbortRound,
 } from "./core/state";
-import type { PvpState } from "./core/state";
+import type { PvpState, RoundResult } from "./core/state";
 import { ALLOWED_PLAYER_TYPES, FALLBACK_PLAYER_TYPE } from "./data/characters";
 import { CONFIG } from "./data/config";
 import {
+  renderContinuationWaiting,
   renderCountdown,
   renderRestartCountdown,
   renderWaitingForPlayers,
@@ -78,6 +79,18 @@ let roundFrame = 0;
 let resultFrame = 0;
 /** 结算倒计时剩余秒数，供 HUD 显示。 */
 let restartSecondsLeft = 0;
+/**
+ * 跨重开保持的对局历史。
+ *
+ * `restart()` 会重开整局并再次触发 POST_GAME_STARTED，因此这些数据**不能在
+ * postGameStarted() 里被清掉**，只在 F8 切换开关时重置。
+ */
+let roundsCompleted = 0;
+let lastRoundResult: RoundResult | undefined;
+let p1Wins = 0;
+let p2Wins = 0;
+/** 本次等待是否属于"续场"（上一局结束、引擎重开之后）。 */
+let continuationWait = false;
 /** PVP 开关。默认关闭，本局完全走原版流程；按 F8 切换。 */
 let pvpEnabled = false;
 /** 是否处于一局 run 中（开关只在 run 内生效）。 */
@@ -202,8 +215,16 @@ function postUpdate(): void {
       );
       tracker = evaluated.tracker;
       if (evaluated.result !== undefined) {
-      state = reduce(state, { kind: "round-finished", result: evaluated.result });
+        state = reduce(state, { kind: "round-finished", result: evaluated.result });
         resultFrame = frame;
+        roundsCompleted += 1;
+        lastRoundResult = evaluated.result;
+        if (evaluated.result === "P1_WIN") {
+          p1Wins += 1;
+        } else if (evaluated.result === "P2_WIN") {
+          p2Wins += 1;
+        }
+        continuationWait = true;
         clearSpawnedItems();
         showResult(evaluated.result);
         logPhaseIfChanged(`对局结束 ${evaluated.result}`);
@@ -234,7 +255,11 @@ function postRender(): void {
   }
 
   if (state.phase === PvpPhase.ARMING) {
-    renderWaitingForPlayers();
+    if (continuationWait) {
+      renderContinuationWaiting({ roundsCompleted, lastRoundResult, p1Wins, p2Wins });
+    } else {
+      renderWaitingForPlayers();
+    }
   }
   if (state.phase === PvpPhase.COUNTDOWN) {
     renderCountdown(countdownFramesLeft);
@@ -256,6 +281,8 @@ function postRender(): void {
  */
 function togglePvp(): void {
   pvpEnabled = !pvpEnabled;
+  // 开关一动就把对局历史归零：关闭等于结束这次连续对局，重新开启等于重新开始。
+  resetMatchHistory();
 
   if (pvpEnabled) {
     state = reduce(createInitialState(), { kind: "toggle-on" });
@@ -287,6 +314,15 @@ function togglePvp(): void {
   reloadRoom();
   showToggleMessage(false);
   Isaac.DebugString("[PVP] 开关：已关闭，房间已还原");
+}
+
+/** 清空跨局战绩与"续场"标记。 */
+function resetMatchHistory(): void {
+  roundsCompleted = 0;
+  lastRoundResult = undefined;
+  p1Wins = 0;
+  p2Wins = 0;
+  continuationWait = false;
 }
 
 /**
