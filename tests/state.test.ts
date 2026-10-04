@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   PvpPhase,
   createInitialState,
+  createRunStartState,
   isRoundActive,
   reduce,
   shouldAbortRound,
@@ -111,5 +112,15 @@ describe("isRoundActive", () => {
 
   it("RESULT 时对局已激活", () => {
     expect(isRoundActive(PvpPhase.RESULT)).toBe(true);
+  });
+});
+
+describe("createRunStartState", () => {
+  it("开关关闭时本局保持 IDLE（完全走原版流程）", () => {
+    expect(createRunStartState(false).phase).toBe(PvpPhase.IDLE);
+  });
+
+  it("开关打开时本局进入 ARMING 等待 2P 加入", () => {
+    expect(createRunStartState(true).phase).toBe(PvpPhase.ARMING);
   });
 });

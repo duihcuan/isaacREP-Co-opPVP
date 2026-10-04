@@ -1,6 +1,8 @@
 import {
   ButtonAction,
+  ControllerIndex,
   InputHook,
+  Keyboard,
   ModCallback,
   PickupVariant,
 } from "isaac-typescript-definitions";
@@ -29,6 +31,7 @@ import type { ResourceKind } from "./core/resources";
 import {
   PvpPhase,
   createInitialState,
+  createRunStartState,
   isRoundActive,
   reduce,
   shouldAbortRound,
@@ -36,7 +39,12 @@ import {
 import type { PvpState } from "./core/state";
 import { ALLOWED_PLAYER_TYPES, FALLBACK_PLAYER_TYPE } from "./data/characters";
 import { CONFIG } from "./data/config";
-import { renderCountdown, showResult } from "./ui/hud";
+import {
+  renderCountdown,
+  renderWaitingForPlayers,
+  showResult,
+  showToggleMessage,
+} from "./ui/hud";
 
 const mod = upgradeMod(RegisterMod(name, 1));
 const characterPolicy = createCharacterPolicy(ALLOWED_PLAYER_TYPES);
@@ -62,12 +70,17 @@ let lastGhostP1 = false;
 let lastGhostP2 = false;
 let roundFrame = 0;
 let resultFrame = 0;
+/** PVP 开关。默认关闭，本局完全走原版流程；按 F8 切换。 */
+let pvpEnabled = false;
+/** 是否处于一局 run 中（开关只在 run 内生效）。 */
+let inRun = false;
 /** 每位玩家的复活尝试次数，键是玩家 Index，用于逐级升级复活手段。 */
 const reviveAttempts = new Map<int, number>();
 
 // This function is run when your mod first initializes.
 export function main(): void {
   mod.AddCallback(ModCallback.POST_GAME_STARTED, postGameStarted);
+  mod.AddCallback(ModCallback.POST_GAME_END, postGameEnd);
   mod.AddCallback(ModCallback.POST_UPDATE, postUpdate);
   mod.AddCallback(ModCallback.POST_RENDER, postRender);
   // 官方文档里叫 MC_PRE_SPAWN_CLEAN_AWARD，TypeScript 枚举名是 PRE_SPAWN_CLEAR_AWARD。
@@ -80,7 +93,8 @@ export function main(): void {
 }
 
 function postGameStarted(): void {
-  state = reduce(createInitialState(), { kind: "toggle-on" });
+  inRun = true;
+  state = createRunStartState(pvpEnabled);
   tracker = createRoundTracker();
   countdownFramesLeft = CONFIG.countdownFrames;
   arenaGridIndex = Game().GetLevel().GetCurrentRoomIndex();
@@ -88,7 +102,11 @@ function postGameStarted(): void {
   lastHitPointsP2 = -1;
   lastGhostP1 = false;
   lastGhostP2 = false;
-  logPhaseIfChanged("开局");
+  logPhaseIfChanged(`开局（PVP ${pvpEnabled ? "已开启" : "未开启"}）`);
+}
+
+function postGameEnd(): void {
+  inRun = false;
 }
 
 function postUpdate(): void {
@@ -200,12 +218,60 @@ function postUpdate(): void {
 }
 
 function postRender(): void {
+  if (inRun && Input.IsButtonTriggered(Keyboard.F8, ControllerIndex.KEYBOARD)) {
+    togglePvp();
+  }
+
+  if (state.phase === PvpPhase.ARMING) {
+    renderWaitingForPlayers();
+  }
   if (state.phase === PvpPhase.COUNTDOWN) {
     renderCountdown(countdownFramesLeft);
   }
   if (state.phase === PvpPhase.FIGHT) {
     renderResources();
   }
+}
+
+/**
+ * 切换 PVP 开关（F8）。
+ *
+ * 关闭时把竞技场还原成普通房间：重新载入房间让门回来、清掉刷新物、
+ * 并把可能残留的幽灵状态复原，好让这一局能按原版继续玩下去。
+ * 玩家已有的道具与资源保持不动，避免"关个开关顺手把东西没收了"。
+ */
+function togglePvp(): void {
+  pvpEnabled = !pvpEnabled;
+
+  if (pvpEnabled) {
+    state = reduce(createInitialState(), { kind: "toggle-on" });
+    tracker = createRoundTracker();
+    roundFrame = 0;
+    countdownFramesLeft = CONFIG.countdownFrames;
+    resetItemSpawner();
+    resetCreepDamageCooldowns();
+    resetDefeatTracking();
+    showToggleMessage(true);
+    Isaac.DebugString("[PVP] 开关：已开启，等待 2P 在初始房间加入");
+    return;
+  }
+
+  state = reduce(state, { kind: "toggle-off" });
+  clearSpawnedItems();
+
+  const players = getPlayers();
+  const p1 = players[0];
+  const p2 = players[1];
+  if (p1 !== undefined && p2 !== undefined) {
+    const pair: readonly [EntityPlayer, EntityPlayer] = [p1, p2];
+    restoreGhostPlayers(pair);
+    vanillaHeartsBackend.restoreAll(pair);
+  }
+
+  // 重新载入房间，让被删掉的门恢复，回到原版可通行的状态。
+  reloadRoom();
+  showToggleMessage(false);
+  Isaac.DebugString("[PVP] 开关：已关闭，房间已还原");
 }
 
 /** 结算画面结束后重置对局状态，自动开始下一局。 */

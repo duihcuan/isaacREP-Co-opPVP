@@ -27,6 +27,18 @@ export function createInitialState(): PvpState {
 }
 
 /**
+ * 一局开始时的初始状态。
+ *
+ * 开关打开才进入等待 2P 加入的 ARMING；开关关闭时保持 IDLE，本局完全是原版流程。
+ */
+export function createRunStartState(pvpEnabled: boolean): PvpState {
+  if (!pvpEnabled) {
+    return createInitialState();
+  }
+  return reduce(createInitialState(), { kind: "toggle-on" });
+}
+
+/**
  * 判断当前是否应当因为玩家数不足而中止对局。
  *
  * ARMING 是「等待 2P 加入」的状态，此时只有一名玩家是正常的，绝不能中止；

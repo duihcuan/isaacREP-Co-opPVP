@@ -3,6 +3,7 @@ import type { RoundResult } from "../core/state";
 const SCREEN_CENTER_X = 320;
 const TEXT_Y = 200;
 const HINT_Y = 240;
+const WAITING_Y = 150;
 
 /** 显示开局倒计时。 */
 export function renderCountdown(framesLeft: number): void {
@@ -20,6 +21,21 @@ export function showResult(result: RoundResult): void {
   Game().GetHUD().ShowItemText(text, "3 秒后开始下一局");
 }
 
-function renderCentered(text: string, y: number): void {
+/** 显示 PVP 开关的状态变化。 */
+export function showToggleMessage(enabled: boolean): void {
+  if (enabled) {
+    Game().GetHUD().ShowItemText("PVP 已开启", "2P 在初始房间按 Start 加入即可开始");
+  } else {
+    Game().GetHUD().ShowItemText("PVP 已关闭", "按 F8 可再次开启");
+  }
+}
+
+/** 等待 2P 加入时的屏幕提示。 */
+export function renderWaitingForPlayers(): void {
+  renderCentered("PVP 已开启：等待 2P 在初始房间加入（按 F8 关闭）", WAITING_Y);
+}
+
+/** 显示屏幕中央的自绘文字。 */
+export function renderCentered(text: string, y: number): void {
   Isaac.RenderText(text, SCREEN_CENTER_X - text.length * 4, y, 1, 1, 1, 1);
 }
