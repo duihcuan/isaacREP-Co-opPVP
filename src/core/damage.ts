@@ -1,4 +1,9 @@
-import { EffectVariant, EntityType, TearFlag } from "isaac-typescript-definitions";
+import {
+  EffectVariant,
+  EntityType,
+  FamiliarVariant,
+  TearFlag,
+} from "isaac-typescript-definitions";
 
 import { CONFIG } from "../data/config";
 import { STATUS_EFFECT_TABLE } from "../data/tearEffects";
@@ -42,9 +47,13 @@ const piercingHits = new Map<int, Set<int>>();
 /** 每位玩家上次被神性光环扣血的帧号，键是玩家 Index。 */
 const lastAuraDamageFrame = new Map<int, number>();
 
+/** 已经裂开过的四分裂泪弹，键是泪弹 Index。 */
+const quadSplitHandled = new Set<int>();
+
 export function resetCreepDamageCooldowns(): void {
   lastCreepDamageFrame.clear();
   lastAuraDamageFrame.clear();
+  quadSplitHandled.clear();
 }
 
 export function resetPiercingHits(): void {
@@ -107,6 +116,9 @@ export function checkPlayerVersusPlayer(
       break;
     }
   }
+
+  chaseOpponentSummons(pairs);
+  updateQuadSplit();
 
   const auraHit = checkGodheadAura(pairs, frame, health);
   const creepHit = checkCreepDamage(pairs, frame, health);
@@ -269,6 +281,91 @@ function applyTearEffects(
   // 神秘液体一类：命中点留下一摊伤害性水迹（由水迹判定接手，对对手持续扣血）。
   if (tear.HasTearFlags(TearFlag.MYSTERIOUS_LIQUID_CREEP)) {
     spawnDamagingCreep(target.Position, attacker);
+  }
+
+  // 命中生苍蝇（Mulligan 一类）：在命中点生成属于攻击者的苍蝇。
+  if (tear.HasTearFlags(TearFlag.MULLIGAN)) {
+    spawnSummons(target.Position, attacker);
+  }
+}
+
+/**
+ * 生成属于攻击者的攻击苍蝇。
+ *
+ * 引擎的苍蝇只会追敌人，场上没有敌人时它们会乱飞，因此还要配合
+ * chaseOpponentSummons 每帧把速度朝对手修正（见下）。
+ */
+function spawnSummons(position: Vector, attacker: EntityPlayer): void {
+  for (let index = 0; index < CONFIG.mulliganFlyCount; index++) {
+    const spawned = Isaac.Spawn(
+      EntityType.FAMILIAR,
+      FamiliarVariant.BLUE_FLY,
+      0,
+      position,
+      Vector(0, 0),
+      attacker,
+    );
+    const familiar = spawned.ToFamiliar();
+    if (familiar !== undefined) {
+      // 引擎明确警告：Player 为空会崩溃，这里显式绑定主人。
+      familiar.Player = attacker;
+    }
+  }
+}
+
+/** 让属于玩家的攻击苍蝇追击对手（引擎只让它们追敌人）。 */
+function chaseOpponentSummons(
+  pairs: readonly (readonly [EntityPlayer, EntityPlayer])[],
+): void {
+  for (const entity of Isaac.GetRoomEntities()) {
+    if (entity.Type !== EntityType.FAMILIAR) {
+      continue;
+    }
+    const familiar = entity.ToFamiliar();
+    if (familiar === undefined || familiar.Variant !== FamiliarVariant.BLUE_FLY) {
+      continue;
+    }
+    const owner = familiar.Player;
+    for (const [attacker, target] of pairs) {
+      if (owner.Index !== attacker.Index) {
+        continue;
+      }
+      const dx = target.Position.X - entity.Position.X;
+      const dy = target.Position.Y - entity.Position.Y;
+      const distance = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+      entity.Velocity = Vector(
+        (dx / distance) * CONFIG.summonChaseSpeed,
+        (dy / distance) * CONFIG.summonChaseSpeed,
+      );
+      break;
+    }
+  }
+}
+
+/** 四分裂：带该旗标的泪弹落地时裂成四颗小泪弹，归属不变。 */
+function updateQuadSplit(): void {
+  for (const entity of Isaac.GetRoomEntities()) {
+    if (entity.Type !== EntityType.TEAR) {
+      continue;
+    }
+    const tear = entity.ToTear();
+    if (tear === undefined || !tear.HasTearFlags(TearFlag.QUAD_SPLIT)) {
+      continue;
+    }
+    if (quadSplitHandled.has(entity.Index) || tear.Height > 0) {
+      continue;
+    }
+    const owner = resolveOwner(entity);
+    if (owner === undefined) {
+      continue;
+    }
+    quadSplitHandled.add(entity.Index);
+    const speed = CONFIG.quadSplitChildSpeed;
+    Isaac.Spawn(EntityType.TEAR, 0, 0, entity.Position, Vector(speed, 0), owner);
+    Isaac.Spawn(EntityType.TEAR, 0, 0, entity.Position, Vector(-speed, 0), owner);
+    Isaac.Spawn(EntityType.TEAR, 0, 0, entity.Position, Vector(0, speed), owner);
+    Isaac.Spawn(EntityType.TEAR, 0, 0, entity.Position, Vector(0, -speed), owner);
+    entity.Remove();
   }
 }
 

@@ -78,4 +78,11 @@ export const CONFIG = {
 
   /** 天堂光柱类命中时的追加伤害（半颗心）。 */
   lightBeamBonusHalfHearts: 1,
+
+  /** 命中生苍蝇类产生的苍蝇数量，以及召唤物追击对手的速度。 */
+  mulliganFlyCount: 1,
+  summonChaseSpeed: 3.2,
+
+  /** 四分裂泪弹落地后裂出的小泪弹数量与初速。 */
+  quadSplitChildSpeed: 5,
 } as const;
