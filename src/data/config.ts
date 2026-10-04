@@ -52,4 +52,13 @@ export const CONFIG = {
 
   /** 连续多少帧处于幽灵状态才判定出局（容纳复活类道具与角色的复活过程）。 */
   ghostConfirmFrames: 15,
+
+  /** 带爆炸标记的泪弹（如依庇卡）命中时产生的爆炸伤害。 */
+  explosiveTearDamage: 30,
+
+  /** 雅各布天梯类闪电效果在 PVP 里的等效追加伤害（半颗心）。 */
+  jacobsLadderBonusHalfHearts: 1,
+
+  /** 带击退标记的泪弹命中时推开对手的速度。 */
+  tearKnockbackForce: 6,
 } as const;

@@ -11,7 +11,11 @@ import { getPlayers, reloadRoom, upgradeMod } from "isaacscript-common";
 import { name } from "../package.json";
 import { lockArena, placePlayersAtSpawnPoints, pullBackIfNeeded } from "./core/arena";
 import { createCharacterPolicy } from "./core/characterPolicy";
-import { checkPlayerVersusPlayer, resetCreepDamageCooldowns } from "./core/damage";
+import {
+  checkPlayerVersusPlayer,
+  resetCreepDamageCooldowns,
+  resetPiercingHits,
+} from "./core/damage";
 import { resetDefeatTracking, vanillaHeartsBackend } from "./core/health";
 import {
   clearSpawnedItems,
@@ -248,9 +252,10 @@ function togglePvp(): void {
     tracker = createRoundTracker();
     roundFrame = 0;
     countdownFramesLeft = CONFIG.countdownFrames;
-    resetItemSpawner();
-    resetCreepDamageCooldowns();
-    resetDefeatTracking();
+      resetItemSpawner();
+      resetCreepDamageCooldowns();
+      resetPiercingHits();
+      resetDefeatTracking();
     showToggleMessage(true);
     Isaac.DebugString("[PVP] 开关：已开启，等待 2P 在初始房间加入");
     return;

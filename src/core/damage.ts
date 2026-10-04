@@ -1,11 +1,14 @@
-import { EffectVariant, EntityType } from "isaac-typescript-definitions";
+import { EffectVariant, EntityType, TearFlag } from "isaac-typescript-definitions";
 
 import { CONFIG } from "../data/config";
+import { STATUS_EFFECT_TABLE } from "../data/tearEffects";
 import { shouldApplyCreepDamage } from "./creep";
 import { circlesOverlap } from "./geometry";
 import type { HealthBackend } from "./health";
+import { planStatusEffects } from "./statusEffects";
+import type { StatusEffectApplication, StatusEffectKind } from "./statusEffects";
 
-/** 由玩家发出的、需要手动判定友伤的实体类型。 */
+/** 由玩家（或其跟班）发出的、需要手动判定友伤的实体类型。 */
 const ATTACK_ENTITY_TYPES: readonly EntityType[] = [
   EntityType.TEAR,
   EntityType.PROJECTILE,
@@ -27,18 +30,30 @@ const PLAYER_CREEP_VARIANTS: readonly EffectVariant[] = [
   EffectVariant.PLAYER_CREEP_BLACK_POWDER,
 ];
 
+const SLOW_COLOR = Color(0.6, 0.6, 0.6, 1, 0, 0, 0);
+const FREEZE_AS_SLOW_COLOR = Color(0.5, 0.8, 1, 1, 0, 0, 0);
+
 /** 每位玩家上次被水迹扣血的帧号，键是玩家 Index。 */
 const lastCreepDamageFrame = new Map<int, number>();
 
+/** 穿透泪弹已经命中过的玩家，键是泪弹 Index，值是玩家 Index 集合。 */
+const piercingHits = new Map<int, Set<int>>();
+
 export function resetCreepDamageCooldowns(): void {
   lastCreepDamageFrame.clear();
+}
+
+export function resetPiercingHits(): void {
+  piercingHits.clear();
 }
 
 /**
  * 扫描房间内的玩家攻击实体，对另一名玩家造成 PVP 伤害。
  *
  * 引擎原生不会让眼泪类攻击命中队友（爆炸是例外，自带友伤），
- * 因此这部分必须由模组自己判定。
+ * 因此命中判定必须由模组自己做；但伤害结算仍然走引擎的 TakeDamage。
+ * 副作用是引擎原本在命中时施加的中毒/燃烧/减速等效果不会自动发生，
+ * 需要在这里按泪弹旗标补挂。
  */
 export function checkPlayerVersusPlayer(
   players: readonly [EntityPlayer, EntityPlayer],
@@ -55,27 +70,197 @@ export function checkPlayerVersusPlayer(
     if (!ATTACK_ENTITY_TYPES.includes(entity.Type)) {
       continue;
     }
+    const owner = resolveOwner(entity);
+    if (owner === undefined) {
+      continue;
+    }
     for (const [attacker, target] of pairs) {
-      if (!isSpawnedBy(entity, attacker)) {
+      if (owner.Index !== attacker.Index) {
+        continue;
+      }
+      if (hasAlreadyHit(entity, target)) {
         continue;
       }
       if (!circlesOverlap(toCircle(entity), toCircle(target))) {
         continue;
       }
-      const attackerNumber = attacker.Index === players[0].Index ? 1 : 2;
-      const targetNumber = target.Index === players[0].Index ? 1 : 2;
-      const targetHitPointsBefore = target.GetHearts() + target.GetSoulHearts();
+
       health.applyDamage(target, CONFIG.damagePerHalfHeartHit, EntityRef(attacker));
-      Isaac.DebugString(
-        `[PVP] 命中 P${attackerNumber}→P${targetNumber} 伤害=${CONFIG.damagePerHalfHeartHit}(半心) 目标伤害前=${targetHitPointsBefore} 攻击实体类型=${entity.Type}`,
-      );
-      entity.Remove();
+      applyTearEffects(entity, target, attacker, health);
+      rememberHit(entity, target);
       hit = true;
+
+      if (!isPiercing(entity)) {
+        entity.Remove();
+      }
       break;
     }
   }
+
   const creepHit = checkCreepDamage(pairs, frame, health);
   return hit || creepHit;
+}
+
+/**
+ * 判断攻击实体属于哪位玩家。
+ *
+ * 除了玩家自己发射的泪弹，还要处理跟班（宝宝）发射的泪弹——
+ * 它们的生成者是跟班而不是玩家，需要顺着跟班找到其主人。
+ */
+function resolveOwner(entity: Entity): EntityPlayer | undefined {
+  const spawner = entity.SpawnerEntity;
+  if (spawner === undefined) {
+    return undefined;
+  }
+  const asPlayer = spawner.ToPlayer();
+  if (asPlayer !== undefined) {
+    return asPlayer;
+  }
+  const asFamiliar = spawner.ToFamiliar();
+  if (asFamiliar !== undefined) {
+    return asFamiliar.Player;
+  }
+  return undefined;
+}
+
+function isPiercing(entity: Entity): boolean {
+  const tear = entity.ToTear();
+  if (tear === undefined) {
+    return false;
+  }
+  return tear.HasTearFlags(TearFlag.PIERCING);
+}
+
+function hasAlreadyHit(entity: Entity, target: EntityPlayer): boolean {
+  const hitPlayers = piercingHits.get(entity.Index);
+  return hitPlayers !== undefined && hitPlayers.has(target.Index);
+}
+
+function rememberHit(entity: Entity, target: EntityPlayer): void {
+  let hitPlayers = piercingHits.get(entity.Index);
+  if (hitPlayers === undefined) {
+    hitPlayers = new Set<int>();
+    piercingHits.set(entity.Index, hitPlayers);
+  }
+  hitPlayers.add(target.Index);
+}
+
+/**
+ * 补挂引擎原本会在命中时施加的效果。
+ *
+ * 只对泪弹生效（只有泪弹带泪弹旗标）：激光、菜刀、血弹的附加效果各不相同，
+ * 属于后续逐个补的范畴。
+ */
+function applyTearEffects(
+  entity: Entity,
+  target: EntityPlayer,
+  attacker: EntityPlayer,
+  health: HealthBackend,
+): void {
+  const tear = entity.ToTear();
+  if (tear === undefined) {
+    return;
+  }
+
+  const source = EntityRef(attacker);
+
+  const activeKinds: StatusEffectKind[] = [];
+  addStatus(tear.HasTearFlags(TearFlag.SLOW), "slow", activeKinds);
+  // 冰冻泪弹按需求改为减速：比普通寒冷更强更久，但不会把对手定住。
+  addStatus(tear.HasTearFlags(TearFlag.FREEZE), "freezeAsSlow", activeKinds);
+  addStatus(tear.HasTearFlags(TearFlag.POISON), "poison", activeKinds);
+  addStatus(tear.HasTearFlags(TearFlag.BURN), "burn", activeKinds);
+  // 孢子类：原版生成孢子云，PVP 里等效为一次中毒。
+  addStatus(tear.HasTearFlags(TearFlag.SPORE), "poison", activeKinds);
+  addStatus(tear.HasTearFlags(TearFlag.FEAR), "fear", activeKinds);
+  addStatus(tear.HasTearFlags(TearFlag.CHARM), "charm", activeKinds);
+  addStatus(tear.HasTearFlags(TearFlag.CONFUSION), "confusion", activeKinds);
+  addStatus(tear.HasTearFlags(TearFlag.SHRINK), "shrink", activeKinds);
+  applyStatusEffects(target, source, planStatusEffects(activeKinds, STATUS_EFFECT_TABLE));
+
+  // 依庇卡一类：命中时产生爆炸（爆炸本身自带友伤，交给引擎处理）。
+  if (tear.HasTearFlags(TearFlag.EXPLOSIVE)) {
+    Isaac.Explode(target.Position, attacker, CONFIG.explosiveTearDamage);
+  }
+
+  // 雅各布天梯一类：原版会在敌人之间连锁闪电，PVP 里等效为一次追加伤害。
+  if (tear.HasTearFlags(TearFlag.JACOBS)) {
+    health.applyDamage(target, CONFIG.jacobsLadderBonusHalfHearts, source);
+  }
+
+  // 击退类：把对手沿受力方向推开。
+  if (tear.HasTearFlags(TearFlag.KNOCKBACK)) {
+    applyKnockback(target, attacker);
+  }
+}
+
+function addStatus(
+  hasFlag: boolean,
+  kind: StatusEffectKind,
+  out: StatusEffectKind[],
+): void {
+  if (hasFlag) {
+    out.push(kind);
+  }
+}
+
+function applyStatusEffects(
+  target: EntityPlayer,
+  source: EntityRef,
+  plan: readonly StatusEffectApplication[],
+): void {
+  for (const application of plan) {
+    switch (application.kind) {
+      case "poison": {
+        target.AddPoison(source, application.durationFrames, application.magnitude);
+        break;
+      }
+      case "burn": {
+        target.AddBurn(source, application.durationFrames, application.magnitude);
+        break;
+      }
+      case "slow": {
+        target.AddSlowing(source, application.durationFrames, application.magnitude, SLOW_COLOR);
+        break;
+      }
+      // 冰冻泪弹按需求改为减速：持续时间与强度都比普通寒冷更强，但不会定身。
+      case "freezeAsSlow": {
+        target.AddSlowing(
+          source,
+          application.durationFrames,
+          application.magnitude,
+          FREEZE_AS_SLOW_COLOR,
+        );
+        break;
+      }
+      case "fear": {
+        target.AddFear(source, application.durationFrames);
+        break;
+      }
+      case "charm": {
+        target.AddCharmed(source, application.durationFrames);
+        break;
+      }
+      case "confusion": {
+        target.AddConfusion(source, application.durationFrames);
+        break;
+      }
+      case "shrink": {
+        target.AddShrink(source, application.durationFrames);
+        break;
+      }
+    }
+  }
+}
+
+function applyKnockback(target: EntityPlayer, attacker: EntityPlayer): void {
+  const dx = target.Position.X - attacker.Position.X;
+  const dy = target.Position.Y - attacker.Position.Y;
+  const distance = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+  target.AddVelocity(
+    Vector((dx / distance) * CONFIG.tearKnockbackForce, (dy / distance) * CONFIG.tearKnockbackForce),
+    false,
+  );
 }
 
 /**
@@ -98,7 +283,8 @@ function checkCreepDamage(
       continue;
     }
     for (const [attacker, target] of pairs) {
-      if (!isSpawnedBy(entity, attacker)) {
+      const owner = resolveOwner(entity);
+      if (owner === undefined || owner.Index !== attacker.Index) {
         continue;
       }
       if (!isStandingInCreep(entity, target)) {
@@ -123,11 +309,6 @@ function isStandingInCreep(creep: Entity, player: EntityPlayer): boolean {
   const radius = Math.max(creep.Size, CONFIG.creepHitRadius);
   const distance = creep.Position.Distance(player.Position);
   return distance <= radius + player.Size;
-}
-
-function isSpawnedBy(entity: Entity, player: EntityPlayer): boolean {
-  const spawner = entity.SpawnerEntity;
-  return spawner !== undefined && spawner.Index === player.Index && spawner.Type === player.Type;
 }
 
 function toCircle(entity: Entity): {
