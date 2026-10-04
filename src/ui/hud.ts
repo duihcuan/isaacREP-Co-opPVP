@@ -18,7 +18,12 @@ export function renderCountdown(framesLeft: number): void {
  */
 export function showResult(result: RoundResult): void {
   const text = result === "P1_WIN" ? "玩家 1 获胜" : result === "P2_WIN" ? "玩家 2 获胜" : "平局";
-  Game().GetHUD().ShowItemText(text, "3 秒后开始下一局");
+  Game().GetHUD().ShowItemText(text, "即将重开本局");
+}
+
+/** 结算期间的倒计时提示。 */
+export function renderRestartCountdown(secondsLeft: number): void {
+  renderCentered(`${secondsLeft} 秒后重开本局`, HINT_Y);
 }
 
 /** 显示 PVP 开关的状态变化。 */

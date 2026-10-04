@@ -6,7 +6,7 @@ import {
   ModCallback,
   PickupVariant,
 } from "isaac-typescript-definitions";
-import { getPlayers, reloadRoom, upgradeMod } from "isaacscript-common";
+import { ISCFeature, getPlayers, reloadRoom, restart, upgradeMod } from "isaacscript-common";
 
 import { name } from "../package.json";
 import { lockArena, placePlayersAtSpawnPoints, pullBackIfNeeded } from "./core/arena";
@@ -45,12 +45,14 @@ import { ALLOWED_PLAYER_TYPES, FALLBACK_PLAYER_TYPE } from "./data/characters";
 import { CONFIG } from "./data/config";
 import {
   renderCountdown,
+  renderRestartCountdown,
   renderWaitingForPlayers,
   showResult,
   showToggleMessage,
 } from "./ui/hud";
 
-const mod = upgradeMod(RegisterMod(name, 1));
+// 特性数组必须是元组，否则类型系统不会把对应的方法挂到 mod 上。
+const mod = upgradeMod(RegisterMod(name, 1), [ISCFeature.FAST_RESET] as const);
 const characterPolicy = createCharacterPolicy(ALLOWED_PLAYER_TYPES);
 
 /** 拾取物变体到资源种类的映射。 */
@@ -74,6 +76,8 @@ let lastGhostP1 = false;
 let lastGhostP2 = false;
 let roundFrame = 0;
 let resultFrame = 0;
+/** 结算倒计时剩余秒数，供 HUD 显示。 */
+let restartSecondsLeft = 0;
 /** PVP 开关。默认关闭，本局完全走原版流程；按 F8 切换。 */
 let pvpEnabled = false;
 /** 是否处于一局 run 中（开关只在 run 内生效）。 */
@@ -92,6 +96,9 @@ export function main(): void {
   mod.AddCallback(ModCallback.PRE_PICKUP_COLLISION, prePickupCollision);
   mod.AddCallback(ModCallback.POST_BOMB_INIT, postBombInit);
   mod.AddCallback(ModCallback.INPUT_ACTION, inputAction);
+
+  // 让引擎整局重开立即可用（否则需要长按 R）。
+  mod.enableFastReset();
 
   Isaac.DebugString(`${name} initialized.`);
 }
@@ -168,7 +175,6 @@ function postUpdate(): void {
       if (countdownFramesLeft % 30 === 0) {
         restoreGhostPlayers(pair);
       }
-      revokeGrantedItems(pair, frame);
       lockArena();
       pullBackIfNeeded(arena, frame);
       placePlayersAtSpawnPoints(pair);
@@ -185,8 +191,6 @@ function postUpdate(): void {
       lockArena();
       pullBackIfNeeded(arena, frame);
       updateItemSpawner(roundFrame);
-      // 上一局的道具若还没收干净，继续在战斗期间补收（只针对上一局的清单，不影响本局新拾取）。
-      revokeGrantedItems(pair, frame);
       if (checkPlayerVersusPlayer(pair, frame, vanillaHeartsBackend)) {
         Isaac.DebugString("[PVP] 命中");
       }
@@ -198,9 +202,8 @@ function postUpdate(): void {
       );
       tracker = evaluated.tracker;
       if (evaluated.result !== undefined) {
-        state = reduce(state, { kind: "round-finished", result: evaluated.result });
+      state = reduce(state, { kind: "round-finished", result: evaluated.result });
         resultFrame = frame;
-        markGrantedItemsForRevoke();
         clearSpawnedItems();
         showResult(evaluated.result);
         logPhaseIfChanged(`对局结束 ${evaluated.result}`);
@@ -208,10 +211,14 @@ function postUpdate(): void {
       break;
     }
     case PvpPhase.RESULT: {
-      revokeGrantedItems(pair, frame);
       lockArena();
-      if (frame - resultFrame >= CONFIG.resultRestartDelayFrames) {
-        startNextRound(pair);
+      const elapsed = frame - resultFrame;
+      restartSecondsLeft = Math.max(
+        1,
+        Math.ceil((CONFIG.resultRestartDelayFrames - elapsed) / 30),
+      );
+      if (elapsed >= CONFIG.resultRestartDelayFrames) {
+        restartMatch();
       }
       break;
     }
@@ -234,6 +241,9 @@ function postRender(): void {
   }
   if (state.phase === PvpPhase.FIGHT) {
     renderResources();
+  }
+  if (state.phase === PvpPhase.RESULT) {
+    renderRestartCountdown(restartSecondsLeft);
   }
 }
 
@@ -279,19 +289,16 @@ function togglePvp(): void {
   Isaac.DebugString("[PVP] 开关：已关闭，房间已还原");
 }
 
-/** 结算画面结束后重置对局状态，自动开始下一局。 */
-function startNextRound(pair: readonly [EntityPlayer, EntityPlayer]): void {
-  restoreGhostPlayers(pair);
-  // 上一局被击杀的一方此时是幽灵宝宝，先复活再回满血。
-  vanillaHeartsBackend.restoreAll(pair);
-  resetItemSpawner();
-  resetResourcesForRound(pair);
-  resetCreepDamageCooldowns();
-  resetDefeatTracking();
-  tracker = createRoundTracker();
-  roundFrame = 0;
-  state = reduce(state, { kind: "restart" });
-  logPhaseIfChanged("自动开始下一局");
+/**
+ * 结算倒计时结束后重开本局。
+ *
+ * 这里刻意**不做任何"原地清理"**，而是交给引擎整局重开（等价于控制台的 restart 指令）：
+ * 幽灵状态、道具、跟班与召唤物、变身、楼层全部随之作废——不需要枚举任何东西，
+ * 也就不存在"漏清"。之前三次原地修复都失败，根因正是"收回道具无法撤销道具的后果"。
+ */
+function restartMatch(): void {
+  Isaac.DebugString("[PVP] 结算结束，重开本局（引擎整局重开）");
+  restart();
 }
 
 /**
