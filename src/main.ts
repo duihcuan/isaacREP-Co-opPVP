@@ -44,6 +44,12 @@ import type { PvpState, RoundResult } from "./core/state";
 import { ALLOWED_PLAYER_TYPES, FALLBACK_PLAYER_TYPE } from "./data/characters";
 import { CONFIG } from "./data/config";
 import {
+  describeMcMGlobal,
+  isMcmVisible,
+  readPersistedEnabled,
+  tryRegisterMcm,
+} from "./mcm";
+import {
   renderContinuationWaiting,
   renderCountdown,
   renderRestartCountdown,
@@ -91,6 +97,12 @@ let p1Wins = 0;
 let p2Wins = 0;
 /** 本次等待是否属于"续场"（上一局结束、引擎重开之后）。 */
 let continuationWait = false;
+/** MCM 是否已成功注册；未安装时保持 false，F8 继续可用。 */
+let mcmRegistered = false;
+/** 是否已经从 MCM 读回持久化状态（只读一次，避免覆盖本次会话内的手动切换）。 */
+let mcmInitialized = false;
+/** 缺 MCM 的降级日志只写一次，避免刷屏。 */
+let mcmFallbackLogged = false;
 /** PVP 开关。默认关闭，本局完全走原版流程；按 F8 切换。 */
 let pvpEnabled = false;
 /** 是否处于一局 run 中（开关只在 run 内生效）。 */
@@ -113,11 +125,15 @@ export function main(): void {
   // 让引擎整局重开立即可用（否则需要长按 R）。
   mod.enableFastReset();
 
+  ensureMcMRegistered();
+
   Isaac.DebugString(`${name} initialized.`);
 }
 
 function postGameStarted(): void {
   inRun = true;
+  // MCM 的构建是惰性的，初始化时拿不到就再试一次，拿不到也不能静默失败。
+  ensureMcMRegistered();
   state = createRunStartState(pvpEnabled);
   tracker = createRoundTracker();
   countdownFramesLeft = CONFIG.countdownFrames;
@@ -254,6 +270,11 @@ function postRender(): void {
     togglePvp();
   }
 
+  // MCM 菜单打开时隐藏我们自己的文字，避免叠字（F8 仍然有效）。
+  if (isMcmVisible()) {
+    return;
+  }
+
   if (state.phase === PvpPhase.ARMING) {
     if (continuationWait) {
       renderContinuationWaiting({ roundsCompleted, lastRoundResult, p1Wins, p2Wins });
@@ -269,6 +290,49 @@ function postRender(): void {
   }
   if (state.phase === PvpPhase.RESULT) {
     renderRestartCountdown(restartSecondsLeft);
+  }
+}
+
+/** 把布尔值落到开关上；只有与当前状态不同才真正切换，走的是与 F8 同一套逻辑。 */
+function setPvpEnabled(value: boolean): void {
+  if (value === pvpEnabled) {
+    return;
+  }
+  togglePvp();
+}
+
+/**
+ * 确保 MCM 已注册。
+ *
+ * 拿不到 MCM 时只记录一次日志并保持 F8 可用——发布后前置缺失是最常见的报错来源，
+ * 不能因为缺前置就让模组静默失效或崩溃。
+ */
+function ensureMcMRegistered(): void {
+  if (mcmRegistered) {
+    return;
+  }
+  const registeredNow = tryRegisterMcm(() => pvpEnabled, setPvpEnabled, (message) => {
+    Isaac.DebugString(message);
+  });
+  if (!registeredNow) {
+    if (!mcmFallbackLogged) {
+      mcmFallbackLogged = true;
+      Isaac.DebugString(
+        `[PVP] 未检测到 Mod Config Menu（${describeMcMGlobal()}），已退回 F8 快捷键；` +
+          "如需菜单开关请在 Mod 页启用 Mod Config Menu 前置。",
+      );
+    }
+    return;
+  }
+
+  mcmRegistered = true;
+  if (!mcmInitialized) {
+    mcmInitialized = true;
+    const persisted = readPersistedEnabled();
+    if (persisted !== undefined && persisted !== pvpEnabled) {
+      pvpEnabled = persisted;
+      Isaac.DebugString(`[PVP] 已从 MCM 读回开关状态：${persisted ? "开启" : "关闭"}`);
+    }
   }
 }
 
