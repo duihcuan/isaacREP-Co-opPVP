@@ -41,8 +41,16 @@ const FREEZE_AS_SLOW_COLOR = Color(0.5, 0.8, 1, 1, 0, 0, 0);
 /** 每位玩家上次被水迹扣血的帧号，键是玩家 Index。 */
 const lastCreepDamageFrame = new Map<int, number>();
 
-/** 穿透泪弹已经命中过的玩家，键是泪弹 Index，值是玩家 Index 集合。 */
-const piercingHits = new Map<int, Set<int>>();
+/**
+ * 每颗泪弹上次命中每位玩家的帧号：泪弹 Index → (玩家 Index → 帧号)。
+ *
+ * 用"冷却"而不是"永久只命中一次"，是为了支持可操控的持续泪弹（如路德维科）：
+ * 它贴着对手时不该每帧连扣，但分开再撞上应当能再次造成伤害。
+ */
+const piercingHits = new Map<int, Map<int, number>>();
+
+/** 攻击型召唤物：与打敌人时一致，以接触方式伤害对手。 */
+const CONTACT_FAMILIAR_VARIANTS: readonly FamiliarVariant[] = [FamiliarVariant.BLUE_FLY];
 
 /** 每位玩家上次被神性光环扣血的帧号，键是玩家 Index。 */
 const lastAuraDamageFrame = new Map<int, number>();
@@ -95,7 +103,7 @@ export function checkPlayerVersusPlayer(
       if (owner.Index !== attacker.Index) {
         continue;
       }
-      if (hasAlreadyHit(entity, target)) {
+      if (hasAlreadyHit(entity, target, frame)) {
         continue;
       }
       if (!circlesOverlap(toCircle(entity), toCircle(target))) {
@@ -104,7 +112,7 @@ export function checkPlayerVersusPlayer(
 
       health.applyDamage(target, CONFIG.damagePerHalfHeartHit, EntityRef(attacker));
       applyTearEffects(entity, target, attacker, health);
-      rememberHit(entity, target);
+      rememberHit(entity, target, frame);
       hit = true;
 
       // 穿透与弹跳都不消耗泪弹：穿透继续飞，弹跳则把速度反射回去。
@@ -120,9 +128,10 @@ export function checkPlayerVersusPlayer(
   chaseOpponentSummons(pairs);
   updateQuadSplit();
 
+  const summonHit = checkSummonContact(pairs, health);
   const auraHit = checkGodheadAura(pairs, frame, health);
   const creepHit = checkCreepDamage(pairs, frame, health);
-  return hit || auraHit || creepHit;
+  return hit || summonHit || auraHit || creepHit;
 }
 
 /**
@@ -206,18 +215,58 @@ function steerHomingTear(
   }
 }
 
-function hasAlreadyHit(entity: Entity, target: EntityPlayer): boolean {
-  const hitPlayers = piercingHits.get(entity.Index);
-  return hitPlayers !== undefined && hitPlayers.has(target.Index);
+function hasAlreadyHit(entity: Entity, target: EntityPlayer, frame: number): boolean {
+  const perPlayer = piercingHits.get(entity.Index);
+  if (perPlayer === undefined) {
+    return false;
+  }
+  const lastFrame = perPlayer.get(target.Index);
+  return lastFrame !== undefined && frame - lastFrame < CONFIG.tearRehitCooldownFrames;
 }
 
-function rememberHit(entity: Entity, target: EntityPlayer): void {
-  let hitPlayers = piercingHits.get(entity.Index);
-  if (hitPlayers === undefined) {
-    hitPlayers = new Set<int>();
-    piercingHits.set(entity.Index, hitPlayers);
+function rememberHit(entity: Entity, target: EntityPlayer, frame: number): void {
+  let perPlayer = piercingHits.get(entity.Index);
+  if (perPlayer === undefined) {
+    perPlayer = new Map<int, number>();
+    piercingHits.set(entity.Index, perPlayer);
   }
-  hitPlayers.add(target.Index);
+  perPlayer.set(target.Index, frame);
+}
+
+/**
+ * 攻击型召唤物（蓝苍蝇、蓝蜘蛛一类）以接触方式伤害对手。
+ *
+ * 它们的生成者是跟班而不是玩家，且不属于泪弹/激光等类型，因此原先完全不在判定范围内——
+ * 表现就是"飞向对手但既不掉血也不消失"。这里按与打敌人一致的规则处理：接触造成伤害并消灭自己。
+ */
+function checkSummonContact(
+  pairs: readonly (readonly [EntityPlayer, EntityPlayer])[],
+  health: HealthBackend,
+): boolean {
+  let hit = false;
+  for (const entity of Isaac.GetRoomEntities()) {
+    if (entity.Type !== EntityType.FAMILIAR) {
+      continue;
+    }
+    const familiar = entity.ToFamiliar();
+    if (familiar === undefined || !CONTACT_FAMILIAR_VARIANTS.includes(familiar.Variant)) {
+      continue;
+    }
+    const owner = familiar.Player;
+    for (const [attacker, target] of pairs) {
+      if (owner.Index !== attacker.Index) {
+        continue;
+      }
+      if (!circlesOverlap(toCircle(entity), toCircle(target))) {
+        continue;
+      }
+      health.applyDamage(target, CONFIG.summonContactHalfHearts, EntityRef(attacker));
+      entity.Kill();
+      hit = true;
+      break;
+    }
+  }
+  return hit;
 }
 
 /**

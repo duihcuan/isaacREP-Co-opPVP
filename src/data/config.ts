@@ -87,4 +87,10 @@ export const CONFIG = {
   ascentDurationFrames: 75,
   /** 升天期间胜者的上浮距离（像素）。 */
   ascentRiseDistance: 220,
+
+  /** 同一颗泪弹对同一名对手的再次命中冷却（帧）。可操控的持续泪弹（路德维科）依赖它。 */
+  tearRehitCooldownFrames: 20,
+
+  /** 攻击型召唤物（蓝苍蝇一类）接触对手造成的伤害（半颗心）。 */
+  summonContactHalfHearts: 1,
 } as const;
