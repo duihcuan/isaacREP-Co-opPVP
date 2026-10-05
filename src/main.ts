@@ -1,12 +1,24 @@
 import {
   ButtonAction,
   ControllerIndex,
+  Direction,
+  EffectVariant,
+  EntityType,
   InputHook,
   Keyboard,
   ModCallback,
+  NullItemID,
   PickupVariant,
+  RoomTransitionAnim,
 } from "isaac-typescript-definitions";
-import { ISCFeature, getPlayers, reloadRoom, restart, upgradeMod } from "isaacscript-common";
+import {
+  ISCFeature,
+  getPlayers,
+  reloadRoom,
+  restart,
+  teleport,
+  upgradeMod,
+} from "isaacscript-common";
 
 import { name } from "../package.json";
 import { lockArena, placePlayersAtSpawnPoints, pullBackIfNeeded } from "./core/arena";
@@ -103,6 +115,10 @@ let mcmRegistered = false;
 let mcmInitialized = false;
 /** 缺 MCM 的降级日志只写一次，避免刷屏。 */
 let mcmFallbackLogged = false;
+/** 升天动画阶段的状态。 */
+let ascentActive = false;
+let wasPaused = false;
+let ascentWinner: EntityPlayer | undefined;
 /** PVP 开关。默认关闭，本局完全走原版流程；按 F8 切换。 */
 let pvpEnabled = false;
 /** 是否处于一局 run 中（开关只在 run 内生效）。 */
@@ -236,6 +252,8 @@ function postUpdate(): void {
       if (evaluated.result !== undefined) {
         state = reduce(state, { kind: "round-finished", result: evaluated.result });
         resultFrame = frame;
+        ascentActive = false;
+        ascentWinner = undefined;
         roundsCompleted += 1;
         lastRoundResult = evaluated.result;
         if (evaluated.result === "P1_WIN") {
@@ -253,13 +271,29 @@ function postUpdate(): void {
     case PvpPhase.RESULT: {
       lockArena();
       const elapsed = frame - resultFrame;
-      restartSecondsLeft = Math.max(
-        1,
-        Math.ceil((CONFIG.resultRestartDelayFrames - elapsed) / 30),
-      );
-      if (elapsed >= CONFIG.resultRestartDelayFrames) {
-        restartMatch();
+
+      // 第一段：结算文字 + 3 秒倒计时。
+      if (!ascentActive) {
+        restartSecondsLeft = Math.max(
+          1,
+          Math.ceil((CONFIG.resultRestartDelayFrames - elapsed) / 30),
+        );
+        if (elapsed >= CONFIG.resultRestartDelayFrames) {
+          beginAscent(pair);
+        }
+        break;
       }
+
+      // 第二段：升天动画进行中——胜者上浮，等转场动画播完。
+      updateAscent();
+      const paused = Game().IsPaused();
+      if (wasPaused && !paused) {
+        // 第三段：动画结束的那一帧立刻重开，不留空档也不提前切走。
+        Isaac.DebugString(`[PVP] 升天动画结束（第 ${frame - resultFrame} 帧），立即整局重开`);
+        restartMatch();
+        break;
+      }
+      wasPaused = paused;
       break;
     }
     default: {
@@ -402,6 +436,62 @@ function resetMatchHistory(): void {
 function restartMatch(): void {
   Isaac.DebugString("[PVP] 结算结束，重开本局（引擎整局重开）");
   restart();
+}
+
+/**
+ * 开始「胜者升天」：在胜者位置落下光柱、给一份**空道具外观**的翅膀、冻结失败方输入，
+ * 并触发引擎的房间转场动画作为升天表现。
+ *
+ * 动画时长不需要我们手调——它就是引擎转场自己的时长；
+ * 「正好播完时重开」由 IsPaused() 从 true 变回 false 判定。
+ */
+function beginAscent(pair: readonly [EntityPlayer, EntityPlayer]): void {
+  ascentActive = true;
+  wasPaused = false;
+
+  const winner =
+    lastRoundResult === "P1_WIN" ? pair[0] : lastRoundResult === "P2_WIN" ? pair[1] : undefined;
+  ascentWinner = winner;
+
+  // 失败方保持幽灵形态不变，只冻结输入，避免动画期间乱动。
+  for (const player of pair) {
+    if (winner === undefined || player.Index !== winner.Index) {
+      player.ControlsEnabled = false;
+    }
+  }
+
+  if (winner !== undefined) {
+    // 用空道具外观，绝不给真道具——真道具会留下残留，而本方案的价值就是零清理。
+    winner.AddNullCostume(NullItemID.ANGEL);
+    Isaac.Spawn(
+      EntityType.EFFECT,
+      EffectVariant.HEAVEN_LIGHT_DOOR,
+      0,
+      winner.Position,
+      Vector(0, 0),
+      winner,
+    );
+  }
+
+  // 转场目标就是当前房间：只为播放引擎转场动画，真正的重开仍走方案 A 的 restart()。
+  teleport(
+    Game().GetLevel().GetCurrentRoomIndex(),
+    Direction.NO_DIRECTION,
+    RoomTransitionAnim.PORTAL_TELEPORT,
+  );
+  wasPaused = Game().IsPaused();
+  Isaac.DebugString("[PVP] 升天动画开始");
+}
+
+/** 升天期间让胜者缓缓上浮，并限制在房间内，避免被上边界裁切。 */
+function updateAscent(): void {
+  const winner = ascentWinner;
+  if (winner === undefined) {
+    return;
+  }
+  const topLimit = Game().GetRoom().GetTopLeftPos().Y + 48;
+  const nextY = winner.Position.Y - CONFIG.ascentRiseSpeed;
+  winner.Position = Vector(winner.Position.X, Math.max(topLimit, nextY));
 }
 
 /**

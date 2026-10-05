@@ -85,4 +85,7 @@ export const CONFIG = {
 
   /** 四分裂泪弹落地后裂出的小泪弹数量与初速。 */
   quadSplitChildSpeed: 5,
+
+  /** 升天动画期间胜者每帧上浮的距离（像素），用于与转场动画窗口对齐。 */
+  ascentRiseSpeed: 1.5,
 } as const;
