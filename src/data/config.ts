@@ -38,9 +38,6 @@ export const CONFIG = {
   /** 单次刷新最多抽取几次道具池。 */
   itemPickMaxAttempts: 20,
 
-  /** 结算画面停留多久后自动开始下一局（帧，90 帧 = 3 秒）。 */
-  resultRestartDelayFrames: 90,
-
   /** 单次水迹伤害（半颗心）。 */
   creepDamagePerTick: 1,
 

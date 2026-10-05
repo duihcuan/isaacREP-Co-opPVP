@@ -64,7 +64,6 @@ import {
 import {
   renderContinuationWaiting,
   renderCountdown,
-  renderRestartCountdown,
   renderWaitingForPlayers,
   showResult,
   showToggleMessage,
@@ -95,8 +94,6 @@ let lastGhostP1 = false;
 let lastGhostP2 = false;
 let roundFrame = 0;
 let resultFrame = 0;
-/** 结算倒计时剩余秒数，供 HUD 显示。 */
-let restartSecondsLeft = 0;
 /**
  * 跨重开保持的对局历史。
  *
@@ -270,17 +267,10 @@ function postUpdate(): void {
     }
     case PvpPhase.RESULT: {
       lockArena();
-      const elapsed = frame - resultFrame;
 
-      // 第一段：结算文字 + 3 秒倒计时。
+      // 第一段：结算文字出现的同时立刻进入升天，不再等待倒计时。
       if (!ascentActive) {
-        restartSecondsLeft = Math.max(
-          1,
-          Math.ceil((CONFIG.resultRestartDelayFrames - elapsed) / 30),
-        );
-        if (elapsed >= CONFIG.resultRestartDelayFrames) {
-          beginAscent(pair);
-        }
+        beginAscent(pair);
         break;
       }
 
@@ -324,9 +314,6 @@ function postRender(): void {
   }
   if (state.phase === PvpPhase.FIGHT) {
     renderResources();
-  }
-  if (state.phase === PvpPhase.RESULT) {
-    renderRestartCountdown(restartSecondsLeft);
   }
 }
 

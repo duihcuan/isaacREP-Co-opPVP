@@ -22,11 +22,6 @@ export function showResult(result: RoundResult, p1Wins: number, p2Wins: number):
   Game().GetHUD().ShowItemText(`${text}　比分 ${p1Wins} : ${p2Wins}`, "即将重开本局");
 }
 
-/** 结算期间的倒计时提示。 */
-export function renderRestartCountdown(secondsLeft: number): void {
-  renderCentered(`${secondsLeft} 秒后重开本局`, HINT_Y);
-}
-
 /** 显示 PVP 开关的状态变化。 */
 export function showToggleMessage(enabled: boolean): void {
   if (enabled) {
