@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  PVP 竞技场：自定义挑战入口。
+  在挑战菜单里选中本挑战即进入 PVP，不再需要模组开关或第三方依赖。
+  起始角色固定为以撒（initialChar="0"）；真合作模式下 2P 会被强制为同一角色。
+  不指定 id，由游戏在原生挑战之后追加分配；运行期用 Isaac.GetChallengeIdByName 按名取回。
+-->
+<challenges>
+	<challenge name="PVP竞技场" initialChar="0" />
+</challenges>

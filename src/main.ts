@@ -1,10 +1,7 @@
 import {
   ButtonAction,
-  ControllerIndex,
   EffectVariant,
   EntityType,
-  InputHook,
-  Keyboard,
   ModCallback,
   NullItemID,
   PickupVariant,
@@ -19,7 +16,6 @@ import {
 
 import { name } from "../package.json";
 import { lockArena, placePlayersAtSpawnPoints, pullBackIfNeeded } from "./core/arena";
-import { createCharacterPolicy } from "./core/characterPolicy";
 import {
   checkPlayerVersusPlayer,
   resetCreepDamageCooldowns,
@@ -50,25 +46,16 @@ import {
   shouldAbortRound,
 } from "./core/state";
 import type { PvpState, RoundResult } from "./core/state";
-import { ALLOWED_PLAYER_TYPES, FALLBACK_PLAYER_TYPE } from "./data/characters";
 import { CONFIG } from "./data/config";
-import {
-  describeMcMGlobal,
-  isMcmVisible,
-  readPersistedEnabled,
-  tryRegisterMcm,
-} from "./mcm";
 import {
   renderContinuationWaiting,
   renderCountdown,
   renderWaitingForPlayers,
   showResult,
-  showToggleMessage,
 } from "./ui/hud";
 
 // 特性数组必须是元组，否则类型系统不会把对应的方法挂到 mod 上。
 const mod = upgradeMod(RegisterMod(name, 1), [ISCFeature.FAST_RESET] as const);
-const characterPolicy = createCharacterPolicy(ALLOWED_PLAYER_TYPES);
 
 /** 拾取物变体到资源种类的映射。 */
 const pickupToResource = new Map<int, ResourceKind>();
@@ -103,20 +90,20 @@ let p1Wins = 0;
 let p2Wins = 0;
 /** 本次等待是否属于"续场"（上一局结束、引擎重开之后）。 */
 let continuationWait = false;
-/** MCM 是否已成功注册；未安装时保持 false，F8 继续可用。 */
-let mcmRegistered = false;
-/** 是否已经从 MCM 读回持久化状态（只读一次，避免覆盖本次会话内的手动切换）。 */
-let mcmInitialized = false;
-/** 缺 MCM 的降级日志只写一次，避免刷屏。 */
-let mcmFallbackLogged = false;
+/**
+ * 上一次 run 是否就是本模组的挑战。
+ *
+ * 用于区分「从挑战菜单重新进入」（应清零战绩）与「结算后 restart() 重开」（应继续累计）：
+ * `POST_GAME_END` 时清掉本标记，若下一次 `POST_GAME_STARTED` 发现本局是挑战且标记为假，
+ * 说明是重新从菜单进来的，属于新会话。
+ */
+let lastRunWasOurChallenge = false;
 /** 升天动画阶段的状态。 */
 let ascentActive = false;
 let ascentWinner: EntityPlayer | undefined;
 let ascentStartFrame = 0;
 let ascentStartY = 0;
 let ascentPillar: Entity | undefined;
-/** PVP 开关。默认关闭，本局完全走原版流程；按 F8 切换。 */
-let pvpEnabled = false;
 /** 是否处于一局 run 中（开关只在 run 内生效）。 */
 let inRun = false;
 /** 每位玩家的复活尝试次数，键是玩家 Index，用于逐级升级复活手段。 */
@@ -136,16 +123,23 @@ export function main(): void {
   // 让引擎整局重开立即可用（否则需要长按 R）。
   mod.enableFastReset();
 
-  ensureMcMRegistered();
-
   Isaac.DebugString(`${name} initialized.`);
+  Isaac.DebugString(`[PVP] 入口为自定义挑战，挑战 ID=${resolvePvpChallengeId()}`);
 }
 
 function postGameStarted(): void {
   inRun = true;
-  // MCM 的构建是惰性的，初始化时拿不到就再试一次，拿不到也不能静默失败。
-  ensureMcMRegistered();
-  state = createRunStartState(pvpEnabled);
+
+  // 战绩累计规则：同一场挑战内的多局（含 restart 重开）连续累计；
+  // 只有"重新从挑战菜单进入"才清零。
+  const isOurChallenge = isPvpChallengeRun();
+  if (isOurChallenge && !lastRunWasOurChallenge) {
+    resetMatchHistory();
+    Isaac.DebugString("[PVP] 从挑战菜单进入，战绩已清零");
+  }
+  lastRunWasOurChallenge = isOurChallenge;
+
+  state = createRunStartState(isOurChallenge);
   tracker = createRoundTracker();
   countdownFramesLeft = CONFIG.countdownFrames;
   arenaGridIndex = Game().GetLevel().GetCurrentRoomIndex();
@@ -153,11 +147,13 @@ function postGameStarted(): void {
   lastHitPointsP2 = -1;
   lastGhostP1 = false;
   lastGhostP2 = false;
-  logPhaseIfChanged(`开局（PVP ${pvpEnabled ? "已开启" : "未开启"}）`);
+  logPhaseIfChanged(`开局（${isOurChallenge ? "本局为 PVP 挑战" : "非 PVP 挑战，模组不介入"}）`);
 }
 
 function postGameEnd(): void {
   inRun = false;
+  // 清掉标记：下一局若是挑战，就说明是重新从菜单进来的新会话。
+  lastRunWasOurChallenge = false;
 }
 
 function postUpdate(): void {
@@ -178,7 +174,7 @@ function postUpdate(): void {
   if (shouldAbortRound(state.phase, players.length)) {
     // 回到"等待 2P 加入"而不是停在原地：开关仍开着就重新进入 ARMING，
     // 避免卡在结算里、等对方再加入时立刻误触发下一局。
-    state = createRunStartState(pvpEnabled);
+    state = createRunStartState(isPvpChallengeRun());
     tracker = createRoundTracker();
     clearSpawnedItems();
     logPhaseIfChanged("玩家数不足，回到等待加入状态");
@@ -201,12 +197,7 @@ function postUpdate(): void {
 
   switch (state.phase) {
     case PvpPhase.ARMING: {
-      for (const player of pair) {
-        if (!characterPolicy.isAllowed(player.GetPlayerType())) {
-          Isaac.DebugString(`[PVP] 角色 ${player.GetPlayerType()} 不在白名单，替换为以撒`);
-          player.ChangePlayerType(FALLBACK_PLAYER_TYPE);
-        }
-      }
+      // 角色不再需要校验：挑战本身会把所有玩家强制成以撒。
       roundFrame = 0;
       resetItemSpawner();
       resetResourcesForRound(pair);
@@ -284,15 +275,6 @@ function postUpdate(): void {
 }
 
 function postRender(): void {
-  if (inRun && Input.IsButtonTriggered(Keyboard.F8, ControllerIndex.KEYBOARD)) {
-    togglePvp();
-  }
-
-  // MCM 菜单打开时隐藏我们自己的文字，避免叠字（F8 仍然有效）。
-  if (isMcmVisible()) {
-    return;
-  }
-
   if (state.phase === PvpPhase.ARMING) {
     if (continuationWait) {
       renderContinuationWaiting({ roundsCompleted, lastRoundResult, p1Wins, p2Wins });
@@ -308,91 +290,20 @@ function postRender(): void {
   }
 }
 
-/** 把布尔值落到开关上；只有与当前状态不同才真正切换，走的是与 F8 同一套逻辑。 */
-function setPvpEnabled(value: boolean): void {
-  if (value === pvpEnabled) {
-    return;
-  }
-  togglePvp();
+/**
+ * 解析本模组挑战的 ID。
+ *
+ * 返回 -1 表示没找到（挑战未注册或名称不一致）：此时模组视为未生效、完全不介入，
+ * 因此即使 challenges.xml 写错也不会影响原版游戏。
+ */
+function resolvePvpChallengeId(): int {
+  return Isaac.GetChallengeIdByName(PVP_CHALLENGE_NAME);
 }
 
-/**
- * 确保 MCM 已注册。
- *
- * 拿不到 MCM 时只记录一次日志并保持 F8 可用——发布后前置缺失是最常见的报错来源，
- * 不能因为缺前置就让模组静默失效或崩溃。
- */
-function ensureMcMRegistered(): void {
-  if (mcmRegistered) {
-    return;
-  }
-  const registeredNow = tryRegisterMcm(() => pvpEnabled, setPvpEnabled, (message) => {
-    Isaac.DebugString(message);
-  });
-  if (!registeredNow) {
-    if (!mcmFallbackLogged) {
-      mcmFallbackLogged = true;
-      Isaac.DebugString(
-        `[PVP] 未检测到 Mod Config Menu（${describeMcMGlobal()}），已退回 F8 快捷键；` +
-          "如需菜单开关请在 Mod 页启用 Mod Config Menu 前置。",
-      );
-    }
-    return;
-  }
-
-  mcmRegistered = true;
-  if (!mcmInitialized) {
-    mcmInitialized = true;
-    const persisted = readPersistedEnabled();
-    if (persisted !== undefined && persisted !== pvpEnabled) {
-      pvpEnabled = persisted;
-      Isaac.DebugString(`[PVP] 已从 MCM 读回开关状态：${persisted ? "开启" : "关闭"}`);
-    }
-  }
-}
-
-/**
- * 切换 PVP 开关（F8）。
- *
- * 关闭时把竞技场还原成普通房间：重新载入房间让门回来、清掉刷新物、
- * 并把可能残留的幽灵状态复原，好让这一局能按原版继续玩下去。
- * 玩家已有的道具与资源保持不动，避免"关个开关顺手把东西没收了"。
- */
-function togglePvp(): void {
-  pvpEnabled = !pvpEnabled;
-  // 开关一动就把对局历史归零：关闭等于结束这次连续对局，重新开启等于重新开始。
-  resetMatchHistory();
-
-  if (pvpEnabled) {
-    state = reduce(createInitialState(), { kind: "toggle-on" });
-    tracker = createRoundTracker();
-    roundFrame = 0;
-    countdownFramesLeft = CONFIG.countdownFrames;
-      resetItemSpawner();
-      resetCreepDamageCooldowns();
-      resetPiercingHits();
-      resetDefeatTracking();
-    showToggleMessage(true);
-    Isaac.DebugString("[PVP] 开关：已开启，等待 2P 在初始房间加入");
-    return;
-  }
-
-  state = reduce(state, { kind: "toggle-off" });
-  clearSpawnedItems();
-
-  const players = getPlayers();
-  const p1 = players[0];
-  const p2 = players[1];
-  if (p1 !== undefined && p2 !== undefined) {
-    const pair: readonly [EntityPlayer, EntityPlayer] = [p1, p2];
-    restoreGhostPlayers(pair);
-    vanillaHeartsBackend.restoreAll(pair);
-  }
-
-  // 重新载入房间，让被删掉的门恢复，回到原版可通行的状态。
-  reloadRoom();
-  showToggleMessage(false);
-  Isaac.DebugString("[PVP] 开关：已关闭，房间已还原");
+/** 全项目唯一的判定入口：本局是否运行在本模组的自定义挑战里。 */
+function isPvpChallengeRun(): boolean {
+  const challengeId = resolvePvpChallengeId();
+  return challengeId !== -1 && Game().Challenge === challengeId;
 }
 
 /** 清空跨局战绩与"续场"标记。 */
@@ -656,3 +567,5 @@ function logPlayerChanges(pair: readonly [EntityPlayer, EntityPlayer]): void {
     lastGhostP2 = ghostP2;
   }
 }
+/** 自定义挑战名，必须与 mod/content/challenges.xml 中的 name 完全一致。 */
+const PVP_CHALLENGE_NAME = "PVP竞技场";
