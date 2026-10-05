@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  暂时留空。
+
+  先前写入的 <challenge name="PVP竞技场" initialChar="0" /> 条目在实机启动时导致
+  游戏崩溃（日志：所有 mod 内容加载完成后 "Lua stack trace:" + "Caught exception"），
+  原因很可能是缺少必填属性或条目结构不符合原版 challenges.xml 的 schema——
+  该 schema 未能在本机或官方文档中查到权威来源。
+
+  排查期间保持空列表：文件本身不是必需的，等拿到正确的 schema 再补条目。
+-->
+<challenges>
+</challenges>
