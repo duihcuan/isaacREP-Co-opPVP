@@ -190,6 +190,11 @@ function postUpdate(): void {
   const p2 = players[1];
   if (p1 === undefined || p2 === undefined) {
     // ARMING 阶段等待 2P 加入，属于正常情况。
+    // 但等待期间必须同样锁房：否则 1P 可以在 2P 加入前自己走出初始房间。
+    if (state.phase === PvpPhase.ARMING) {
+      lockArena();
+      pullBackIfNeeded(arena, frame);
+    }
     return;
   }
   const pair: readonly [EntityPlayer, EntityPlayer] = [p1, p2];
