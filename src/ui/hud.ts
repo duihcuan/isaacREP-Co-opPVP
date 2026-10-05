@@ -4,7 +4,6 @@ const SCREEN_CENTER_X = 320;
 const TEXT_Y = 200;
 const HINT_Y = 240;
 const WAITING_Y = 150;
-const CORNER_Y = 430;
 
 /** 显示开局倒计时。 */
 export function renderCountdown(framesLeft: number): void {
@@ -13,13 +12,14 @@ export function renderCountdown(framesLeft: number): void {
 }
 
 /**
- * 显示结算结果。
+ * 显示结算结果与累计比分。
  *
- * 用 HUD 的横幅文字而不是自绘文字，是为了保证它一定出现在可见位置。
+ * 用 HUD 的横幅文字而不是自绘文字：位置固定、样式统一，也不会和别的提示叠字。
+ * 比分直接写进主文案，避免再单独画一行"累计战绩"。
  */
-export function showResult(result: RoundResult): void {
+export function showResult(result: RoundResult, p1Wins: number, p2Wins: number): void {
   const text = result === "P1_WIN" ? "玩家 1 获胜" : result === "P2_WIN" ? "玩家 2 获胜" : "平局";
-  Game().GetHUD().ShowItemText(text, "即将重开本局");
+  Game().GetHUD().ShowItemText(`${text}　比分 ${p1Wins} : ${p2Wins}`, "即将重开本局");
 }
 
 /** 结算期间的倒计时提示。 */
@@ -57,21 +57,14 @@ export interface ContinuationInfo {
  * 不是"又开了一次模组"。
  */
 export function renderContinuationWaiting(info: ContinuationInfo): void {
-  const resultText =
-    info.lastRoundResult === "P1_WIN"
-      ? "胜者 玩家1"
-      : info.lastRoundResult === "P2_WIN"
-        ? "胜者 玩家2"
-        : "平局";
-  renderCentered(`第 ${info.roundsCompleted} 局结束 · ${resultText}`, WAITING_Y);
-  renderCentered("玩家 2 请按 Start 就位", WAITING_Y + 28);
-  renderCentered("双方到齐后立即开始 3 秒倒计时", WAITING_Y + 56);
+  // 只保留两行：一行比分，一行该做什么。原来五行堆在屏幕中央会显得很乱。
+  renderCentered(`比分　玩家1 ${info.p1Wins} : ${info.p2Wins} 玩家2`, WAITING_Y);
   renderCentered(
-    `累计战绩  玩家1 ${info.p1Wins} 胜 · 玩家2 ${info.p2Wins} 胜`,
-    WAITING_Y + 84,
+    info.lastRoundResult === undefined
+      ? "等待玩家 2 按 Start 就位"
+      : `第 ${info.roundsCompleted} 局已结束 · 等待玩家 2 按 Start 就位`,
+    WAITING_Y + 26,
   );
-  // F8 提示降级为角落小字，避免和"续场"叙事混在一起。
-  renderCentered("F8 关闭 PVP", CORNER_Y);
 }
 
 /** 显示屏幕中央的自绘文字。 */

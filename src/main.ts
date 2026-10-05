@@ -245,7 +245,7 @@ function postUpdate(): void {
         }
         continuationWait = true;
         clearSpawnedItems();
-        showResult(evaluated.result);
+        showResult(evaluated.result, p1Wins, p2Wins);
         logPhaseIfChanged(`对局结束 ${evaluated.result}`);
       }
       break;
