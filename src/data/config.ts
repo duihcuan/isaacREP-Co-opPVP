@@ -18,19 +18,16 @@ export const CONFIG = {
   heartbeatFrames: 90,
 
   /** 对局开始后首次刷新道具的延迟（帧）。 */
-  itemSpawnFirstDelayFrames: 60,
+  itemSpawnFirstDelayFrames: 30,
 
   /** 本局前几个道具使用的短间隔（帧）。 */
-  itemSpawnFastIntervalFrames: 90,
+  itemSpawnFastIntervalFrames: 60,
 
   /** 常规道具刷新间隔（帧）。 */
-  itemSpawnIntervalFrames: 300,
+  itemSpawnIntervalFrames: 180,
 
   /** 本局用短间隔刷新的道具个数。 */
   fastSpawnCount: 2,
-
-  /** 场上同时存在的道具上限。 */
-  maxItemsOnField: 4,
 
   /** 每次刷新时改为生成箱子的概率（0 到 1）。 */
   chestChance: 0.35,

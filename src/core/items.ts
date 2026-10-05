@@ -109,13 +109,11 @@ export function updateItemSpawner(roundFrame: number): void {
   const shouldSpawn = shouldSpawnItem(
     roundFrame,
     lastSpawnFrame,
-    spawnedItems.length,
     spawnsThisRound,
     CONFIG.itemSpawnFirstDelayFrames,
     CONFIG.itemSpawnFastIntervalFrames,
     CONFIG.itemSpawnIntervalFrames,
     CONFIG.fastSpawnCount,
-    CONFIG.maxItemsOnField,
   );
   if (!shouldSpawn) {
     return;

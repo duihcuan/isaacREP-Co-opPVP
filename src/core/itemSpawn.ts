@@ -8,17 +8,12 @@
 export function shouldSpawnItem(
   frame: number,
   lastSpawnFrame: number,
-  itemsOnField: number,
   spawnsThisRound: number,
   firstDelayFrames: number,
   fastIntervalFrames: number,
   normalIntervalFrames: number,
   fastSpawnCount: number,
-  maxItemsOnField: number,
 ): boolean {
-  if (itemsOnField >= maxItemsOnField) {
-    return false;
-  }
   if (lastSpawnFrame < 0) {
     return frame >= firstDelayFrames;
   }
