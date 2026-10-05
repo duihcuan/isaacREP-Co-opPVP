@@ -1,7 +1,6 @@
 import {
   ButtonAction,
   ControllerIndex,
-  Direction,
   EffectVariant,
   EntityType,
   InputHook,
@@ -9,14 +8,12 @@ import {
   ModCallback,
   NullItemID,
   PickupVariant,
-  RoomTransitionAnim,
 } from "isaac-typescript-definitions";
 import {
   ISCFeature,
   getPlayers,
   reloadRoom,
   restart,
-  teleport,
   upgradeMod,
 } from "isaacscript-common";
 
@@ -114,8 +111,10 @@ let mcmInitialized = false;
 let mcmFallbackLogged = false;
 /** 升天动画阶段的状态。 */
 let ascentActive = false;
-let wasPaused = false;
 let ascentWinner: EntityPlayer | undefined;
+let ascentStartFrame = 0;
+let ascentStartY = 0;
+let ascentPillar: Entity | undefined;
 /** PVP 开关。默认关闭，本局完全走原版流程；按 F8 切换。 */
 let pvpEnabled = false;
 /** 是否处于一局 run 中（开关只在 run 内生效）。 */
@@ -276,14 +275,6 @@ function postUpdate(): void {
 
       // 第二段：升天动画进行中——胜者上浮，等转场动画播完。
       updateAscent();
-      const paused = Game().IsPaused();
-      if (wasPaused && !paused) {
-        // 第三段：动画结束的那一帧立刻重开，不留空档也不提前切走。
-        Isaac.DebugString(`[PVP] 升天动画结束（第 ${frame - resultFrame} 帧），立即整局重开`);
-        restartMatch();
-        break;
-      }
-      wasPaused = paused;
       break;
     }
     default: {
@@ -434,7 +425,7 @@ function restartMatch(): void {
  */
 function beginAscent(pair: readonly [EntityPlayer, EntityPlayer]): void {
   ascentActive = true;
-  wasPaused = false;
+  ascentStartFrame = frame;
 
   const winner =
     lastRoundResult === "P1_WIN" ? pair[0] : lastRoundResult === "P2_WIN" ? pair[1] : undefined;
@@ -448,37 +439,58 @@ function beginAscent(pair: readonly [EntityPlayer, EntityPlayer]): void {
   }
 
   if (winner !== undefined) {
+    ascentStartY = winner.Position.Y;
     // 用空道具外观，绝不给真道具——真道具会留下残留，而本方案的价值就是零清理。
     winner.AddNullCostume(NullItemID.ANGEL);
-    Isaac.Spawn(
+    ascentPillar = Isaac.Spawn(
       EntityType.EFFECT,
       EffectVariant.HEAVEN_LIGHT_DOOR,
       0,
-      winner.Position,
+      Vector(winner.Position.X, winner.Position.Y + 20),
       Vector(0, 0),
       winner,
     );
   }
 
-  // 转场目标就是当前房间：只为播放引擎转场动画，真正的重开仍走方案 A 的 restart()。
-  teleport(
-    Game().GetLevel().GetCurrentRoomIndex(),
-    Direction.NO_DIRECTION,
-    RoomTransitionAnim.PORTAL_TELEPORT,
-  );
-  wasPaused = Game().IsPaused();
-  Isaac.DebugString("[PVP] 升天动画开始");
+  Isaac.DebugString(`[PVP] 升天动画开始（自控时长 ${CONFIG.ascentDurationFrames} 帧）`);
 }
 
-/** 升天期间让胜者缓缓上浮，并限制在房间内，避免被上边界裁切。 */
+/** 升天期间让胜者沿光柱上浮并逐渐淡出，时长到点即重开。 */
 function updateAscent(): void {
   const winner = ascentWinner;
   if (winner === undefined) {
+    // 平局等没有胜者的情况：不播动画，直接重开。
+    restartMatch();
     return;
   }
-  const topLimit = Game().GetRoom().GetTopLeftPos().Y + 48;
-  const nextY = winner.Position.Y - CONFIG.ascentRiseSpeed;
-  winner.Position = Vector(winner.Position.X, Math.max(topLimit, nextY));
+
+  const elapsed = frame - ascentStartFrame;
+  const progress = Math.min(1, elapsed / Math.max(1, CONFIG.ascentDurationFrames));
+
+  winner.Position = Vector(
+    winner.Position.X,
+    ascentStartY - CONFIG.ascentRiseDistance * progress,
+  );
+  // 逐渐淡出：既符合"升天"的观感，也避免在上边界被生硬裁切。
+  winner.SetColor(Color(1, 1, 1, Math.max(0, 1 - progress), 0, 0, 0), 2, 1, false, false);
+
+  // 部分光柱效果是一次性的，掉了就补一个，保证整段动画都有光柱。
+  if (ascentPillar === undefined || !ascentPillar.Exists()) {
+    ascentPillar = Isaac.Spawn(
+      EntityType.EFFECT,
+      EffectVariant.HEAVEN_LIGHT_DOOR,
+      0,
+      Vector(winner.Position.X, ascentStartY + 20),
+      Vector(0, 0),
+      winner,
+    );
+  }
+
+  if (progress >= 1) {
+    Isaac.DebugString(`[PVP] 升天动画结束（${elapsed} 帧），立即整局重开`);
+    winner.TryRemoveNullCostume(NullItemID.ANGEL);
+    restartMatch();
+  }
 }
 
 /**
